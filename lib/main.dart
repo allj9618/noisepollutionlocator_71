@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'dart:async';
+import 'package:noisepollutionlocator_71/settings.dart';
 
 void main() {
   runApp(MyApp());
@@ -11,7 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Noise Pollution Locator',
+      title: 'Flutter Demo',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -30,14 +31,24 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, required this.title}) : super(key: key);
-  final String title;
+  MyHomePage({Key key, this.title}) : super(key: key);
 
+  // This widget is the home page of your application. It is stateful, meaning
+  // that it has a State object (defined below) that contains fields that affect
+  // how it looks.
+
+  // This class is the configuration for the state. It holds the values (in this
+  // case the title) provided by the parent (in this case the App widget) and
+  // used by the build method of the State. Fields in a Widget subclass are
+  // always marked "final".
+
+  final String title;
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -83,7 +94,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   color: Theme.of(context).primaryColor,
                   textColor: Colors.white,
                   child: new Text("External API Test"),
-                  onPressed: () => {
+                  onPressed: () {
+                    openAPITest(context);
                   },
                   splashColor: Colors.blue,
                 )),
@@ -117,6 +129,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   textColor: Colors.white,
                   child: new Text("Settings"),
                   onPressed: () => {
+                  Navigator.push(context, MaterialPageRoute(builder: (_) {
+                  return Settings();
+                  }))
                   },
                   splashColor: Colors.blue,
                 )),
@@ -328,4 +343,24 @@ class _PositionItem {
 
   final _PositionItemType type;
   final String displayValue;
+}
+
+void openAPITest(BuildContext context) {
+  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('External API Test'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              'Maybe put some API-related thing here.',
+            ),
+          ],
+        ),
+      ),
+    );
+  }));
 }
