@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
-import 'dart:async';
 import 'package:noisepollutionlocator_71/settings.dart';
+import 'package:noisepollutionlocator_71/locationScreen.dart';
 
 void main() {
   runApp(MyApp());
@@ -31,7 +30,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key? key, required this.title}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -107,14 +106,14 @@ class _MyHomePageState extends State<MyHomePage> {
                   color: Theme.of(context).primaryColor,
                   textColor: Colors.white,
                   child: new Text("Location"),
-                  onPressed: () => {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => LocationScreen()),
-                    )
+                  onPressed: () =>
+                  {
+                    Navigator.push(context, MaterialPageRoute(builder: (_) {
+                      return LocationScreen();
+                    }))
                   },
                   splashColor: Colors.blue,
-                )),
+                ))
           ],
         ),
         Row(
@@ -154,195 +153,6 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
     );
   }
-}
-
-class LocationScreen extends StatefulWidget {
-  @override
-  _GeolocatorWidgetState createState() => _GeolocatorWidgetState();
-}
-
-class _GeolocatorWidgetState extends State<LocationScreen> {
-  final List<_PositionItem> _positionItems = <_PositionItem>[];
-  StreamSubscription<Position>? _positionStreamSubscription;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
-      body: ListView.builder(
-        itemCount: _positionItems.length,
-        itemBuilder: (context, index) {
-          final positionItem = _positionItems[index];
-
-          if (positionItem.type == _PositionItemType.permission) {
-            return ListTile(
-              title: Text(positionItem.displayValue,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  )),
-            );
-          } else {
-            return Card(
-              child: ListTile(
-                tileColor: Colors.blue,
-                title: Text(
-                  positionItem.displayValue,
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-            );
-          }
-        },
-      ),
-      floatingActionButton: Stack(
-        children: <Widget>[
-          Positioned(
-            bottom: 10.0,
-            right: 10.0,
-            child: FloatingActionButton.extended(
-              onPressed: () => setState(_positionItems.clear),
-              label: Text("clear"),
-            ),
-          ),
-          Positioned(
-            bottom: 80.0,
-            right: 10.0,
-            child: FloatingActionButton.extended(
-              onPressed: () async {
-                await Geolocator.getLastKnownPosition().then((value) => {
-                  _positionItems.add(_PositionItem(
-                      _PositionItemType.position, value.toString()))
-                });
-
-                setState(
-                      () {},
-                );
-              },
-              label: Text("Last Position"),
-            ),
-          ),
-          Positioned(
-            bottom: 150.0,
-            right: 10.0,
-            child: FloatingActionButton.extended(
-                onPressed: () async {
-                  await Geolocator.getCurrentPosition().then((value) => {
-                    _positionItems.add(_PositionItem(
-                        _PositionItemType.position, value.toString()))
-                  });
-
-                  setState(
-                        () {},
-                  );
-                },
-                label: Text("Current Position")),
-          ),
-          Positioned(
-            bottom: 220.0,
-            right: 10.0,
-            child: FloatingActionButton.extended(
-              onPressed: _toggleListening,
-              label: Text(() {
-                if (_positionStreamSubscription == null) {
-                  return "Start stream";
-                } else {
-                  final buttonText = _positionStreamSubscription!.isPaused
-                      ? "Resume"
-                      : "Pause";
-
-                  return "$buttonText stream";
-                }
-              }()),
-              backgroundColor: _determineButtonColor(),
-            ),
-          ),
-          Positioned(
-            bottom: 290.0,
-            right: 10.0,
-            child: FloatingActionButton.extended(
-              onPressed: () async {
-                await Geolocator.checkPermission().then((value) => {
-                  _positionItems.add(_PositionItem(
-                      _PositionItemType.permission, value.toString()))
-                });
-                setState(() {});
-              },
-              label: Text("Check Permission"),
-            ),
-          ),
-          Positioned(
-            bottom: 360.0,
-            right: 10.0,
-            child: FloatingActionButton.extended(
-              onPressed: () async {
-                await Geolocator.requestPermission().then((value) => {
-                  _positionItems.add(_PositionItem(
-                      _PositionItemType.permission, value.toString()))
-                });
-                setState(() {});
-              },
-              label: Text("Request Permission"),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  bool _isListening() => !(_positionStreamSubscription == null ||
-      _positionStreamSubscription!.isPaused);
-
-  Color _determineButtonColor() {
-    return _isListening() ? Colors.green : Colors.red;
-  }
-
-  void _toggleListening() {
-    if (_positionStreamSubscription == null) {
-      final positionStream = Geolocator.getPositionStream();
-      _positionStreamSubscription = positionStream.handleError((error) {
-        _positionStreamSubscription?.cancel();
-        _positionStreamSubscription = null;
-      }).listen((position) => setState(() => _positionItems.add(
-          _PositionItem(_PositionItemType.position, position.toString()))));
-      _positionStreamSubscription?.pause();
-    }
-
-    setState(() {
-      if (_positionStreamSubscription == null) {
-        return;
-      }
-
-      if (_positionStreamSubscription!.isPaused) {
-        _positionStreamSubscription!.resume();
-      } else {
-        _positionStreamSubscription!.pause();
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    if (_positionStreamSubscription != null) {
-      _positionStreamSubscription!.cancel();
-      _positionStreamSubscription = null;
-    }
-
-    super.dispose();
-  }
-}
-
-enum _PositionItemType {
-  permission,
-  position,
-}
-
-class _PositionItem {
-  _PositionItem(this.type, this.displayValue);
-
-  final _PositionItemType type;
-  final String displayValue;
 }
 
 void openAPITest(BuildContext context) {
