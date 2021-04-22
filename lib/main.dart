@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'dart:async';
 
 void main() {
   runApp(MyApp());
@@ -10,7 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Noise Pollution Locator',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -29,24 +30,14 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
+  MyHomePage({Key? key, required this.title}) : super(key: key);
   final String title;
+
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -105,6 +96,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   textColor: Colors.white,
                   child: new Text("Location"),
                   onPressed: () => {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => LocationScreen()),
+                    )
                   },
                   splashColor: Colors.blue,
                 )),
@@ -146,6 +141,191 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-void openMyLocationPage(BuildContext context) {
+class LocationScreen extends StatefulWidget {
+  @override
+  _GeolocatorWidgetState createState() => _GeolocatorWidgetState();
+}
 
+class _GeolocatorWidgetState extends State<LocationScreen> {
+  final List<_PositionItem> _positionItems = <_PositionItem>[];
+  StreamSubscription<Position>? _positionStreamSubscription;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
+      body: ListView.builder(
+        itemCount: _positionItems.length,
+        itemBuilder: (context, index) {
+          final positionItem = _positionItems[index];
+
+          if (positionItem.type == _PositionItemType.permission) {
+            return ListTile(
+              title: Text(positionItem.displayValue,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  )),
+            );
+          } else {
+            return Card(
+              child: ListTile(
+                tileColor: Colors.blue,
+                title: Text(
+                  positionItem.displayValue,
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            );
+          }
+        },
+      ),
+      floatingActionButton: Stack(
+        children: <Widget>[
+          Positioned(
+            bottom: 10.0,
+            right: 10.0,
+            child: FloatingActionButton.extended(
+              onPressed: () => setState(_positionItems.clear),
+              label: Text("clear"),
+            ),
+          ),
+          Positioned(
+            bottom: 80.0,
+            right: 10.0,
+            child: FloatingActionButton.extended(
+              onPressed: () async {
+                await Geolocator.getLastKnownPosition().then((value) => {
+                  _positionItems.add(_PositionItem(
+                      _PositionItemType.position, value.toString()))
+                });
+
+                setState(
+                      () {},
+                );
+              },
+              label: Text("Last Position"),
+            ),
+          ),
+          Positioned(
+            bottom: 150.0,
+            right: 10.0,
+            child: FloatingActionButton.extended(
+                onPressed: () async {
+                  await Geolocator.getCurrentPosition().then((value) => {
+                    _positionItems.add(_PositionItem(
+                        _PositionItemType.position, value.toString()))
+                  });
+
+                  setState(
+                        () {},
+                  );
+                },
+                label: Text("Current Position")),
+          ),
+          Positioned(
+            bottom: 220.0,
+            right: 10.0,
+            child: FloatingActionButton.extended(
+              onPressed: _toggleListening,
+              label: Text(() {
+                if (_positionStreamSubscription == null) {
+                  return "Start stream";
+                } else {
+                  final buttonText = _positionStreamSubscription!.isPaused
+                      ? "Resume"
+                      : "Pause";
+
+                  return "$buttonText stream";
+                }
+              }()),
+              backgroundColor: _determineButtonColor(),
+            ),
+          ),
+          Positioned(
+            bottom: 290.0,
+            right: 10.0,
+            child: FloatingActionButton.extended(
+              onPressed: () async {
+                await Geolocator.checkPermission().then((value) => {
+                  _positionItems.add(_PositionItem(
+                      _PositionItemType.permission, value.toString()))
+                });
+                setState(() {});
+              },
+              label: Text("Check Permission"),
+            ),
+          ),
+          Positioned(
+            bottom: 360.0,
+            right: 10.0,
+            child: FloatingActionButton.extended(
+              onPressed: () async {
+                await Geolocator.requestPermission().then((value) => {
+                  _positionItems.add(_PositionItem(
+                      _PositionItemType.permission, value.toString()))
+                });
+                setState(() {});
+              },
+              label: Text("Request Permission"),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  bool _isListening() => !(_positionStreamSubscription == null ||
+      _positionStreamSubscription!.isPaused);
+
+  Color _determineButtonColor() {
+    return _isListening() ? Colors.green : Colors.red;
+  }
+
+  void _toggleListening() {
+    if (_positionStreamSubscription == null) {
+      final positionStream = Geolocator.getPositionStream();
+      _positionStreamSubscription = positionStream.handleError((error) {
+        _positionStreamSubscription?.cancel();
+        _positionStreamSubscription = null;
+      }).listen((position) => setState(() => _positionItems.add(
+          _PositionItem(_PositionItemType.position, position.toString()))));
+      _positionStreamSubscription?.pause();
+    }
+
+    setState(() {
+      if (_positionStreamSubscription == null) {
+        return;
+      }
+
+      if (_positionStreamSubscription!.isPaused) {
+        _positionStreamSubscription!.resume();
+      } else {
+        _positionStreamSubscription!.pause();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    if (_positionStreamSubscription != null) {
+      _positionStreamSubscription!.cancel();
+      _positionStreamSubscription = null;
+    }
+
+    super.dispose();
+  }
+}
+
+enum _PositionItemType {
+  permission,
+  position,
+}
+
+class _PositionItem {
+  _PositionItem(this.type, this.displayValue);
+
+  final _PositionItemType type;
+  final String displayValue;
 }
