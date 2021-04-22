@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:noisepollutionlocator_71/settings.dart';
 
 void main() {
   runApp(MyApp());
@@ -122,6 +123,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   textColor: Colors.white,
                   child: new Text("Settings"),
                   onPressed: () => {
+                  Navigator.push(context, MaterialPageRoute(builder: (_) {
+                  return Settings();
+                  }))
                   },
                   splashColor: Colors.blue,
                 )),
