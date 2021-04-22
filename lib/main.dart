@@ -93,7 +93,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   color: Theme.of(context).primaryColor,
                   textColor: Colors.white,
                   child: new Text("External API Test"),
-                  onPressed: () => {
+                  onPressed: () {
+                    openAPITest(context);
                   },
                   splashColor: Colors.blue,
                 )),
@@ -148,6 +149,26 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
     );
   }
+}
+
+void openAPITest(BuildContext context) {
+  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('External API Test'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              'Maybe put some API-related thing here.',
+            ),
+          ],
+        ),
+      ),
+    );
+  }));
 }
 
 void openMyLocationPage(BuildContext context) {
