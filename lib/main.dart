@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:noisepollutionlocator_71/map.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:noisepollutionlocator_71/externalAPIinterface.dart';
 import 'package:noisepollutionlocator_71/settings.dart';
 import 'package:noisepollutionlocator_71/locationScreen.dart';
