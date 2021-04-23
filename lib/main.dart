@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:noisepollutionlocator_71/externalAPIinterface.dart';
 import 'package:noisepollutionlocator_71/settings.dart';
 
 void main() {
@@ -93,11 +94,16 @@ class _MyHomePageState extends State<MyHomePage> {
                   color: Theme.of(context).primaryColor,
                   textColor: Colors.white,
                   child: new Text("External API Test"),
-                  onPressed: () {
-                    openAPITest(context);
-                  },
                   splashColor: Colors.blue,
-                )),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) {
+                      return ExternalAPI();
+                    }));
+                  },
+                )
+            ),
             Padding(
                 padding: EdgeInsets.all(20.0),
                 child: new MaterialButton(
@@ -151,25 +157,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-void openAPITest(BuildContext context) {
-  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('External API Test'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'Maybe put some API-related thing here.',
-            ),
-          ],
-        ),
-      ),
-    );
-  }));
-}
+
 
 void openMyLocationPage(BuildContext context) {
 
