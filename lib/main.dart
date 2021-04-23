@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:noisepollutionlocator_71/map.dart';
 import 'package:noisepollutionlocator_71/settings.dart';
 import 'package:noisepollutionlocator_71/locationScreen.dart';
 
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key? key, required this.title}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -141,8 +142,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   minWidth: 150.0,
                   color: Theme.of(context).primaryColor,
                   textColor: Colors.white,
-                  child: new Text("About"),
+                  child: new Text("Map"),
                   onPressed: () => {
+                    Navigator.push(context, MaterialPageRoute(builder: (_) {
+                      return Map();
+                    }))
                   },
                   splashColor: Colors.blue,
                 )),
