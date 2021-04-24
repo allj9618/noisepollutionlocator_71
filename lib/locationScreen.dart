@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'dart:async';
 
 // geolocator 7.0.3
 class LocationScreen extends StatefulWidget {
