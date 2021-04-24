@@ -10,7 +10,7 @@ class LocationScreen extends StatefulWidget {
 
 class _GeolocatorWidgetState extends State<LocationScreen> {
   final List<_PositionItem> _positionItems = <_PositionItem>[];
-  StreamSubscription<Position>? _positionStreamSubscription;
+  // StreamSubscription<Position>? _positionStreamSubscription;
 
   @override
   Widget build(BuildContext context) {
@@ -87,25 +87,6 @@ class _GeolocatorWidgetState extends State<LocationScreen> {
                 label: Text("Current Position")),
           ),
           Positioned(
-            bottom: 220.0,
-            right: 10.0,
-            child: FloatingActionButton.extended(
-              onPressed: _toggleListening,
-              label: Text(() {
-                if (_positionStreamSubscription == null) {
-                  return "Start stream";
-                } else {
-                  final buttonText = _positionStreamSubscription!.isPaused
-                      ? "Resume"
-                      : "Pause";
-
-                  return "$buttonText stream";
-                }
-              }()),
-              backgroundColor: _determineButtonColor(),
-            ),
-          ),
-          Positioned(
             bottom: 290.0,
             right: 10.0,
             child: FloatingActionButton.extended(
@@ -137,48 +118,7 @@ class _GeolocatorWidgetState extends State<LocationScreen> {
       ),
     );
   }
-
-  bool _isListening() => !(_positionStreamSubscription == null ||
-      _positionStreamSubscription!.isPaused);
-
-  Color _determineButtonColor() {
-    return _isListening() ? Colors.green : Colors.red;
   }
-
-  void _toggleListening() {
-    if (_positionStreamSubscription == null) {
-      final positionStream = Geolocator.getPositionStream();
-      _positionStreamSubscription = positionStream.handleError((error) {
-        _positionStreamSubscription?.cancel();
-        _positionStreamSubscription = null;
-      }).listen((position) => setState(() => _positionItems.add(
-          _PositionItem(_PositionItemType.position, position.toString()))));
-      _positionStreamSubscription?.pause();
-    }
-
-    setState(() {
-      if (_positionStreamSubscription == null) {
-        return;
-      }
-
-      if (_positionStreamSubscription!.isPaused) {
-        _positionStreamSubscription!.resume();
-      } else {
-        _positionStreamSubscription!.pause();
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    if (_positionStreamSubscription != null) {
-      _positionStreamSubscription!.cancel();
-      _positionStreamSubscription = null;
-    }
-
-    super.dispose();
-  }
-}
 
 enum _PositionItemType {
   permission,
