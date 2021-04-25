@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 
 // geolocator 7.0.3
-class LocationScreen extends StatefulWidget {
+class Location extends StatefulWidget {
   @override
   _GeolocatorWidgetState createState() => _GeolocatorWidgetState();
 }
 
-class _GeolocatorWidgetState extends State<LocationScreen> {
+class _GeolocatorWidgetState extends State<Location> {
   final List<_PositionItem> _positionItems = <_PositionItem>[];
   // StreamSubscription<Position>? _positionStreamSubscription;
 

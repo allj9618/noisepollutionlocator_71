@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:noisepollutionlocator_71/location.dart';
+import 'package:noisepollutionlocator_71/map.dart';
 import 'package:noisepollutionlocator_71/settings.dart';
 import 'package:noisepollutionlocator_71/home_button.dart';
 import 'externalAPIinterface.dart';
@@ -13,8 +15,8 @@ class MyApp extends StatelessWidget {
       routes: {
         '/settings': (context) => Settings(),
         '/external_api': (context) => ExternalAPI(),
-        //'/about': (context) => About(),
-        //'/location': (context) => Location(),
+        '/map': (context) => Map(),
+        '/location': (context) => Location(),
       },
 
       title: 'Flutter Demo',
@@ -66,10 +68,10 @@ class _MyHomePageState extends State<MyHomePage> {
               children: <Widget>[
                 Padding(
                     padding: EdgeInsets.all(20.0),
-                    child: MenuButton(null, 'Location')),
+                    child: MenuButton('/location', 'Location')),
                 Padding(
                     padding: EdgeInsets.all(20.0),
-                    child: MenuButton(null, 'About')),
+                    child: MenuButton('/map', 'Map')),
               ],
             ),
           ],
