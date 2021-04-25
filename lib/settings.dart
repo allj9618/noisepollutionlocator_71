@@ -11,7 +11,6 @@ class Settings extends StatefulWidget {
 
 class _Settings extends State<Settings> {
 
-
  // bool value = false;
 
   @override
