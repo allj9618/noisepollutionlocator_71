@@ -17,8 +17,8 @@ class Map extends StatelessWidget {
               position: LatLng(59.3350, 18.0406),
               consumeTapEvents: true,
               infoWindow: InfoWindow(
-                title: 'PlatformMarker',
-                snippet: "Hi I'm a Platform Marker",
+                title: 'PO Hallmansgatan 10',
+                snippet: "Noise pollution level: High",
               ),
               onTap: () {
                 print("Marker tapped");
