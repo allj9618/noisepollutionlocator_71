@@ -6,7 +6,7 @@
         android:label="noisepollutionlocator_71"
         android:icon="@mipmap/ic_launcher">
        <meta-data android:name="com.google.android.geo.API_KEY"
-                  android:value="AIzaSyD1_iyFNallshdCv79CJWlzcE9hSTFTCEE"/>
+                  android:value=""/>
        <meta-data
                android:name="com.google.android.gms.version"
                android:value="@integer/google_play_services_version" />
