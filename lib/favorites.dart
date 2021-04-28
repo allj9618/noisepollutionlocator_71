@@ -3,9 +3,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 /*
 
 TODO:
+ * Review/fix [].
  * Test it out with map.dart or location.dart. []
- * Remove favorite/Clear all []
- * Style the favorites []
+ * add Remove favorite/Clear all buttons []
+ * Style the list/favorites []
 
  */
 
