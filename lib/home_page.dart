@@ -6,28 +6,6 @@ import 'package:noisepollutionlocator_71/settings.dart';
 import 'package:noisepollutionlocator_71/home_button.dart';
 import 'externalAPIinterface.dart';
 
-class MyApp extends StatelessWidget {
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-
-      routes: {
-        '/settings': (context) => Settings(),
-        '/external_api': (context) => ExternalAPI(),
-        '/map': (context) => Map(),
-        '/location': (context) => Location(),
-      },
-
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePage(title: 'Noise Pollution Locator'),
-    );
-  }
-}
-
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -76,23 +54,6 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ],
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home'
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.map),
-              label: 'Map'
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.favorite),
-              label: 'Favorite'
-          ),
-        ],
-        iconSize: 50,
       ),
     );
   }
