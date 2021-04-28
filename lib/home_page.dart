@@ -5,6 +5,7 @@ import 'package:noisepollutionlocator_71/map.dart';
 import 'package:noisepollutionlocator_71/settings.dart';
 import 'package:noisepollutionlocator_71/home_button.dart';
 import 'externalAPIinterface.dart';
+import 'favorites.dart';
 
 class MyApp extends StatelessWidget {
 
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
         '/external_api': (context) => ExternalAPI(),
         '/map': (context) => Map(),
         '/location': (context) => Location(),
+        //'/favorites': (context) => Favorites(),
       },
 
       title: 'Flutter Demo',
@@ -75,6 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             ),
           ],
+
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
