@@ -1,10 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:noisepollutionlocator_71/location.dart';
-import 'package:noisepollutionlocator_71/map.dart';
-import 'package:noisepollutionlocator_71/settings.dart';
 import 'package:noisepollutionlocator_71/home_button.dart';
-import 'externalAPIinterface.dart';
 
 
 class MyHomePage extends StatefulWidget {
@@ -32,9 +28,6 @@ class _MyHomePageState extends State<MyHomePage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Padding(
-                    padding: EdgeInsets.all(20.0),
-                    child: MenuButton('/external_api', 'External API Test')),
 
                 Padding(
                     padding: EdgeInsets.all(20.0),

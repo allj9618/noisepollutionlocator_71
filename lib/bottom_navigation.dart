@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:noisepollutionlocator_71/location.dart';
 import 'package:noisepollutionlocator_71/map.dart';
 import 'package:noisepollutionlocator_71/settings.dart';
-import 'externalAPIinterface.dart';
 import 'home_page.dart';
 
 class MyApp extends StatelessWidget {
@@ -15,7 +14,6 @@ class MyApp extends StatelessWidget {
 
       routes: {
         '/settings': (context) => Settings(),
-        '/external_api': (context) => ExternalAPI(),
         '/map': (context) => Map(),
         '/location': (context) => Location(),
       },
