@@ -77,6 +77,23 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home'
+          ),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.map),
+              label: 'Map'
+          ),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.favorite),
+              label: 'Favorite'
+          ),
+        ],
+        iconSize: 50,
+      ),
     );
   }
 }
