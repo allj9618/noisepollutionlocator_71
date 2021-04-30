@@ -39,9 +39,8 @@ class OurNavigationBar extends StatefulWidget{
 class _OurNavigationBarState extends State<OurNavigationBar>{
   int _selectedIndex = 0;
   static List<Widget> _widgetOptions = <Widget>[
-    MyHomePage(title: 'Home Page'),
-    Location(),
     Map(),
+    Location(),
     Settings()
   ];
 
@@ -78,16 +77,12 @@ class _OurNavigationBarState extends State<OurNavigationBar>{
         },
         items: [
           FFNavigationBarItem(
-            iconData: Icons.home,
-            label: 'Home',
+            iconData: Icons.map,
+            label: 'Map',
           ),
           FFNavigationBarItem(
             iconData: Icons.gps_fixed,
             label: 'Location',
-          ),
-          FFNavigationBarItem(
-            iconData: Icons.map,
-            label: 'Map',
           ),
           FFNavigationBarItem(
             iconData: Icons.settings,
