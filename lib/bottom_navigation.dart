@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:noisepollutionlocator_71/location.dart';
 import 'package:noisepollutionlocator_71/map.dart';
 import 'package:noisepollutionlocator_71/settings.dart';
-import 'home_page.dart';
+import 'favorites.dart';
 import 'package:ff_navigation_bar/ff_navigation_bar.dart';
 
 
@@ -40,6 +40,7 @@ class _OurNavigationBarState extends State<OurNavigationBar>{
   int _selectedIndex = 0;
   static List<Widget> _widgetOptions = <Widget>[
     Map(),
+    Favorites(),
     Location(),
     Settings()
   ];
@@ -79,6 +80,10 @@ class _OurNavigationBarState extends State<OurNavigationBar>{
           FFNavigationBarItem(
             iconData: Icons.map,
             label: 'Map',
+          ),
+          FFNavigationBarItem(
+            iconData: Icons.favorite,
+            label: 'Favorites',
           ),
           FFNavigationBarItem(
             iconData: Icons.gps_fixed,
