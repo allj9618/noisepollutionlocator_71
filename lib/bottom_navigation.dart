@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:noisepollutionlocator_71/location.dart';
 import 'package:noisepollutionlocator_71/map.dart';
 import 'package:noisepollutionlocator_71/settings.dart';
-import 'home_page.dart';
+import 'favorites.dart';
+import 'package:ff_navigation_bar/ff_navigation_bar.dart';
+
 
 class MyApp extends StatelessWidget {
 
@@ -37,17 +39,17 @@ class OurNavigationBar extends StatefulWidget{
 class _OurNavigationBarState extends State<OurNavigationBar>{
   int _selectedIndex = 0;
   static List<Widget> _widgetOptions = <Widget>[
-    MyHomePage(title: 'Home Page'),
-    Location(),
     Map(),
+    Favorites(),
+    Location(),
     Settings()
   ];
 
-  void _onItemTapped(int index){
+  /*void _onItemTapped(int index){
     setState(() {
       _selectedIndex = index;
-    });
-  }
+    }); Duplicate setState-function, perhaps it belonged to the ordinary BottomNavBar before FF.
+  }*/
 
   @override
   Widget build(BuildContext context){
@@ -59,35 +61,39 @@ class _OurNavigationBarState extends State<OurNavigationBar>{
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem> [
-          BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-            label: 'Home',
-            backgroundColor: Colors.blue
+      bottomNavigationBar: FFNavigationBar(
+        theme: FFNavigationBarTheme(
+          barBackgroundColor: Colors.blue,
+          selectedItemBackgroundColor: Colors.blue,
+          //selectedItemIconColor: Colors.black,
+          selectedItemLabelColor: Colors.white,
+          unselectedItemIconColor: Colors.white,
+          unselectedItemLabelColor: Colors.white,
+        ),
+        selectedIndex: _selectedIndex,
+        onSelectTab: (index){
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
+        items: [
+          FFNavigationBarItem(
+            iconData: Icons.map,
+            label: 'Map',
           ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.gps_fixed),
-              label: 'Location',
-              backgroundColor: Colors.blue
+          FFNavigationBarItem(
+            iconData: Icons.favorite,
+            label: 'Favorites',
           ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.map),
-              label: 'Map',
-              backgroundColor: Colors.blue
+          FFNavigationBarItem(
+            iconData: Icons.gps_fixed,
+            label: 'Location',
           ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              label: 'Settings',
-              backgroundColor: Colors.blue
-          ),
+          FFNavigationBarItem(
+            iconData: Icons.settings,
+            label: 'Settings',
+          )
         ],
-        type: BottomNavigationBarType.shifting,
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.black,
-        iconSize: 40,
-        onTap: _onItemTapped,
-        elevation: 5,
       )
     );
   }
