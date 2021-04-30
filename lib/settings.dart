@@ -18,6 +18,7 @@ class _Settings extends State<Settings> {
     return Scaffold(
       appBar: AppBar(title: Text('Settings')),
       body: SettingsList(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         sections: [
           SettingsSection(
             subtitle: Center(

@@ -61,7 +61,9 @@ class _Favorites extends State<Favorites> {
   Widget build(BuildContext context) {
     if (favorite.isNotEmpty) {
       return Scaffold(
-        appBar: AppBar(title: Text('Favorites')),
+        appBar: AppBar(
+            title: Text('Favorites')),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         body: Container(
           child: ListView.builder(
               padding: const EdgeInsets.all(8),
@@ -77,6 +79,7 @@ class _Favorites extends State<Favorites> {
     else
       return Scaffold(
           appBar: AppBar(title: Text('Favorites')),
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           body: Center(
             child: Text('No Favorites saved!'),
           )

@@ -33,19 +33,19 @@ class _OurNavigationBarState extends State<OurNavigationBar>{
     return Scaffold(
       appBar: AppBar(
         title: const Text('Noise Pollution Locator'),
-        backgroundColor: Theme.of(context).primaryColor
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: FFNavigationBar(
         theme: FFNavigationBarTheme(
-          barBackgroundColor: Colors.white,
-          selectedItemBackgroundColor: Colors.black,
-          selectedItemIconColor: Colors.white,
-          selectedItemLabelColor: Colors.black,
-          unselectedItemIconColor: Colors.grey,
-          unselectedItemLabelColor: Colors.black,
+          barBackgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          selectedItemBackgroundColor: Theme.of(context).primaryColor,
+          selectedItemIconColor: Theme.of(context).accentColor,
+          selectedItemLabelColor: Theme.of(context).accentColor,
+          unselectedItemIconColor: Theme.of(context).focusColor,
+          unselectedItemLabelColor: Theme.of(context).accentColor,
         ),
         selectedIndex: _selectedIndex,
         onSelectTab: (index){
