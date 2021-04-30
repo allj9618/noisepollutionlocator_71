@@ -5,6 +5,8 @@ import 'package:noisepollutionlocator_71/location.dart';
 import 'package:noisepollutionlocator_71/map.dart';
 import 'package:noisepollutionlocator_71/settings.dart';
 import 'home_page.dart';
+import 'package:ff_navigation_bar/ff_navigation_bar.dart';
+
 
 class MyApp extends StatelessWidget {
 
@@ -59,35 +61,39 @@ class _OurNavigationBarState extends State<OurNavigationBar>{
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem> [
-          BottomNavigationBarItem(
-              icon: Icon(Icons.home),
+      bottomNavigationBar: FFNavigationBar(
+        theme: FFNavigationBarTheme(
+          barBackgroundColor: Colors.blue,
+          selectedItemBackgroundColor: Colors.blue,
+          //selectedItemIconColor: Colors.black,
+          selectedItemLabelColor: Colors.white,
+          unselectedItemIconColor: Colors.white,
+          unselectedItemLabelColor: Colors.white,
+        ),
+        selectedIndex: _selectedIndex,
+        onSelectTab: (index){
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
+        items: [
+          FFNavigationBarItem(
+            iconData: Icons.home,
             label: 'Home',
-            backgroundColor: Colors.blue
           ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.gps_fixed),
-              label: 'Location',
-              backgroundColor: Colors.blue
+          FFNavigationBarItem(
+            iconData: Icons.gps_fixed,
+            label: 'Location',
           ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.map),
-              label: 'Map',
-              backgroundColor: Colors.blue
+          FFNavigationBarItem(
+            iconData: Icons.map,
+            label: 'Map',
           ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              label: 'Settings',
-              backgroundColor: Colors.blue
-          ),
+          FFNavigationBarItem(
+            iconData: Icons.settings,
+            label: 'Settings',
+          )
         ],
-        type: BottomNavigationBarType.shifting,
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.black,
-        iconSize: 40,
-        onTap: _onItemTapped,
-        elevation: 5,
       )
     );
   }
