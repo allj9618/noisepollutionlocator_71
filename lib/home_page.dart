@@ -5,7 +5,6 @@ import 'package:noisepollutionlocator_71/home_button.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
-
   final String title;
 
   @override

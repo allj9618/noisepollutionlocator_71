@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:noisepollutionlocator_71/location.dart';
@@ -6,28 +5,6 @@ import 'package:noisepollutionlocator_71/map.dart';
 import 'package:noisepollutionlocator_71/settings.dart';
 import 'favorites.dart';
 import 'package:ff_navigation_bar/ff_navigation_bar.dart';
-
-
-class MyApp extends StatelessWidget {
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-
-      routes: {
-        '/settings': (context) => Settings(),
-        '/map': (context) => Map(),
-        '/location': (context) => Location(),
-      },
-
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: OurNavigationBar(),
-    );
-  }
-}
 
 class OurNavigationBar extends StatefulWidget{
   OurNavigationBar({Key key}) : super(key: key);
@@ -55,20 +32,20 @@ class _OurNavigationBarState extends State<OurNavigationBar>{
   Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Noise Pollution App'),
-        backgroundColor: Colors.blue
+        title: const Text('Noise Pollution Locator'),
+        backgroundColor: Theme.of(context).primaryColor
       ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: FFNavigationBar(
         theme: FFNavigationBarTheme(
-          barBackgroundColor: Colors.blue,
-          selectedItemBackgroundColor: Colors.blue,
-          //selectedItemIconColor: Colors.black,
-          selectedItemLabelColor: Colors.white,
-          unselectedItemIconColor: Colors.white,
-          unselectedItemLabelColor: Colors.white,
+          barBackgroundColor: Colors.white,
+          selectedItemBackgroundColor: Colors.black,
+          selectedItemIconColor: Colors.white,
+          selectedItemLabelColor: Colors.black,
+          unselectedItemIconColor: Colors.grey,
+          unselectedItemLabelColor: Colors.black,
         ),
         selectedIndex: _selectedIndex,
         onSelectTab: (index){
