@@ -22,8 +22,29 @@ class MyApp extends StatelessWidget {
       },
 
       title: 'Flutter Demo',
+      themeMode: ThemeMode.system,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        brightness: Brightness.light,
+        primaryColor: Colors.blue,
+        accentColor: Colors.black,
+        textTheme: TextTheme(
+          bodyText1: TextStyle(),
+          bodyText2: TextStyle(),
+        ).apply(
+          bodyColor: Colors.grey,
+          displayColor: Colors.black,
+        ),
+      ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        accentColor: Colors.white,
+        textTheme: TextTheme(
+          bodyText1: TextStyle(),
+          bodyText2: TextStyle(),
+        ).apply(
+          bodyColor: Colors.white,
+          displayColor: Colors.grey,
+        ),
       ),
       home: MyHomePage(title: 'Noise Pollution Locator'),
     );
@@ -58,8 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
               children: <Widget>[
                 Padding(
                     padding: EdgeInsets.all(20.0),
-                    child: MenuButton('/external_api', 'External API Test')),
-
+                    child: MenuButton('/external_api', 'External API')),
                 Padding(
                     padding: EdgeInsets.all(20.0),
                     child: MenuButton('/settings', 'Settings')),
@@ -81,17 +101,17 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home'
+            icon: Icon(Icons.home, color: Theme.of(context).accentColor,),
+            label: 'Home',
           ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.map),
+              icon: Icon(Icons.map, color: Theme.of(context).accentColor,),
               label: 'Map'
           ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.favorite),
+              icon: Icon(Icons.favorite, color: Theme.of(context).accentColor,),
               label: 'Favorite'
           ),
         ],
