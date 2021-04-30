@@ -44,6 +44,7 @@ class _OurNavigationBarState extends State<OurNavigationBar>{
           selectedItemBackgroundColor: Theme.of(context).primaryColor,
           selectedItemIconColor: Theme.of(context).accentColor,
           selectedItemLabelColor: Theme.of(context).accentColor,
+          selectedItemBorderColor: Theme.of(context).accentColor,
           unselectedItemIconColor: Theme.of(context).focusColor,
           unselectedItemLabelColor: Theme.of(context).accentColor,
         ),
