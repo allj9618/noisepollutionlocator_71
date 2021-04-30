@@ -45,11 +45,11 @@ class _OurNavigationBarState extends State<OurNavigationBar>{
     Settings()
   ];
 
-  void _onItemTapped(int index){
+  /*void _onItemTapped(int index){
     setState(() {
       _selectedIndex = index;
-    });
-  }
+    }); Duplicate setState-function, perhaps it belonged to the ordinary BottomNavBar before FF.
+  }*/
 
   @override
   Widget build(BuildContext context){
