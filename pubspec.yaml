@@ -33,6 +33,13 @@ dependencies:
   platform_maps_flutter: ^1.0.1
   ff_navigation_bar: ^0.1.4
   shared_preferences: ^2.0.5
+  # Map dependencies.
+  flutter_map: any
+  flutter_map_arcgis: any
+  dio: any
+
+
+
 
 dev_dependencies:
   flutter_test:
