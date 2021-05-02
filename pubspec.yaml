@@ -32,10 +32,10 @@ dependencies:
   settings_ui: ^1.0.0
   platform_maps_flutter: ^1.0.1
   ff_navigation_bar: ^0.1.4
-  shared_preferences: ^2.0.5
+  shared_preferences: any # changed this from 2.0.5 to any to get resolve dependency conflicts. CÖ
   # Map dependencies.
-  flutter_map: any
-  flutter_map_arcgis: any
+  flutter_map: ^0.8.1
+  flutter_map_arcgis: ^0.1.5
   dio: any
 
 
