@@ -1,88 +1,138 @@
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'favorite_adress.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-/*
 
-TODO:
- * Review/fix [].
- * Test it out with map.dart or location.dart. []
- * add Remove favorite/Clear all buttons []
- * Style the list/favorites []
+//stackoverflow.com/questions/63863854/how-to-save-and-read-a-list-of-class-object-using-shared-preferences-in-flutter
 
- */
-
-// class SavedFavorite {
-//   final String location;
-//   final int decibel;
-//
-//   SavedFavorite(this.location, this.decibel);
-// }
+// https://pub.dev/packages/flutter_slidable
+// https://pub.dev/packages/shared_preferences
 
 class Favorites extends StatefulWidget {
   @override
-  _Favorites createState() => _Favorites();
+  FavoritesState createState() => FavoritesState();
 }
 
-class _Favorites extends State<Favorites> {
-
-  List<String> favorite = ['Cordinates 60', 'Cordinates 40'];
+class FavoritesState extends State<Favorites> {
+  static List<String> _favorite = <String>[];
 
   @override
   void initState() {
+    _update();
     super.initState();
-    getData();
   }
 
-  getData() async {
+  // Use to save fav location.
+  static Future<void> addFavorite(String a, l, d) async {
+    FavoriteAddress newFav =
+        new FavoriteAddress(address: a, location: l, decibel: d);
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    _favorite.add(newFav.encodeFavorite(newFav));
+    prefs.setStringList('favorites', _favorite);
+  }
 
-    await addFavorite('Test');
+  removeFavorite(int index) async {
+    _favorite.removeAt(index);
+    await setListToSharedPrefLocation();
+  }
 
+  Future setListToSharedPrefLocation() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setStringList('favorites', _favorite);
+    _favorite = prefs.getStringList('favorites');
+  }
 
-    setState(() {
-      favorite = prefs.getStringList('favorites');
+  void _update() {
+    SharedPreferences.getInstance().then((SharedPreferences sp) {
+      var sharedPreferences = sp;
+      _favorite = sharedPreferences.getStringList('favorites');
     });
-  }
-
-  Future<void> addFavorite(String newFav) async {
-    favorite.add(newFav);
-
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setStringList('favorites', favorite);
-  }
-
-  Future<void> removeFavorite(String oldFav) async {
-    favorite.remove(oldFav);
-
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setStringList('favorites', favorite);
   }
 
   @override
   Widget build(BuildContext context) {
-    if (favorite.isNotEmpty) {
+    if (_favorite.isNotEmpty) {
       return Scaffold(
-        appBar: AppBar(
-            title: Text('Favorites')),
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        body: Container(
-          child: ListView.builder(
-              padding: const EdgeInsets.all(8),
-              itemCount: favorite.length,
-              itemBuilder: (BuildContext context, int index) {
-                return ListTile(title: Text(favorite[index]));
-              }
-            // },
-          ),
-        ),
-      );
-    }
-    else
+          appBar: AppBar(title: Center(child: Text('Saved Locations'))),
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          body: Container(
+              color: Colors.white,
+              child: ListView.separated(
+                  separatorBuilder: (context, index) => Divider(
+                        color: Colors.lightGreenAccent,
+                      ),
+                  itemCount: _favorite.length,
+                  itemBuilder: (context, int index) {
+                    FavoriteAddress currfav = FavoriteAddress();
+                    currfav = currfav.decodedFavorite(_favorite[index]);
+                    return Slidable(
+                        actionPane: SlidableDrawerActionPane(),
+                        actionExtentRatio: 0.25,
+                        child: Container(
+                          color: Colors.white,
+                          child: ListTile(
+                            title: Row(
+                              children: [
+                                Text(
+                                  currfav.address,
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    height: 3,
+                                  ),
+                                ),
+                                Spacer(),
+                                _buildTrailingText(currfav.decibel),
+                              ],
+                            ),
+                            subtitle: Text(
+                              ' ' + currfav.location,
+                              style: TextStyle(
+                                fontSize: 17,
+                              ),
+                            ),
+                            dense: false,
+                          ),
+                        ),
+                        secondaryActions: <Widget>[
+                          IconSlideAction(
+                            caption: 'Delete',
+                            color: Colors.red,
+                            icon: Icons.delete,
+                            onTap: () {
+                              setState(() {
+                                removeFavorite(index);
+                              });
+                            },
+                          )
+                        ]);
+                  })));
+    } else
       return Scaffold(
-          appBar: AppBar(title: Text('Favorites')),
+          appBar: AppBar(title: Center(child: Text('Saved Locations'))),
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           body: Center(
-            child: Text('No Favorites saved!'),
-          )
-      );
+            child: Text('No favorites saved!'),
+          ));
+  }
+
+  Text _buildTrailingText(String decibel) {
+    return Text(
+      (decibel + ' db'),
+      style: TextStyle(
+        color: _buildColors(int.parse(decibel)),
+        fontSize: 20,
+        height: 3,
+      ),
+    );
+  }
+
+  Color _buildColors(int decibelValue) {
+    if (decibelValue >= 0 && decibelValue <= 53) return Colors.green;
+    if (decibelValue > 53 && decibelValue <= 59) return Colors.lightGreen;
+    if (decibelValue > 59 && decibelValue <= 65) return Colors.yellow;
+    if (decibelValue > 65 && decibelValue <= 73)
+      return Colors.orange;
+    else
+      return Colors.red;
   }
 }
