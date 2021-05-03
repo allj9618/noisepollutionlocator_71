@@ -37,6 +37,7 @@ dependencies:
   flutter_map: ^0.8.1
   flutter_map_arcgis: ^0.1.5
   dio: any
+  provider: ^4.3.2+3
 
 
 

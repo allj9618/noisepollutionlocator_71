@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:noisepollutionlocator_71/themes.dart';
 import 'package:settings_ui/settings_ui.dart';
 
 // https://pub.dev/packages/settings_ui
@@ -42,6 +43,11 @@ class _Settings extends State<Settings> {
                 leading: Icon(Icons.lock),
                 onPressed: (BuildContext context) {},
               ),
+              SettingsTile(
+                title: 'Theme',
+                leading: Icon(Icons.wb_sunny_outlined),
+                trailing: ChangeThemeButtonWidget(),
+              )
             ],
           ),
         ],
