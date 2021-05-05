@@ -32,7 +32,8 @@ class _OurNavigationBarState extends State<OurNavigationBar>{
   Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Noise Pollution Locator'),
+        leading: Image.asset('assets/logopng.png'),
+        title: const Text('Notice Noise'),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       ),
       body: Center(
