@@ -25,7 +25,7 @@ class FavoritesState extends State<Favorites> {
   // Use to save fav location.
   static Future<void> addFavorite(String a, l, d) async {
     FavoriteAddress newFav =
-        new FavoriteAddress(address: a, location: l, decibel: d);
+    new FavoriteAddress(address: a, location: l, decibel: d);
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     _favorite.add(newFav.encodeFavorite(newFav));
     prefs.setStringList('favorites', _favorite);
@@ -45,7 +45,9 @@ class FavoritesState extends State<Favorites> {
   void _update() {
     SharedPreferences.getInstance().then((SharedPreferences sp) {
       var sharedPreferences = sp;
-      _favorite = sharedPreferences.getStringList('favorites');
+      setState(() {
+        _favorite = sharedPreferences.getStringList('favorites');
+      });
     });
   }
 
@@ -56,11 +58,10 @@ class FavoritesState extends State<Favorites> {
           appBar: AppBar(title: Center(child: Text('Saved Locations'))),
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           body: Container(
-              color: Colors.white,
               child: ListView.separated(
                   separatorBuilder: (context, index) => Divider(
-                        color: Colors.lightGreenAccent,
-                      ),
+                    color: Colors.lightGreenAccent,
+                  ),
                   itemCount: _favorite.length,
                   itemBuilder: (context, int index) {
                     FavoriteAddress currfav = FavoriteAddress();
@@ -69,7 +70,7 @@ class FavoritesState extends State<Favorites> {
                         actionPane: SlidableDrawerActionPane(),
                         actionExtentRatio: 0.25,
                         child: Container(
-                          color: Colors.white,
+                          color: Theme.of(context).scaffoldBackgroundColor,
                           child: ListTile(
                             title: Row(
                               children: [
