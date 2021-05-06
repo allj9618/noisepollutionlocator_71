@@ -35,6 +35,7 @@ dependencies:
   shared_preferences: any # changed this from 2.0.5 to any to get resolve dependency conflicts. CÖ
   # Map dependencies.
   flutter_map: ^0.8.1
+  #flutter_map: ^0.12.0
   flutter_map_arcgis: ^0.1.5
   dio: any
   provider: ^4.3.2+3
@@ -42,11 +43,13 @@ dependencies:
   animated_splash_screen: ^1.1.0
 
 
-
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
+#  integration_test:
+#    sdk: flutter
+#  flutter_driver:
+#    sdk: flutter
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
