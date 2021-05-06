@@ -3,6 +3,8 @@ import 'package:noisepollutionlocator_71/themes.dart';
 import 'package:provider/provider.dart';
 import 'bottom_navigation.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() => runApp(MyApp());
 
@@ -15,7 +17,17 @@ class MyApp extends StatelessWidget {
       final themeProvider = Provider.of<ThemeProvider>(context);
 
     return MaterialApp(
-      //title: 'Flutter Demo',
+      //title: AppLocalizations.of(context).helloWorld,
+        localizationsDelegates: [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: [
+          const Locale('en', ''),
+          const Locale('se', ''),
+        ],
       themeMode: themeProvider.themeMode,
       theme: Themes.lightTheme,
       darkTheme: Themes.darkTheme,
