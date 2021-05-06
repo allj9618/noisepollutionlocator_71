@@ -14,20 +14,20 @@ class MyApp extends StatelessWidget {
     builder: (context, _) {
       final themeProvider = Provider.of<ThemeProvider>(context);
 
-    return MaterialApp(
-      //title: 'Flutter Demo',
-      themeMode: themeProvider.themeMode,
-      theme: Themes.lightTheme,
-      darkTheme: Themes.darkTheme,
-      home: AnimatedSplashScreen(
-        duration: 2500,
-        splash: 'assets/logogif2.gif',
-        splashIconSize: 500,
-        nextScreen: OurNavigationBar(),
-        splashTransition: SplashTransition.fadeTransition,
-        backgroundColor: Colors.white
-      )
-    );
-  },
+      return MaterialApp(
+        //title: 'Flutter Demo',
+          themeMode: themeProvider.themeMode,
+          theme: Themes.lightTheme,
+          darkTheme: Themes.darkTheme,
+          home: AnimatedSplashScreen(
+              duration: 2500,
+              splash: 'assets/logogif2.gif',
+              splashIconSize: 500,
+              nextScreen: OurNavigationBar(),
+              splashTransition: SplashTransition.fadeTransition,
+              backgroundColor: Colors.white
+          )
+      );
+    },
   );
 }

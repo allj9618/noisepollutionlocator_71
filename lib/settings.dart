@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:noisepollutionlocator_71/favorites.dart';
 import 'package:noisepollutionlocator_71/themes.dart';
 import 'package:settings_ui/settings_ui.dart';
+import 'favorites.dart';
 
 // https://pub.dev/packages/settings_ui
 // Settings template
@@ -47,6 +49,13 @@ class _Settings extends State<Settings> {
                 title: 'Theme',
                 leading: Icon(Icons.wb_sunny_outlined),
                 trailing: ChangeThemeButtonWidget(),
+              ),
+              SettingsTile(
+                title: 'dummy',
+                leading: Icon(Icons.dangerous),
+                onPressed: (BuildContext context) {
+                  FavoritesState.addFavorite('TestGatan 5', 'Stockholm', '55');
+                },
               )
             ],
           ),
