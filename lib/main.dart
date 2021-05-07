@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       darkTheme: Themes.darkTheme,
       home: AnimatedSplashScreen(
         duration: 2500,
-        splash: 'assets/logogif2.gif',
+        splash: 'assets/logogif.gif',
         splashIconSize: 500,
         nextScreen: OurNavigationBar(),
         splashTransition: SplashTransition.fadeTransition,
