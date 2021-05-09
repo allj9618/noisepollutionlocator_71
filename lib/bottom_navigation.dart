@@ -5,8 +5,7 @@ import 'package:noisepollutionlocator_71/map.dart';
 import 'package:noisepollutionlocator_71/settings.dart';
 import 'favorites.dart';
 import 'package:ff_navigation_bar/ff_navigation_bar.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
+import 'translations.dart';
 
 class OurNavigationBar extends StatefulWidget{
   OurNavigationBar({Key key}) : super(key: key);
@@ -59,19 +58,19 @@ class _OurNavigationBarState extends State<OurNavigationBar>{
         items: [
           FFNavigationBarItem(
             iconData: Icons.map,
-            label: AppLocalizations.of(context).map,
+            label: Translations.of(context).text("map"),
           ),
           FFNavigationBarItem(
             iconData: Icons.favorite,
-            label: AppLocalizations.of(context).favorite,
+            label: Translations.of(context).text('favorite'),
           ),
           FFNavigationBarItem(
             iconData: Icons.gps_fixed,
-            label: AppLocalizations.of(context).location,
+            label: Translations.of(context).text('location'),
           ),
           FFNavigationBarItem(
             iconData: Icons.settings,
-            label: AppLocalizations.of(context).settingsTitle,
+            label: Translations.of(context).text('settingsTitle'),
           )
         ],
       )

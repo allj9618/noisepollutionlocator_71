@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:noisepollutionlocator_71/themes.dart';
 import 'package:settings_ui/settings_ui.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'LanguagesScreen.dart';
+import 'translations.dart';
+import 'translationApplication.dart';
 
 
 // https://pub.dev/packages/settings_ui
@@ -20,41 +20,40 @@ class _Settings extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(AppLocalizations.of(context).settingsTitle)),
+      appBar: AppBar(title: Text(Translations.of(context).text('settingsTitle'))),
       body: SettingsList(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         sections: [
           SettingsSection(
             subtitle: Center(
                 child: Text(
-                  AppLocalizations.of(context).settingsTitle,
+                  Translations.of(context).text('settingsTitle'),
                 )),
             tiles: [
               SettingsTile(
-                title: AppLocalizations.of(context).language,//language egentligen
-                subtitle: AppLocalizations.of(context).languageChoice,
+                title: Translations.of(context).text('language'),
+                subtitle: Translations.of(context).text('languageChoice'),
                 leading: Icon(Icons.language),
                 onPressed: (BuildContext context) {
-                  setState(() {
-                    AppLocalizations.delegate.load(Locale('se',''));
-                  });
-                  /*Navigator.of(context).push(MaterialPageRoute(
-                    builder: (_) => LanguagesScreen(),
-                  ));*/
+                  if(Translations.of(context).currentLanguage == 'en'){
+                    applic.onLocaleChanged(new Locale('se',''));
+                  }else{
+                    applic.onLocaleChanged(new Locale('en',''));
+                  }
                 },
               ),
               SettingsTile(
-                title: AppLocalizations.of(context).email,
+                title: Translations.of(context).text('email'),
                 leading: Icon(Icons.mail),
                 onPressed: (BuildContext context) {},
               ),
               SettingsTile(
-                title: AppLocalizations.of(context).password,
+                title: Translations.of(context).text('password'),
                 leading: Icon(Icons.lock),
                 onPressed: (BuildContext context) {},
               ),
               SettingsTile(
-                title: AppLocalizations.of(context).theme,
+                title: Translations.of(context).text('theme'),
                 leading: Icon(Icons.wb_sunny_outlined),
                 trailing: ChangeThemeButtonWidget(),
               )
