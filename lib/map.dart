@@ -15,29 +15,19 @@ class Map extends StatelessWidget {
         layers: [
           // Google maps layer
           TileLayerOptions(
-            urlTemplate: 'https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',
-            subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+              urlTemplate: 'https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',
+              subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+              backgroundColor: Colors.transparent),
 
-            backgroundColor: Colors.transparent
-          ),
-
-          // testing data from Stockholm.se  had to make changes to AndroidManifest to allow http, only done to debug for now.
+          // Bullerdata layer from Stockholms stad
           TileLayerOptions(
-
               wmsOptions: WMSTileLayerOptions(
-                  baseUrl:
-                  "http://kartor.miljo.stockholm.se/geoserver/wms?",
-                  layers: [ "mfraster:bullerkartan-2012-allakallor"],
+                  baseUrl: "http://kartor.miljo.stockholm.se/geoserver/wms?",
+                  layers: ["mfraster:bullerkartan-2012-allakallor"],
                   transparent: false,
-                  format: "image/png"
-              ),
-              opacity: 0.7,
-              backgroundColor: Colors.transparent
-
-
-
-
-          ),
+                  format: "image/png"),
+              opacity: 0.4,
+              backgroundColor: Colors.transparent),
 
 /*
 
@@ -56,8 +46,6 @@ class Map extends StatelessWidget {
 
           ),
     */
-
-
         ],
       ),
     );
