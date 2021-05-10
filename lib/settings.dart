@@ -25,10 +25,6 @@ class _Settings extends State<Settings> {
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         sections: [
           SettingsSection(
-            subtitle: Center(
-                child: Text(
-                  Translations.of(context).text('settingsTitle'),
-                )),
             tiles: [
               SettingsTile(
                 title: Translations.of(context).text('language'),

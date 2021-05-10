@@ -8,24 +8,28 @@ import 'package:shared_preferences/shared_preferences.dart';
 // https://pub.dev/packages/flutter_slidable
 // https://pub.dev/packages/shared_preferences
 
+
 class Favorites extends StatefulWidget {
   @override
   FavoritesState createState() => FavoritesState();
 }
 
 class FavoritesState extends State<Favorites> {
+
   static List<String> _favorite = <String>[];
 
   @override
-  void initState() {
+ void initState()  {
     _update();
     super.initState();
   }
 
-  // Use to save fav location.
-  static Future<void> addFavorite(String a, l, d) async {
-    FavoriteAddress newFav =
-    new FavoriteAddress(address: a, location: l, decibel: d);
+  /*
+   Use to save fav location.
+   This method should later be used and perhaps modified and moved to map/location.
+   */
+   static addFavorite(String a, l, d) async {
+    FavoriteAddress newFav = new FavoriteAddress(address: a, location: l, decibel: d);
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     _favorite.add(newFav.encodeFavorite(newFav));
     prefs.setStringList('favorites', _favorite);
