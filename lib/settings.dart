@@ -19,15 +19,10 @@ class _Settings extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Settings')),
       body: SettingsList(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         sections: [
           SettingsSection(
-            subtitle: Center(
-                child: Text(
-                  'Settings',
-                )),
             tiles: [
               SettingsTile(
                 title: 'Language',

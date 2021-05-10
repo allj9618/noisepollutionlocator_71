@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:noisepollutionlocator_71/location.dart';
 import 'package:noisepollutionlocator_71/map.dart';
 import 'package:noisepollutionlocator_71/settings.dart';
-import 'about.dart';
+import 'about/about.dart';
 import 'favorites.dart';
 import 'package:ff_navigation_bar/ff_navigation_bar.dart';
 
@@ -35,7 +35,7 @@ class _OurNavigationBarState extends State<OurNavigationBar>{
         appBar: AppBar(
           leading: Image.asset('assets/logopng.png'),
           actions: <Widget>[
-            about()
+            About()
           ],
           title: const Text('Notice Noise'),
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
