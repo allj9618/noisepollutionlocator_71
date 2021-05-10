@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:noisepollutionlocator_71/location.dart';
 import 'package:noisepollutionlocator_71/map.dart';
 import 'package:noisepollutionlocator_71/settings.dart';
-import 'about/about.dart';
 import 'favorites.dart';
 import 'package:ff_navigation_bar/ff_navigation_bar.dart';
+import 'translations.dart';
 
 class OurNavigationBar extends StatefulWidget{
   OurNavigationBar({Key key}) : super(key: key);
@@ -32,53 +32,49 @@ class _OurNavigationBarState extends State<OurNavigationBar>{
   @override
   Widget build(BuildContext context){
     return Scaffold(
-        appBar: AppBar(
-          leading: Image.asset('assets/logopng.png'),
-          actions: <Widget>[
-            About()
-          ],
-          title: const Text('Notice Noise'),
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      appBar: AppBar(
+        leading: Image.asset('assets/logopng.png'),
+        title: const Text('Notice Noise'),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      ),
+      body: Center(
+        child: _widgetOptions.elementAt(_selectedIndex),
+      ),
+      bottomNavigationBar: FFNavigationBar(
+        theme: FFNavigationBarTheme(
+          barBackgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          selectedItemBackgroundColor: Theme.of(context).primaryColor,
+          selectedItemIconColor: Theme.of(context).accentColor,
+          selectedItemLabelColor: Theme.of(context).accentColor,
+          selectedItemBorderColor: Theme.of(context).accentColor,
+          unselectedItemIconColor: Theme.of(context).focusColor,
+          unselectedItemLabelColor: Theme.of(context).accentColor,
         ),
-        body: Center(
-          child: _widgetOptions.elementAt(_selectedIndex),
-        ),
-        bottomNavigationBar: FFNavigationBar(
-          theme: FFNavigationBarTheme(
-            barBackgroundColor: Theme.of(context).scaffoldBackgroundColor,
-            selectedItemBackgroundColor: Theme.of(context).primaryColor,
-            selectedItemIconColor: Theme.of(context).accentColor,
-            selectedItemLabelColor: Theme.of(context).accentColor,
-            selectedItemBorderColor: Theme.of(context).accentColor,
-            unselectedItemIconColor: Theme.of(context).focusColor,
-            unselectedItemLabelColor: Theme.of(context).accentColor,
+        selectedIndex: _selectedIndex,
+        onSelectTab: (index){
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
+        items: [
+          FFNavigationBarItem(
+            iconData: Icons.map,
+            label: Translations.of(context).text("map"),
           ),
-          selectedIndex: _selectedIndex,
-          onSelectTab: (index){
-            setState(() {
-              _selectedIndex = index;
-            });
-          },
-          items: [
-            FFNavigationBarItem(
-              iconData: Icons.map,
-              label: 'Map',
-            ),
-            FFNavigationBarItem(
-              iconData: Icons.favorite,
-              label: 'Favorites',
-            ),
-            FFNavigationBarItem(
-              iconData: Icons.gps_fixed,
-              label: 'Location',
-            ),
-            FFNavigationBarItem(
-              iconData: Icons.settings,
-              label: 'Settings',
-            )
-          ],
-        )
+          FFNavigationBarItem(
+            iconData: Icons.favorite,
+            label: Translations.of(context).text('favorite'),
+          ),
+          FFNavigationBarItem(
+            iconData: Icons.gps_fixed,
+            label: Translations.of(context).text('location'),
+          ),
+          FFNavigationBarItem(
+            iconData: Icons.settings,
+            label: Translations.of(context).text('settingsTitle'),
+          )
+        ],
+      )
     );
   }
 }
-
