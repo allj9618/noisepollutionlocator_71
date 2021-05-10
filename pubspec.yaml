@@ -36,8 +36,7 @@ dependencies:
   ff_navigation_bar: ^0.1.4
   shared_preferences: any # changed this from 2.0.5 to any to get resolve dependency conflicts. CÖ
   # Map dependencies.
-  flutter_map: ^0.8.1
-  flutter_map_arcgis: ^0.1.5
+  flutter_map: ^0.12.0
   dio: any
   provider: ^4.3.2+3
   flutter_slidable: ^0.6.0
