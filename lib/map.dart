@@ -13,7 +13,7 @@ class Map extends StatelessWidget {
 
             // Setting coordinates to Stockholm
             center: LatLng(59.3294, 18.0686),
-            zoom: 9.0,
+            zoom: 14.0,
             plugins: [EsriPlugin()],
           ),
 
