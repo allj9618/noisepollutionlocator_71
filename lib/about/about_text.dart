@@ -4,24 +4,30 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 
+
 class TextContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
+
+        // Make this a list?
         children: [
           title1(context),
           Separator(),
           textBlock1(context),
+          Separator2(),
           SizedBox(height: 50),
           title2(context),
           Separator(),
           textBlock2(context),
+          Separator2(),
           SizedBox(height: 50),
           title3(context),
           Separator(),
           textBlock3(context),
+          Separator2(),
           SizedBox(height: 50),
           title4(context),
           Separator()
@@ -51,7 +57,7 @@ class TextContent extends StatelessWidget {
     return Align(
         alignment: Alignment.topLeft,
         child: Text(
-          "HOW DO I USE THIS APP?".toUpperCase(),
+          "HOW DO I USE THIS \nAPPLICATION?".toUpperCase(),
           style: titleStyle(context),
         ));
   }
@@ -97,7 +103,7 @@ class TextContent extends StatelessWidget {
     );
   }
 
-  // Add somekind of decibel graph?
+  // Add some kind of decibel graph?
   // ex. https://medium.com/flutterdevs/animated-bar-chart-in-flutter-85e58ebd29ed
   textBlock4(context) {
     return Text(
@@ -151,5 +157,18 @@ class Separator extends StatelessWidget {
             height: 0.7,
             width: 35.0,
             color: new Color(0xff00c6ff)));
+  }
+}
+
+class Separator2 extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new Align(
+        alignment: Alignment.center,
+        child: Container(
+            margin: new EdgeInsets.symmetric(vertical: 30.0),
+            height: 0.5,
+            width: 250.0,
+            color: Colors.grey.withOpacity(0.3)));
   }
 }
