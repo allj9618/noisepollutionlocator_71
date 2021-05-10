@@ -23,6 +23,7 @@ class Map extends StatelessWidget {
 
           // testing data from Stockholm.se  had to make changes to AndroidManifest to allow http, only done to debug for now.
           TileLayerOptions(
+
               wmsOptions: WMSTileLayerOptions(
                   baseUrl:
                   "http://kartor.miljo.stockholm.se/geoserver/wms?",
@@ -30,7 +31,10 @@ class Map extends StatelessWidget {
                   transparent: false,
                   format: "image/png"
               ),
+              opacity: 0.7,
               backgroundColor: Colors.transparent
+
+
 
 
           ),
