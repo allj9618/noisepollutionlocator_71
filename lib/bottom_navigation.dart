@@ -6,6 +6,7 @@ import 'package:noisepollutionlocator_71/settings.dart';
 import 'favorites.dart';
 import 'package:ff_navigation_bar/ff_navigation_bar.dart';
 import 'translations.dart';
+import 'package:noisepollutionlocator_71/noisemeter.dart';
 
 class OurNavigationBar extends StatefulWidget{
   OurNavigationBar({Key key}) : super(key: key);
@@ -19,7 +20,7 @@ class _OurNavigationBarState extends State<OurNavigationBar>{
   static List<Widget> _widgetOptions = <Widget>[
     Map(),
     Favorites(),
-    Location(),
+    NoiseMeterApp(),
     Settings()
   ];
 
@@ -66,8 +67,8 @@ class _OurNavigationBarState extends State<OurNavigationBar>{
             label: Translations.of(context).text('favorite'),
           ),
           FFNavigationBarItem(
-            iconData: Icons.gps_fixed,
-            label: Translations.of(context).text('location'),
+            iconData: Icons.mic_none_rounded,
+            label: 'Noisemeter',
           ),
           FFNavigationBarItem(
             iconData: Icons.settings,
