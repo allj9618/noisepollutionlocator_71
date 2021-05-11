@@ -172,3 +172,4 @@ class Separator2 extends StatelessWidget {
             color: Colors.grey.withOpacity(0.3)));
   }
 }
+
