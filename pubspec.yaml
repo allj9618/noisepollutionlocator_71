@@ -42,6 +42,7 @@ dependencies:
   flutter_slidable: ^0.6.0
   animated_splash_screen: ^1.1.0
   url_launcher: ^6.0.3
+  noise_meter: ^3.0.0
 
 
 

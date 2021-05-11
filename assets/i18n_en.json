@@ -10,5 +10,6 @@
   "theme": "Theme",
   "password": "Change Password",
   "languageChoice": "Tryck för Svenska",
-  "address": "address"
+  "address": "address",
+  "noisemeter" : "Noise Meter"
 }

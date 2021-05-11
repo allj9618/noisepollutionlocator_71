@@ -10,5 +10,6 @@
   "theme": "Tema",
   "password": "Byt Lösenord",
   "languageChoice": "Click for English",
-  "address": "adress"
+  "address": "adress",
+  "noisemeter" : "Bullermätare"
 }
