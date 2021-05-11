@@ -44,6 +44,7 @@ class _Settings extends State<Settings> {
                 onPressed: (BuildContext context) {},
               ),
               SettingsTile(
+                key: Key('changeTheme'),
                 title: 'Theme',
                 leading: Icon(Icons.wb_sunny_outlined),
                 trailing: ChangeThemeButtonWidget(),
