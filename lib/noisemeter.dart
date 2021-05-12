@@ -14,6 +14,9 @@ class _NoiseMeterState extends State<NoiseMeterApp> {
   NoiseMeter _noiseMeter;
   String _maxDecibelLevel = "No reading.";
   String _meanDecibelLevel = "None";
+  var _decibelreadings = [];
+  var _averagedecibel = 0.0;
+  var _totaldecibel = 0.0;
 
   @override
   void initState() {
@@ -30,6 +33,7 @@ class _NoiseMeterState extends State<NoiseMeterApp> {
     print(noiseReading.toString());
     _maxDecibelLevel = noiseReading.maxDecibel.toString();
     _meanDecibelLevel = noiseReading.meanDecibel.toString();
+    _decibelreadings.add(noiseReading.maxDecibel);
   }
 
   void onError(PlatformException e) {
@@ -54,6 +58,10 @@ class _NoiseMeterState extends State<NoiseMeterApp> {
       this.setState(() {
         this._isRecording = false;
       });
+      _decibelreadings.forEach((element) {
+        _totaldecibel += element;
+      });
+      _averagedecibel = _totaldecibel / _decibelreadings.length;
     } catch (err) {
       print('stopRecorder error: $err');
     }
@@ -70,6 +78,7 @@ class _NoiseMeterState extends State<NoiseMeterApp> {
           ),
           Container(child: Text("Max db: " + _maxDecibelLevel)),
           Container(child: Text("Mean db: " + _meanDecibelLevel)),
+          Container(child: Text("Final average db reading: " + _averagedecibel.toString())),
         ]))
   ];
 
