@@ -3,10 +3,6 @@ import 'favorite_adress.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-//stackoverflow.com/questions/63863854/how-to-save-and-read-a-list-of-class-object-using-shared-preferences-in-flutter
-
-// https://pub.dev/packages/flutter_slidable
-// https://pub.dev/packages/shared_preferences
 
 class Favorites extends StatefulWidget {
   @override
@@ -22,16 +18,41 @@ class FavoritesState extends State<Favorites> {
     super.initState();
   }
 
-  static addFav(String a, l, d) async {
+  static remFav() async {
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.clear();
+  }
+
+  static addFav(String a, String l, String d) async {
+
+    try {
+      int.parse(d);
+    }   on Exception {
+        print('String d needs to be parsable to an int');
+        return;
+    }
+
+    if (a.isEmpty || l.isEmpty ) {
+      throw new Exception('String address or location cannot be empty');
+    }
+
+    if (int.parse(d) < 0 || int.parse(d) >= 200) {
+      throw new Exception('String decibel has to be more than 0 and less than 200');
+    }
+
     List<String> tempFav = <String>[];
 
-    FavoriteAddress newFav =
-        new FavoriteAddress(address: a, location: l, decibel: d);
+    FavoriteAddress newFav = new FavoriteAddress(address: a, location: l, decibel: d);
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    tempFav = prefs.getStringList('favorites');
+    if (prefs.getStringList('favorites') != null) {
+        tempFav = prefs.getStringList('favorites');
+    }
+
     tempFav.add(newFav.encodeFavorite(newFav));
     prefs.setStringList('favorites', tempFav);
+
   }
 
   removeFavorite(int index) async {
@@ -49,9 +70,11 @@ class FavoritesState extends State<Favorites> {
 
   Future<void> update() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _favorite = prefs.getStringList('favorites');
-    });
+    if (prefs.getStringList('favorites') != null) {
+      setState(() {
+        _favorite = prefs.getStringList('favorites');
+      });
+    }
   }
 
   @override
@@ -65,7 +88,7 @@ class FavoritesState extends State<Favorites> {
                       color: Colors.lightGreenAccent,
                     ),
                   itemCount: _favorite.length,
-                  itemBuilder: (context, int index) {
+                  itemBuilder: (context, index) {
                   FavoriteAddress currFav = FavoriteAddress();
                   currFav = currFav.decodedFavorite(_favorite[index]);
                   return Slidable(
@@ -120,10 +143,12 @@ class FavoritesState extends State<Favorites> {
   }
 
   Text _buildTrailingText(String decibel) {
+
     return Text(
       (decibel + ' db'),
       style: TextStyle(
-        color: _buildColors(int.parse(decibel)),
+
+      color: _buildColors(int.parse(decibel)),
         fontSize: 20,
         height: 3,
       ),

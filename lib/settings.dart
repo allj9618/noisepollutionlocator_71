@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:noisepollutionlocator_71/favorites.dart';
 import 'package:noisepollutionlocator_71/themes.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'translations.dart';
@@ -42,6 +43,23 @@ class _Settings extends State<Settings> {
                 title: Translations.of(context).text('theme'),
                 leading: Icon(Icons.wb_sunny_outlined),
                 trailing: ChangeThemeButtonWidget(),
+              ),
+
+              SettingsTile(
+                title: 'add random fav',
+                leading: Icon(Icons.add),
+                onPressed: (context) {
+                  FavoritesState.addFav("aaa", "aaa", "65");
+
+                } ,
+              ),
+
+              SettingsTile(
+                title: 'remove all fav',
+                leading: Icon(Icons.remove),
+                onPressed: (BuildContext context) {
+                  FavoritesState.remFav();
+                },
               ),
 
             ],
