@@ -39,20 +39,11 @@ class _Settings extends State<Settings> {
                 },
               ),
               SettingsTile(
-                title: Translations.of(context).text('email'),
-                leading: Icon(Icons.mail),
-                onPressed: (BuildContext context) {},
-              ),
-              SettingsTile(
-                title: Translations.of(context).text('password'),
-                leading: Icon(Icons.lock),
-                onPressed: (BuildContext context) {},
-              ),
-              SettingsTile(
                 title: Translations.of(context).text('theme'),
                 leading: Icon(Icons.wb_sunny_outlined),
                 trailing: ChangeThemeButtonWidget(),
-              )
+              ),
+
             ],
           ),
         ],
