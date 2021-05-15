@@ -24,15 +24,13 @@ class FavoriteAddress {
 
   encodeFavorite(FavoriteAddress newFav) {
     Map<String, dynamic> mapObject = newFav.toMap();
-    String jsonObjectString = jsonEncode(mapObject);
-    return jsonObjectString;
+    return jsonEncode(mapObject);
   }
 
   decodedFavorite(String fav) {
     String jsonObjectString = fav;
     Map mapObject = jsonDecode(jsonObjectString);
-    FavoriteAddress decodedfav = FavoriteAddress.fromMap(mapObject);
-    return decodedfav;
+    return FavoriteAddress.fromMap(mapObject);
   }
 
   String get location => _location;

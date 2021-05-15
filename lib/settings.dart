@@ -49,7 +49,7 @@ class _Settings extends State<Settings> {
                 title: 'add random fav',
                 leading: Icon(Icons.add),
                 onPressed: (context) {
-                  FavoritesState.addFav("aaa", "aaa", "65");
+                  FavoritesState.addFavorite("aaa", "aaa", "65");
 
                 } ,
               ),
@@ -58,7 +58,7 @@ class _Settings extends State<Settings> {
                 title: 'remove all fav',
                 leading: Icon(Icons.remove),
                 onPressed: (BuildContext context) {
-                  FavoritesState.remFav();
+                  FavoritesState.removeAllFavorites();
                 },
               ),
 
