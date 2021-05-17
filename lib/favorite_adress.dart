@@ -16,23 +16,21 @@ class FavoriteAddress {
     map["location"] = _location;
     return map;
   }
-    factory FavoriteAddress.fromMap(Map<String, dynamic> map) => FavoriteAddress(
+  factory FavoriteAddress.fromMap(Map<String, dynamic> map) => FavoriteAddress(
       address: map['address'],
       decibel: map['decibel'],
       location: map['location']
   );
 
-   encodeFavorite(FavoriteAddress newFav) {
+  encodeFavorite(FavoriteAddress newFav) {
     Map<String, dynamic> mapObject = newFav.toMap();
-    String jsonObjectString = jsonEncode(mapObject);
-    return jsonObjectString;
+    return jsonEncode(mapObject);
   }
 
-   decodedFavorite(String fav) {
+  decodedFavorite(String fav) {
     String jsonObjectString = fav;
     Map mapObject = jsonDecode(jsonObjectString);
-    FavoriteAddress decodedfav = FavoriteAddress.fromMap(mapObject);
-    return decodedfav;
+    return FavoriteAddress.fromMap(mapObject);
   }
 
   String get location => _location;

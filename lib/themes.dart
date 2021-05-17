@@ -12,7 +12,7 @@ class Themes {
         bodyText1: TextStyle(),
         bodyText2: TextStyle(),
       ).apply(
-        bodyColor: Colors.grey,
+        bodyColor: Colors.grey[850], //Before: Colors.grey
         //displayColor: Colors.blue,
       ),
   );
@@ -26,7 +26,7 @@ class Themes {
         bodyText1: TextStyle(),
         bodyText2: TextStyle(),
       ).apply(
-        bodyColor: Colors.amber.shade900,
+        bodyColor: Colors.white, // Before: amber.shade900
         //displayColor: Colors.blue,
     ),
   );

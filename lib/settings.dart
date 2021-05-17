@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:noisepollutionlocator_71/favorites.dart';
 import 'package:noisepollutionlocator_71/themes.dart';
 import 'package:settings_ui/settings_ui.dart';
+import 'translations.dart';
+import 'translationApplication.dart';
+
 
 // https://pub.dev/packages/settings_ui
 // Settings template
@@ -11,43 +15,53 @@ class Settings extends StatefulWidget {
 }
 
 class _Settings extends State<Settings> {
-
+  //String dropdownValue = AppLocalizations.of(context).languageChoice;
  // bool value = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Settings')),
+      appBar: AppBar(title: Text(Translations.of(context).text('settingsTitle'))),
       body: SettingsList(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         sections: [
           SettingsSection(
-            subtitle: Center(
-                child: Text(
-                  'Settings',
-                )),
             tiles: [
               SettingsTile(
-                title: 'Language',
-                subtitle: 'Svenska',
+                title: Translations.of(context).text('language'),
+                subtitle: Translations.of(context).text('languageChoice'),
                 leading: Icon(Icons.language),
-                onPressed: (BuildContext context) {},
+                onPressed: (BuildContext context) {
+                  if(Translations.of(context).currentLanguage == 'en'){
+                    applic.onLocaleChanged(new Locale('se',''));
+                  }else{
+                    applic.onLocaleChanged(new Locale('en',''));
+                  }
+                },
               ),
               SettingsTile(
-                title: 'Change Email',
-                leading: Icon(Icons.mail),
-                onPressed: (BuildContext context) {},
-              ),
-              SettingsTile(
-                title: 'Change Password',
-                leading: Icon(Icons.lock),
-                onPressed: (BuildContext context) {},
-              ),
-              SettingsTile(
-                title: 'Theme',
+                title: Translations.of(context).text('theme'),
                 leading: Icon(Icons.wb_sunny_outlined),
                 trailing: ChangeThemeButtonWidget(),
-              )
+              ),
+
+              SettingsTile(
+                title: 'add random fav',
+                leading: Icon(Icons.add),
+                onPressed: (context) {
+                  FavoritesState.addFavorite("aaa", "aaa", "65");
+
+                } ,
+              ),
+
+              SettingsTile(
+                title: 'remove all fav',
+                leading: Icon(Icons.remove),
+                onPressed: (BuildContext context) {
+                  FavoritesState.removeAllFavorites();
+                },
+              ),
+
             ],
           ),
         ],
