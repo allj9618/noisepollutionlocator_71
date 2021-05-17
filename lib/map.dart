@@ -8,7 +8,6 @@ class Map extends StatefulWidget {
 }
 
 class _Map extends State<Map> {
-  double noiseLayerOpacity = 0.4;
   bool noiseLayerIsOn = true;
 
   @override
