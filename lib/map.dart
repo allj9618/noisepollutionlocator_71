@@ -67,7 +67,6 @@ class _Map extends State<Map> {
           });
         },
       ),
-      backgroundColor: Colors.transparent,
     );
   }
 }
