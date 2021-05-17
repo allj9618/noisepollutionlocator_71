@@ -57,13 +57,13 @@ class _Map extends State<Map> {
             ],
       )
       ),
-      bottomSheet:
-      SwitchListTile(
-        title: Text("Show/Hide Noise Pollution Layer"),
-        value: noiseLayerIsOn,
-        onChanged: (value) {
+      floatingActionButton: FloatingActionButton.extended(
+        label: Text("Noise Layer"),
+        icon: Icon(Icons.layers),
+        backgroundColor: noiseLayerIsOn ? Colors.green : Colors.red,
+        onPressed: () {
           setState(() {
-            noiseLayerIsOn = value;
+            noiseLayerIsOn = !noiseLayerIsOn;
           });
         },
       ),
