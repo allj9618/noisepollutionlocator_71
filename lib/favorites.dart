@@ -3,13 +3,13 @@ import 'favorite_adress.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 class Favorites extends StatefulWidget {
   @override
   FavoritesState createState() => FavoritesState();
 }
 
 class FavoritesState extends State<Favorites> {
+
   List<String> _favorite = <String>[];
 
   @override
@@ -18,41 +18,38 @@ class FavoritesState extends State<Favorites> {
     super.initState();
   }
 
-  static remFav() async {
-
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.clear();
-  }
-
-  static addFav(String a, String l, String d) async {
-
+  static addFavorite(String a, String l, String d) async {
     try {
       int.parse(d);
-    }   on Exception {
-        print('String d needs to be parsable to an int');
-        return;
+    } on Exception {
+      print('String d needs to be parsable to an int');
+      return;
     }
 
-    if (a.isEmpty || l.isEmpty ) {
+    if (a.isEmpty || l.isEmpty) {
       throw new Exception('String address or location cannot be empty');
     }
 
     if (int.parse(d) < 0 || int.parse(d) >= 200) {
-      throw new Exception('String decibel has to be more than 0 and less than 200');
+      throw new Exception(
+          'String decibel has to be more than 0 and less than 200');
     }
 
     List<String> tempFav = <String>[];
-
     FavoriteAddress newFav = new FavoriteAddress(address: a, location: l, decibel: d);
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     if (prefs.getStringList('favorites') != null) {
-        tempFav = prefs.getStringList('favorites');
+      tempFav = prefs.getStringList('favorites');
     }
 
     tempFav.add(newFav.encodeFavorite(newFav));
     prefs.setStringList('favorites', tempFav);
+  }
 
+  static removeAllFavorites() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.clear();
   }
 
   removeFavorite(int index) async {
@@ -80,51 +77,50 @@ class FavoritesState extends State<Favorites> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         body: Container(
-            child:  _favorite.length == 0 ? Center(child: Text('No favorites to display')):
-            ListView.separated(
-                separatorBuilder: (context, index) => Divider(
-                      color: Colors.lightGreenAccent,
-                    ),
-                  itemCount: _favorite.length,
-                  itemBuilder: (context, index) {
-                  FavoriteAddress currFav = FavoriteAddress();
-                  currFav = currFav.decodedFavorite(_favorite[index]);
-                  return Slidable(
-                      actionPane: SlidableDrawerActionPane(),
-                      actionExtentRatio: 0.25,
-                      child: Container(
-                        color: Theme.of(context).scaffoldBackgroundColor,
-                        child: ListTile(
-                          title: Row(
-                            children: [
-                             _addressText(currFav.address),
-                              Spacer(),
-                              _buildTrailingText(currFav.decibel),
-                            ],
-                          ),
-                          subtitle: _locationText(currFav.location),
-                         // dense: false,
+            child: _favorite.length == 0
+                ? Center(child: Text('No favorites to display'))
+                : ListView.separated(
+                    separatorBuilder: (context, index) => Divider(
+                          color: Colors.lightGreenAccent,
                         ),
-                      ),
-                      secondaryActions: <Widget>[
-                        IconSlideAction(
-                          caption: 'Delete',
-                          color: Colors.red,
-                          icon: Icons.delete,
-                          onTap: () {
-                            setState(() {
-                              removeFavorite(index);
-                            });
-                          },
-                        )
-                      ]);
-                })));
+                    itemCount: _favorite.length,
+                    itemBuilder: (context, index) {
+                      FavoriteAddress currFav = FavoriteAddress();
+                      currFav = currFav.decodedFavorite(_favorite[index]);
+                      return Slidable(
+                          actionPane: SlidableDrawerActionPane(),
+                          actionExtentRatio: 0.25,
+                          child: Container(
+                            color: Theme.of(context).scaffoldBackgroundColor,
+                            child: ListTile(
+                              title: Row(
+                                children: [
+                                  _addressText(currFav.address),
+                                  Spacer(),
+                                  _buildTrailingText(currFav.decibel),
+                                ],
+                              ),
+                              subtitle: _locationText(currFav.location),
+                            ),
+                          ),
+                          secondaryActions: <Widget>[
+                            IconSlideAction(
+                              caption: 'Delete',
+                              color: Colors.red,
+                              icon: Icons.delete,
+                              onTap: () {
+                                setState(() {
+                                  removeFavorite(index);
+                                });
+                              },
+                            )
+                          ]);
+                    })));
   }
 
-  Text _locationText (String subtitle) {
-    return  Text(
+  Text _locationText(String subtitle) {
+    return Text(
       ' ' + subtitle,
       style: TextStyle(
         fontSize: 17,
@@ -132,8 +128,8 @@ class FavoritesState extends State<Favorites> {
     );
   }
 
-  Text _addressText (String address) {
-    return  Text(
+  Text _addressText(String address) {
+    return Text(
       address,
       style: TextStyle(
         fontSize: 20,
@@ -143,12 +139,10 @@ class FavoritesState extends State<Favorites> {
   }
 
   Text _buildTrailingText(String decibel) {
-
     return Text(
       (decibel + ' db'),
       style: TextStyle(
-
-      color: _buildColors(int.parse(decibel)),
+        color: _buildColors(int.parse(decibel)),
         fontSize: 20,
         height: 3,
       ),
