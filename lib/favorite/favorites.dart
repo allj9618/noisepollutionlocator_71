@@ -17,9 +17,9 @@ class Favorites extends StatefulWidget {
 
 class FavoritesState extends State<Favorites> {
   final String favorites = "favorites";
-  final String ownMeasur = "ownMeasurements";
-  List<String> _favorite = <String>[];
-  List<String> _ownMeasurents = <String>[];
+  final String ownMeasurements = "ownMeasurements";
+  List<String> _mapFavorites = <String>[];
+  List<String> _ownMeasureFavorites = <String>[];
 
   @override
   void initState() {
@@ -34,11 +34,11 @@ class FavoritesState extends State<Favorites> {
 
   removeFavorite(int index, List<String> currentSharedList) async {
 
-    if (currentSharedList == _favorite) {
-      _favorite.removeAt(index);
+    if (currentSharedList == _mapFavorites) {
+      _mapFavorites.removeAt(index);
     }
-     else if (currentSharedList == _ownMeasurents) {
-        _ownMeasurents.removeAt(index);
+     else if (currentSharedList == _ownMeasureFavorites) {
+        _ownMeasureFavorites.removeAt(index);
       }
 
     await _setListToSharedPrefLocation();
@@ -47,11 +47,11 @@ class FavoritesState extends State<Favorites> {
   Future _setListToSharedPrefLocation() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-        prefs.setStringList(favorites, _favorite);
-        _favorite = prefs.getStringList(favorites);
+        prefs.setStringList(favorites, _mapFavorites);
+        _mapFavorites = prefs.getStringList(favorites);
 
-        prefs.setStringList(ownMeasur, _ownMeasurents);
-       _ownMeasurents = prefs.getStringList(ownMeasur);
+        prefs.setStringList(ownMeasurements, _ownMeasureFavorites);
+       _ownMeasureFavorites = prefs.getStringList(ownMeasurements);
     }
 
 
@@ -63,13 +63,13 @@ class FavoritesState extends State<Favorites> {
 
     if (prefs.getStringList(favorites) != null) {
       setState(() {
-        _favorite = prefs.getStringList(favorites);
+        _mapFavorites = prefs.getStringList(favorites);
       });
     }
 
-    if (prefs.getStringList(ownMeasur) != null) {
+    if (prefs.getStringList(ownMeasurements) != null) {
       setState(() {
-        _ownMeasurents = prefs.getStringList(ownMeasur);
+        _ownMeasureFavorites = prefs.getStringList(ownMeasurements);
       });
     }
 
@@ -98,8 +98,8 @@ class FavoritesState extends State<Favorites> {
               ),
               body: TabBarView(
                 children: [
-                  buildList(this._favorite, context),
-                  buildList(this._ownMeasurents, context)],
+                  buildList(this._mapFavorites, context),
+                  buildList(this._ownMeasureFavorites, context)],
               ),
             ));
   }
