@@ -1,13 +1,12 @@
 import 'package:ff_navigation_bar/ff_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:noisepollutionlocator_71/location.dart';
 import 'package:noisepollutionlocator_71/map.dart';
 import 'package:noisepollutionlocator_71/noisemeter.dart';
 import 'package:noisepollutionlocator_71/settings.dart';
 
 import 'about/about.dart';
-import 'favorites.dart';
+import 'favorite/favorites.dart';
 import 'translations.dart';
 
 class OurNavigationBar extends StatefulWidget {

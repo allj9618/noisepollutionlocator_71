@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:noisepollutionlocator_71/favorites.dart';
 import 'package:noisepollutionlocator_71/themes.dart';
 import 'package:settings_ui/settings_ui.dart';
+import 'favorite/favorite_add.dart';
+import 'favorite/favorite_adress.dart';
+import 'favorite/favorites.dart';
 import 'translations.dart';
 import 'translationApplication.dart';
 
@@ -49,8 +51,9 @@ class _Settings extends State<Settings> {
                 title: 'add random fav',
                 leading: Icon(Icons.add),
                 onPressed: (context) {
-                  FavoritesState.addFavorite("aaa", "aaa", "65");
-
+                  FavoriteAddress newFav = new FavoriteAddress(address: "Test", location: "Test", decibel: "50");
+                  AddFavorite add = AddFavorite(newFav, true);
+                  add.addFavorite();
                 } ,
               ),
 
