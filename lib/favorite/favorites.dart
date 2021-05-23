@@ -44,6 +44,7 @@ class FavoritesState extends State<Favorites> {
               child: AppBar(
                 elevation: 0,
                 bottom: TabBar(
+
                   unselectedLabelColor: Colors.grey,
                   onTap: (index) {
                     if (index == 0)
@@ -92,6 +93,7 @@ class FavoritesState extends State<Favorites> {
         ),
         Flexible(
           child: TabBarView(
+            physics: NeverScrollableScrollPhysics(),
             children: [
               buildList(this._mapFavorites, context),
               buildList(this._ownMeasureFavorites, context)
