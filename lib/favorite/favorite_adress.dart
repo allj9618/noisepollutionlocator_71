@@ -22,12 +22,12 @@ class FavoriteAddress {
       location: map['location']
   );
 
-  encodeFavorite(FavoriteAddress newFav) {
+    encodeFavorite(FavoriteAddress newFav) {
     Map<String, dynamic> mapObject = newFav.toMap();
     return jsonEncode(mapObject);
   }
 
-  decodedFavorite(String fav) {
+   static decodedFavorite(String fav) {
     String jsonObjectString = fav;
     Map mapObject = jsonDecode(jsonObjectString);
     return FavoriteAddress.fromMap(mapObject);
@@ -38,5 +38,6 @@ class FavoriteAddress {
   String get decibel => _decibel;
 
   String get address => _address;
+
 }
 

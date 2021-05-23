@@ -42,13 +42,6 @@ class AboutScaffold extends StatelessWidget {
         ),
       ),
       body: SingleChildScrollView(
-        // child: new Container(
-        //   decoration: BoxDecoration(
-        //     gradient: LinearGradient(
-        //         colors: [Theme.of(context).scaffoldBackgroundColor, c],
-        //         begin: Alignment.bottomCenter,
-        //         end: Alignment.topCenter),
-        //   ),
           child: new Column(
             children: <Widget>[_upperBodyContent(context), _textContent()],
           ),

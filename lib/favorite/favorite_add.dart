@@ -3,42 +3,40 @@ import 'favorite_adress.dart';
 
 class AddFavorite {
 
-  FavoriteAddress favAddress;
-  bool isMap;
-  String sharedList;
+  final FavoriteAddress favAddress;
+  final bool isMap;
+  String setFavorites;
 
   AddFavorite(this.favAddress, this.isMap) {
     if (isMap == true)
-      this.sharedList = "favorites";
+      this.setFavorites = "mapFavorites";
       else
-        this.sharedList = "ownMeasurements";
+        this.setFavorites = "ownMeasureFavorites";
   }
 
    addFavorite() async {
-    print(sharedList);
-
     try {
       int.parse(favAddress.decibel);
     } on Exception {
-      print('String d needs to be parsable to an int');
+      print('String decibel needs to be parsable to an int');
       return;
     }
 
-    checkStrings();
+    _checkStrings();
     List<String> tempFav = <String>[];
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    if (prefs.getStringList(sharedList) != null) {
-      tempFav = prefs.getStringList(sharedList);
+    if (prefs.getStringList(setFavorites) != null) {
+      tempFav = prefs.getStringList(setFavorites);
     }
 
     tempFav.add(favAddress.encodeFavorite(favAddress));
-    prefs.setStringList(sharedList, tempFav);
+    prefs.setStringList(setFavorites, tempFav);
   }
 
-   void checkStrings() {
-       if (favAddress.address.isEmpty || favAddress.location.isEmpty) {
-      throw new Exception('String address or location cannot be empty');
+   void _checkStrings() {
+       if (favAddress.address.isEmpty) {
+      throw new Exception('String address cannot be empty');
     }
 
     if (int.parse(favAddress.decibel) < 0 || int.parse(favAddress.decibel) >= 200) {

@@ -29,7 +29,7 @@ void main() {
   });
 
   test('Favourite address should be decoded from map', (){
-    FavoriteAddress favoriteAddress = newFav.decodedFavorite('{"address":"Testgatan 7","decibel":"5","location":"Solna"}');
+    FavoriteAddress favoriteAddress = FavoriteAddress.decodedFavorite('{"address":"Testgatan 7","decibel":"5","location":"Solna"}');
     expect(favoriteAddress.address, "Testgatan 7");
     expect(favoriteAddress.decibel, "5");
     expect(favoriteAddress.location, "Solna");
