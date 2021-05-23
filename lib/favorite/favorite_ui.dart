@@ -23,12 +23,11 @@ class FavoriteUi {
   Text trailingDecibel(String decibel, bool isMap) {
     if (!isMap) {
       return Text(
-        (decibel + ' db'),
-        style: TextStyle(
-          color: _buildColors(int.parse(decibel)),
-          fontSize: 20,
-          height: 3,
-        ),
+          (decibel + ' db'),
+          style: TextStyle(
+            color: _buildColors(int.parse(decibel)),
+            fontSize: 20,
+          ),
       );
     }
     else
@@ -37,7 +36,6 @@ class FavoriteUi {
         style: TextStyle(
           color: _buildColorsForMap(decibel),
           fontSize: 20,
-          height: 3,
         ));
   }
 

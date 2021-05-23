@@ -29,10 +29,10 @@ class FavoriteSharedPreferences {
     if (!selectedTab)
       ownMap.removeAt(index);
 
-    setStateOnFavLists(favMap, ownMap);
-
     prefs.setStringList(mapFavorites, favMap);
     prefs.setStringList(ownMeasureFavorites, ownMap);
+
+    setStateOnFavLists(favMap, ownMap);
 
   }
 
