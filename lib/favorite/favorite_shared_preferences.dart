@@ -29,12 +29,16 @@ class FavoriteSharedPreferences {
     if (!selectedTab)
       ownMap.removeAt(index);
 
-    prefs.setStringList(mapFavorites, favMap);
-    prefs.setStringList(ownMeasureFavorites, ownMap);
-
     setStateOnFavLists(favMap, ownMap);
+    setLists(favMap, ownMap);
 
   }
+
+    Future<void> setLists( List<String> favMap, List<String> ownMap) async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setStringList(mapFavorites, favMap);
+      prefs.setStringList(ownMeasureFavorites, ownMap);
+    }
 
   static removeAll() async{
   SharedPreferences myPrefs = await SharedPreferences.getInstance();

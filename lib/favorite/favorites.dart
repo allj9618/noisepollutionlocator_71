@@ -144,9 +144,11 @@ class FavoritesState extends State<Favorites> {
 
   void _sortByDecibel() {
     setState(() => _sortDecibel.initSort(_mapFavorites, _ownMeasureFavorites, _selectedTab));
+    _sharedPref.setLists(_mapFavorites, _ownMeasureFavorites);
   }
 
   void _sortByAddress() {
     setState(() => _sortAddress.initSort(_mapFavorites, _ownMeasureFavorites, _selectedTab));
+    _sharedPref.setLists(_mapFavorites, _ownMeasureFavorites);
   }
 }
