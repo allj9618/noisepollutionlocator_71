@@ -33,6 +33,14 @@ class FavoriteAddress {
     return FavoriteAddress.fromMap(mapObject);
   }
 
+  addWhiteSpace() {
+    decibel = decibel.replaceFirst("-", " - ");
+  }
+
+  set decibel(String value) {
+    _decibel = value;
+  }
+
   String get location => _location;
 
   String get decibel => _decibel;

@@ -52,8 +52,8 @@ class _Settings extends State<Settings> {
                 title: 'add random fav',
                 leading: Icon(Icons.add),
                 onPressed: (context) {
-                  AddFavorite add =  AddFavorite(new FavoriteAddress(address: "Testgatan", location: "Test", decibel: "55-60"), true);
-                  AddFavorite add1 = AddFavorite(new FavoriteAddress(address: "Datagatan", location: "Test", decibel: "50-55"), true);
+                  AddFavorite add =  AddFavorite(new FavoriteAddress(address: "Testgatan", location: "Test", decibel: "55 - 60"), true);
+                  AddFavorite add1 = AddFavorite(new FavoriteAddress(address: "Datagatan", location: "Test", decibel: "50 - 55"), true);
                   AddFavorite add2 = AddFavorite(new FavoriteAddress(address: "Arkgatan", location: "Test", decibel: "45-50"), true);
                   AddFavorite add3 = AddFavorite(new FavoriteAddress(address: "bogatan 44", location: "Test", decibel: "40-45"), true);
                   AddFavorite add4 = AddFavorite(new FavoriteAddress(address: "Centrumgatan 10", location: "Test", decibel: "0-40"), true);

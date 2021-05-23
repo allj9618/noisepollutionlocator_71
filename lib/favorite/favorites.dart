@@ -137,8 +137,7 @@ class FavoritesState extends State<Favorites> {
                           caption: 'Delete',
                           color: Colors.red,
                           icon: Icons.delete,
-                          onTap: () => setState(() =>_sharedPref.removeFavorite(index, _selectedTab))
-                        )
+                          onTap: () => _sharedPref.removeFavorite(index, _selectedTab))
                       ]);
                 }));
   }
