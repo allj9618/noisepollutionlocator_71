@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'favorite_adress.dart';
 
@@ -15,14 +16,17 @@ class AddFavorite {
   }
 
    addFavorite() async {
-    try {
-      int.parse(favAddress.decibel);
-    } on Exception {
-      print('String decibel needs to be parsable to an int');
-      return;
+
+    if (!isMap) {
+      try {
+        int.parse(favAddress.decibel);
+      } on Exception {
+        print('String decibel needs to be parsable to an int');
+        return;
+      }
+      _checkStrings();
     }
 
-    _checkStrings();
     List<String> tempFav = <String>[];
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -33,6 +37,7 @@ class AddFavorite {
     tempFav.add(favAddress.encodeFavorite(favAddress));
     prefs.setStringList(setFavorites, tempFav);
   }
+
 
    void _checkStrings() {
        if (favAddress.address.isEmpty) {

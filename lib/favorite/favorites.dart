@@ -14,7 +14,7 @@ class Favorites extends StatefulWidget {
 class FavoritesState extends State<Favorites> {
 
   FavoriteSharedPreferences _sharedPref;
-  FavoriteUi _ui = new FavoriteUi();
+  FavoriteUi _ui = FavoriteUi();
   SortDecibel _sortDecibel = SortDecibel();
   SortAddress _sortAddress = SortAddress();
 
@@ -123,7 +123,7 @@ class FavoritesState extends State<Favorites> {
                             children: [
                               _ui.addressText(currFav.address),
                               Spacer(),
-                              _ui.trailingDecibel(currFav.decibel),
+                              _ui.trailingDecibel(currFav.decibel, _selectedTab),
                               SizedBox(
                                 width: 37,
                               )
