@@ -10,6 +10,7 @@ class NoiseMeterApp extends StatefulWidget {
 
 class _NoiseMeterState extends State<NoiseMeterApp> {
   bool _isRecording = false;
+  bool _displayResults = false;
   StreamSubscription<NoiseReading> _noiseSubscription;
   NoiseMeter _noiseMeter;
   String _maxDecibelLevel = "No reading.";
@@ -62,6 +63,10 @@ class _NoiseMeterState extends State<NoiseMeterApp> {
         _totaldecibel += element;
       });
       _averagedecibel = _totaldecibel / _decibelreadings.length;
+      showDialog(
+        context: context,
+        builder: (BuildContext context) => _buildPopupDialog(context, _averagedecibel),
+      );
     } catch (err) {
       print('stopRecorder error: $err');
     }
@@ -87,14 +92,56 @@ class _NoiseMeterState extends State<NoiseMeterApp> {
     return MaterialApp(
       home: Scaffold(
         body: Center(
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: getContent())),
-        floatingActionButton: FloatingActionButton(
-            backgroundColor: _isRecording ? Colors.red : Colors.green,
-            onPressed: _isRecording ? stop : start,
-            child: _isRecording ? Icon(Icons.stop) : Icon(Icons.mic)),
+            child: Stack(
+                //mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget> [
+                  Transform.scale(
+                      scale: 4,
+                    child: FloatingActionButton(
+                        backgroundColor: _isRecording ? Colors.red : Colors.green,
+                        onPressed: _isRecording ? stop : start,
+                        child: _isRecording ? Icon(Icons.stop) : Icon(Icons.mic)
+                    ),
+                  ),
+
+            ])
+        ),
+
       ),
     );
   }
+}
+Widget _buildPopupDialog(BuildContext context, var average) {
+  int _newAverage = average.round();
+  return new AlertDialog(
+    title: const Text('Results from measurements'),
+    content: new Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            _newAverage.toString()+"db",
+            style: TextStyle(
+              fontSize: 20.0,
+            )
+          ),
+        ],
+    ),
+    actions: <Widget>[
+      new TextButton(
+        onPressed: () {
+
+        },
+        //textColor: Theme.of(context).primaryColor,
+        child: const Text('Save'),
+      ),
+      new TextButton(
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+        //textColor: Theme.of(context).primaryColor,
+        child: const Text('Close'),
+      ),
+    ],
+  );
 }
