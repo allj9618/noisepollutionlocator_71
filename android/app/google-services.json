@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "767210034159",
+    "project_id": "noise-pollution-locator",
+    "storage_bucket": "noise-pollution-locator.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:767210034159:android:43bf6374f77b30a0225c1a",
+        "android_client_info": {
+          "package_name": "com.example.noisepollutionlocator_71"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "767210034159-2s1ofqsnhmn7rlbfcj24a25m394ls3tj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.noisepollutionlocator_71",
+            "certificate_hash": "72ac1c4caa478695041354528f74caaf3daee279"
+          }
+        },
+        {
+          "client_id": "767210034159-e0oo9mefbcg6b2m7va3e7dv3qndg38c4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxSv3BsxRMJ59wrfvW49gLTXrHlUTa9VI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "767210034159-e0oo9mefbcg6b2m7va3e7dv3qndg38c4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
