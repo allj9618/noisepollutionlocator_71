@@ -96,7 +96,7 @@ class TextContent extends StatelessWidget {
 
   textBlock3(context) {
     return Text(
-      "Currently you can check out the map that visually tells you areas and their noise levels measured in decibel.\n\nYou can save addresses you have checked out. In the future you can measure the noise level in the area together with other users to get more accurate data. ",
+      "Currently you can check out the map that visually tells you areas and their noise levels measured in decibel.\n\nYou can save addresses you have checked out. In the future you can measure the noise level in the area together with other users to get more accurate data. \n\n Our map shows mean equivalent decibel values from a 24-hour period, measured at 2m above the ground, and is based on the results from a survey on noise pollution in Stockholm from 2012 which include readings of traffic flow from roads, trains and aeroplanes. ",
       style: textBlockStyle(context),
     );
   }
