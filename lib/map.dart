@@ -10,7 +10,20 @@ class Map extends StatefulWidget {
 
 class _Map extends State<Map> {
   bool noiseLayerIsOn = true;
-  double _currentSliderValue = 0.4;
+  double _currentOpacityValue = 0.4;
+
+  void _opacityValueSliderDialog() async {
+    final selectedOpacity = await showDialog<double>(
+      context: context,
+      builder: (context) =>
+          OpacityValueSlider(initialOpacityValue: _currentOpacityValue),
+    );
+    if (selectedOpacity != null) {
+      setState(() {
+        _currentOpacityValue = selectedOpacity;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +59,7 @@ class _Map extends State<Map> {
                       layers: ["mfraster:bullerkartan-2012-allakallor"],
                       transparent: false,
                       format: "image/png"),
-                  opacity: noiseLayerIsOn ? _currentSliderValue : 0.0,
+                  opacity: noiseLayerIsOn ? _currentOpacityValue : 0.0,
                   backgroundColor: Colors.transparent),
 
 /*
@@ -124,38 +137,18 @@ class _Map extends State<Map> {
             height: 200,
           ),
           Container(
-              alignment: Alignment.bottomRight,
-              padding: const EdgeInsets.only(bottom: 71, right: 80.0),
-              child: FloatingActionButton(
-                  heroTag: "opacbt",
-                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                  child: Icon(
-                    Icons.opacity,
-                    color: Theme.of(context).accentColor,
-                  ),
-                  onPressed: () {
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return Card(
-                            color: Colors.transparent,
-                            margin: EdgeInsets.only(
-                                left: 20, top: 480, right: 20, bottom: 200),
-                            child: Slider(
-                                activeColor: Theme.of(context).accentColor,
-                                inactiveColor: Theme.of(context).focusColor,
-                                min: 0.1,
-                                max: 0.8,
-                                value: _currentSliderValue,
-                                onChanged: (value) {
-                                  setState(() {
-                                    _currentSliderValue = value;
-                                    value = _currentSliderValue;
-                                  });
-                                }),
-                          );
-                        });
-                  }))
+            alignment: Alignment.bottomRight,
+            padding: const EdgeInsets.only(bottom: 71, right: 80.0),
+            child: FloatingActionButton(
+              heroTag: "opacbt",
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+              child: Icon(
+                Icons.opacity,
+                color: Theme.of(context).accentColor,
+              ),
+              onPressed: _opacityValueSliderDialog,
+            ),
+          )
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
@@ -169,6 +162,57 @@ class _Map extends State<Map> {
           });
         },
       ),
+    );
+  }
+}
+
+class OpacityValueSlider extends StatefulWidget {
+  final double initialOpacityValue;
+
+  OpacityValueSlider({Key key, this.initialOpacityValue}) : super(key: key);
+
+  @override
+  _OpacityValueSliderState createState() => _OpacityValueSliderState();
+}
+
+class _OpacityValueSliderState extends State<OpacityValueSlider> {
+  double _currentOpacityValue;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentOpacityValue = widget.initialOpacityValue;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Center(child: Text('Noise Pollution Opacity')),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      insetPadding: EdgeInsets.only(left: 20, top: 350, right: 20, bottom: 220),
+      content: Container(
+        child: Slider.adaptive(
+            activeColor: Theme.of(context).accentColor,
+            inactiveColor: Theme.of(context).focusColor,
+            min: 0.1,
+            max: 0.9,
+            value: _currentOpacityValue,
+            onChanged: (value) {
+              setState(() {
+                _currentOpacityValue = value;
+              });
+            },),
+      ),
+      actions: <Widget>[
+        Container(
+          padding: EdgeInsets.only(right: 90),
+          child: ElevatedButton(
+          onPressed: () {
+            Navigator.pop(context, _currentOpacityValue);
+          },
+          child: Text('Select'),
+        ),)
+      ],
     );
   }
 }
