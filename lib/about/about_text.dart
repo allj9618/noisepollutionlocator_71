@@ -135,7 +135,7 @@ var alignmentForTitle = Align(
 var linkToFOHM = RichText(
     softWrap: false,
     text: TextSpan(
-        text: "public health agency of Sweden",
+        text: "Public Health Agency of Sweden",
         style: TextStyle(
             fontSize: 20, letterSpacing: 1, wordSpacing: 2, color: Colors.blue),
         recognizer: TapGestureRecognizer()
