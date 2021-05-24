@@ -74,7 +74,7 @@ class TextContent extends StatelessWidget {
       TextSpan(children: [
         TextSpan(
           text:
-              "Noise pollution can be described as undesirable sounds that can interfere with regular activites in our daily lives, e.g ..sleep, speech or disrupts or decreases one's quality of life.\n\nIt's a problem that affects many people, especially those who live in cities or close to cars, railways, playgrounds or other trafficked areas. \n\nAccording to the ",
+              "Noise pollution can be described as undesirable sounds that can interfere with regular activities in our daily lives, e.g ..sleep, speech or disrupts or decreases one's quality of life.\n\nIt's a problem that affects many people, especially those who live in cities or close to cars, railways, playgrounds or other trafficked areas. \n\nAccording to the ",
           style: textBlockStyle(context),
         ),
         linkToFOHM.text,
