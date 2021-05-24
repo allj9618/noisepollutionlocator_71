@@ -3,18 +3,10 @@ import 'package:noisepollutionlocator_71/themes.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'favorite/favorite_add.dart';
 import 'favorite/favorite_adress.dart';
+import 'favorite/favorite_shared_preferences.dart';
+import 'google_sign_in.dart';
 import 'translations.dart';
 import 'translationApplication.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-
-
-GoogleSignIn _googleSignIn = GoogleSignIn(
-  scopes: <String>[
-    'email',
-    'https://www.googleapis.com/auth/contacts.readonly',
-  ],
-);
-
 
 // https://pub.dev/packages/settings_ui
 // Settings template
