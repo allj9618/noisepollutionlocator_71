@@ -74,7 +74,7 @@ class TextContent extends StatelessWidget {
       TextSpan(children: [
         TextSpan(
           text:
-              "Noise pollution can be described as undesirable sounds that can interfere with regular activites in our daily lives, e.g ..sleep, speech or disrupts or decreases one's quality of life.\n\nIt's a problem that affects many people, especially those who live in cities or close to cars, railways, playgrounds or other trafficked areas. \n\nAccording to the ",
+              "Noise pollution can be described as undesirable sounds that can interfere with regular activities in our daily lives, e.g ..sleep, speech or disrupts or decreases one's quality of life.\n\nIt's a problem that affects many people, especially those who live in cities or close to cars, railways, playgrounds or other trafficked areas. \n\nAccording to the ",
           style: textBlockStyle(context),
         ),
         linkToFOHM.text,
@@ -96,7 +96,7 @@ class TextContent extends StatelessWidget {
 
   textBlock3(context) {
     return Text(
-      "Currently you can check out the map that visually tells you areas and their noise levels measured in decibel.\n\nYou can save addresses you have checked out. In the future you can measure the noise level in the area together with other users to get more accurate data. ",
+      "Currently you can check out the map that visually tells you areas and their noise levels measured in decibel.\n\nYou can save addresses you have checked out. In the future you can measure the noise level in the area together with other users to get more accurate data. \n\nOur map shows mean equivalent decibel values from a 24-hour period, measured at 2m above the ground, and is based on the results from a survey on noise pollution in Stockholm from 2012 which include readings of traffic flow from roads, trains and aeroplanes. ",
       style: textBlockStyle(context),
     );
   }
@@ -135,7 +135,7 @@ var alignmentForTitle = Align(
 var linkToFOHM = RichText(
     softWrap: false,
     text: TextSpan(
-        text: "public health agency of Sweden",
+        text: "Public Health Agency of Sweden",
         style: TextStyle(
             fontSize: 20, letterSpacing: 1, wordSpacing: 2, color: Colors.blue),
         recognizer: TapGestureRecognizer()

@@ -11,5 +11,9 @@
   "password": "Change Password",
   "languageChoice": "Tryck för Svenska",
   "address": "address",
-  "noisemeter" : "Noise Meter"
+  "noisemeter": "Noise Meter",
+  "save": "Save",
+  "close": "Close",
+  "noiseMeasure": "Results from measurements",
+  "noiseSave": "Enter the name you wish to save under"
 }
