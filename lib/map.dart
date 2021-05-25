@@ -189,7 +189,7 @@ class _OpacityValueSliderState extends State<OpacityValueSlider> {
     return AlertDialog(
       title: Center(child: Text('Noise Pollution Opacity')),
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      insetPadding: EdgeInsets.only(left: 20, top: 350, right: 20, bottom: 220),
+      insetPadding: EdgeInsets.symmetric(horizontal: 40, vertical: 200),
       content: Container(
         child: Slider.adaptive(
             activeColor: Theme.of(context).accentColor,
