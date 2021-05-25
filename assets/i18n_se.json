@@ -11,5 +11,9 @@
   "password": "Byt Lösenord",
   "languageChoice": "Click for English",
   "address": "adress",
-  "noisemeter" : "Bullermätare"
+  "noisemeter": "Bullermätare",
+  "save": "Spara",
+  "close": "Stäng",
+  "noiseMeasure": "Resultatet från mätningen",
+  "noiseSave": "Mata in namnet du vill ge mätningen"
 }

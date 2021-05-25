@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:noise_meter/noise_meter.dart';
+import 'package:noisepollutionlocator_71/translations.dart';
 
 class NoiseMeterApp extends StatefulWidget {
   @override
@@ -10,7 +11,6 @@ class NoiseMeterApp extends StatefulWidget {
 
 class _NoiseMeterState extends State<NoiseMeterApp> {
   bool _isRecording = false;
-  bool _displayResults = false;
   StreamSubscription<NoiseReading> _noiseSubscription;
   NoiseMeter _noiseMeter;
   String _maxDecibelLevel = "No reading.";
@@ -18,6 +18,7 @@ class _NoiseMeterState extends State<NoiseMeterApp> {
   var _decibelreadings = [];
   var _averagedecibel = 0.0;
   var _totaldecibel = 0.0;
+  
 
   @override
   void initState() {
@@ -65,7 +66,7 @@ class _NoiseMeterState extends State<NoiseMeterApp> {
       _averagedecibel = _totaldecibel / _decibelreadings.length;
       showDialog(
         context: context,
-        builder: (BuildContext context) => _buildPopupDialog(context, _averagedecibel),
+        builder: (BuildContext context) => _buildPopupDialog1(context, _averagedecibel),
       );
     } catch (err) {
       print('stopRecorder error: $err');
@@ -111,16 +112,21 @@ class _NoiseMeterState extends State<NoiseMeterApp> {
     );
   }
 }
-Widget _buildPopupDialog(BuildContext context, var average) {
-  int _newAverage = average.round();
+Widget _buildPopupDialog1(BuildContext context, var average) {
+  int _newAverage;
+  try{
+    _newAverage = average.round();
+  }catch(UnsupportedError){
+    Navigator.of(context).pop();
+  }
   return new AlertDialog(
-    title: const Text('Results from measurements'),
+    title: Text(Translations.of(context).text('noiseMeasure')),
     content: new Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            _newAverage.toString()+"db",
+            _newAverage.toString()+" db",
             style: TextStyle(
               fontSize: 20.0,
             )
@@ -130,17 +136,58 @@ Widget _buildPopupDialog(BuildContext context, var average) {
     actions: <Widget>[
       new TextButton(
         onPressed: () {
-
+          showDialog(
+            context: context,
+            builder: (BuildContext context) => _buildPopupDialog2(context),
+          );
         },
         //textColor: Theme.of(context).primaryColor,
-        child: const Text('Save'),
+        child: Text(Translations.of(context).text('save')),
       ),
       new TextButton(
         onPressed: () {
           Navigator.of(context).pop();
         },
         //textColor: Theme.of(context).primaryColor,
-        child: const Text('Close'),
+        child: Text(Translations.of(context).text('close')),
+      ),
+    ],
+  );
+}
+Widget _buildPopupDialog2(BuildContext context) {
+  String name = "";
+  return new AlertDialog(
+    title: Text(Translations.of(context).text('noiseSave')),
+    content: new Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        TextField(
+          onChanged: (value){
+            name = value;
+          },
+            style: TextStyle(
+              fontSize: 20.0,
+            )
+        ),
+      ],
+    ),
+    actions: <Widget>[
+      new TextButton(
+        onPressed: () {
+          if(name == ""){
+            name = "Untitled";
+          }
+        },
+        //textColor: Theme.of(context).primaryColor,
+        child: Text(Translations.of(context).text('save')),
+      ),
+      new TextButton(
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+        //textColor: Theme.of(context).primaryColor,
+        child: Text(Translations.of(context).text('close')),
       ),
     ],
   );
