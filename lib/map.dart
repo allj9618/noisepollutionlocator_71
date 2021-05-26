@@ -70,12 +70,29 @@ Future<Null> displaySearchBarPrediction(Prediction p, ScaffoldState scaffold, Bu
     final lng = detail.result.geometry.location.lng;
 
 
-
     mapController.move(LatLngData(LatLng.LatLng(lat, lng), 17.0).location, 17.0);
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("${p.description} - $lat/$lng")));
   }
 }
+// add a place to markers
+addMarker (LatLng.LatLng coordinates){
+    markers.add( Marker(
+        width: 80.0,
+        height: 80.0,
 
+      point: coordinates,
+        builder: (ctx) =>
+            Container(
+              child: FlutterLogo(),
+            ),
+
+        )
+    );
+
+  setState(() {
+
+  }); // testing to add to map
+}
   @override
   Widget build(BuildContext context) {
 
