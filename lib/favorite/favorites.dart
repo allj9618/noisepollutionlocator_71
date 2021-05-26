@@ -30,8 +30,12 @@ class FavoritesState extends State<Favorites> {
   }
 
   void _setStateForSharedPref(List<String> list, List<String> list2) {
-    setState(() => _mapFavorites = list);
-    setState(() => _ownMeasureFavorites = list2);
+    if (list != null) {
+      setState(() => _mapFavorites = list);
+    }
+    if (list2 != null) {
+      setState(() => _ownMeasureFavorites = list2);
+    }
   }
 
   @override

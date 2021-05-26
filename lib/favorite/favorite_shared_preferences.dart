@@ -19,24 +19,34 @@ class FavoriteSharedPreferences {
   }
 
     removeFavorite(int index, bool selectedTab) async{
+    print("Index is $index");
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> favMap;
+    List<String> ownMap;
+    if (selectedTab) {
+      favMap = prefs.getStringList(mapFavorites);
+    }
+    if (!selectedTab) {
+      ownMap = prefs.getStringList(ownMeasureFavorites);
+    }
 
-    List<String> favMap = prefs.getStringList(mapFavorites);
-    List<String> ownMap = prefs.getStringList(ownMeasureFavorites);
+    print (favMap);
+    print (ownMap);
 
     if (selectedTab)
       favMap.removeAt(index);
     if (!selectedTab)
       ownMap.removeAt(index);
 
-    setStateOnFavLists(favMap, ownMap);
     setLists(favMap, ownMap);
-
+    setStateOnFavLists(favMap, ownMap);
   }
 
     Future<void> setLists( List<String> favMap, List<String> ownMap) async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
+      if (favMap != null)
       prefs.setStringList(mapFavorites, favMap);
+      else if (ownMap != null)
       prefs.setStringList(ownMeasureFavorites, ownMap);
     }
 
