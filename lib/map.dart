@@ -123,9 +123,6 @@ addMarker (LatLng.LatLng coordinates){
               ),
 
 
-              MarkerLayerOptions(
-                markers: markers
-              ),
 
 
 
@@ -138,8 +135,13 @@ addMarker (LatLng.LatLng coordinates){
                       transparent: false,
                       format: "image/png"),
                   opacity: noiseLayerIsOn ? _currentOpacityValue : 0.0,
-                  backgroundColor: Colors.transparent),
+                  backgroundColor: Colors.transparent
 
+              ),
+
+              MarkerLayerOptions(
+                markers: markers
+              ),
        LocationOptions(
                 onLocationUpdate: (LatLngData ld) {},
                 onLocationRequested: (LatLngData ld) {
