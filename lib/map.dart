@@ -43,7 +43,7 @@ class _Map extends State<Map> {
       // Must have
       // https://github.com/fluttercommunity/flutter_google_places/issues/165
       offset: 0,
-      radius: 1000,
+      radius: 500,
       types: [],
       strictbounds: false,
       apiKey: key,
@@ -52,17 +52,6 @@ class _Map extends State<Map> {
       context: context,
       mode: _mode,
       language: "en",
-      decoration: InputDecoration(
-        hintText: 'Search',
-        focusedBorder: OutlineInputBorder(
-          gapPadding: 2,
-          borderRadius: BorderRadius.circular(20),
-          borderSide: BorderSide(
-            width: 1,
-            color: Colors.black,
-          ),
-        ),
-      ),
       components: [Component(Component.country, "SE")],
     );
 
@@ -190,9 +179,14 @@ Future<Null> displaySearchBarPrediction(Prediction p, ScaffoldState scaffold, Bu
           ),
           Container(
               alignment: Alignment.topCenter,
-              padding: EdgeInsets.only(right: 80, top: 20),
-              child: ElevatedButton(
-                child: Text('Search'),
+              padding: EdgeInsets.only(top: 10),
+              child: ElevatedButton.icon(
+                icon: Icon(Icons.search),
+                label: Text('Search Address'),
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(Theme.of(context).scaffoldBackgroundColor),
+                  foregroundColor: MaterialStateProperty.all<Color>(Theme.of(context).accentColor),
+                ),
                 onPressed: () {
                   _handleSearchBarButtonPress();
                 },
