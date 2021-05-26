@@ -99,14 +99,33 @@ class _NoiseMeterState extends State<NoiseMeterApp> {
             child: Stack(
                 //mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-              Transform.scale(
+              Align(
+                alignment: Alignment.center,
+                child: Transform.scale(
                 scale: 4,
                 child: FloatingActionButton(
                     backgroundColor: _isRecording ? Colors.red : Colors.green,
                     onPressed: _isRecording ? stop : start,
                     child: _isRecording ? Icon(Icons.stop) : Icon(Icons.mic)),
               ),
-            ])),
+              ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                  padding: EdgeInsets.all(30),
+                  margin: EdgeInsets.all(10),
+                  child: Text(
+                    'Beware that measurements made with this tool are unreliable.',
+                      style: TextStyle(
+                        fontSize: 20.0,
+                      )
+                ),
+                ),
+                ),
+                ]
+            )
+        ),
+
       ),
     );
   }
