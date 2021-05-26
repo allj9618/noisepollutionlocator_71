@@ -8,7 +8,6 @@ import "package:latlong/latlong.dart" as LatLng;
 
 const key = "AIzaSyDxSv3BsxRMJ59wrfvW49gLTXrHlUTa9VI";
 final homeScaffoldKey = GlobalKey<ScaffoldState>();
-final List<Marker> markers = [];
 
 class Map extends StatefulWidget {
   @override
@@ -18,6 +17,7 @@ class Map extends StatefulWidget {
 class _Map extends State<Map> {
   final Mode _mode = Mode.overlay;
   final MapController mapController = MapController();
+  final List<Marker> markers = [];
 
   bool noiseLayerIsOn = true;
   double _currentOpacityValue = 0.4;
@@ -68,7 +68,7 @@ Future<Null> displaySearchBarPrediction(Prediction p, ScaffoldState scaffold, Bu
     PlacesDetailsResponse detail = await _places.getDetailsByPlaceId(p.placeId);
     final lat = detail.result.geometry.location.lat;
     final lng = detail.result.geometry.location.lng;
-    
+
 
 
     mapController.move(LatLngData(LatLng.LatLng(lat, lng), 17.0).location, 17.0);
@@ -78,7 +78,8 @@ Future<Null> displaySearchBarPrediction(Prediction p, ScaffoldState scaffold, Bu
 
   @override
   Widget build(BuildContext context) {
-    
+
+
     return Scaffold(
       body: Stack(
         children: [
@@ -86,7 +87,7 @@ Future<Null> displaySearchBarPrediction(Prediction p, ScaffoldState scaffold, Bu
             mapController: mapController,
             options: MapOptions(
               // Setting coordinates to Stockholm
-              center: LatLng.LatLng(59.3294, 18.0686),
+              center: LatLng.LatLng(59.3103, 18.0806),
               zoom: 14.0,
               plugins: <MapPlugin>[
                 LocationPlugin(),
@@ -94,18 +95,19 @@ Future<Null> displaySearchBarPrediction(Prediction p, ScaffoldState scaffold, Bu
               interactiveFlags: InteractiveFlag.all & ~InteractiveFlag.rotate,
             ),
             layers: [
-              // Marker layer, used to display searched and favourite places testing stuff now
-
-
-
 
               // Google maps layer
               TileLayerOptions(
                   urlTemplate:
                       'https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',
                   subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
-                  backgroundColor: Colors.transparent),
+                  backgroundColor: Colors.transparent
+              ),
 
+
+              MarkerLayerOptions(
+                markers: markers
+              ),
 
 
 
@@ -130,6 +132,7 @@ Future<Null> displaySearchBarPrediction(Prediction p, ScaffoldState scaffold, Bu
                   mapController.onReady.then((result) {
                     mapController.move(ld.location, 14.0);
                   });
+
                 },
                 buttonBuilder: (BuildContext context,
                     ValueNotifier<LocationServiceStatus> status,
@@ -168,6 +171,11 @@ Future<Null> displaySearchBarPrediction(Prediction p, ScaffoldState scaffold, Bu
                   );
                 },
               ),
+
+              // Marker layer, used to display searched and favourite places testing stuff now
+
+
+
             ],
           ),
           Container(
@@ -219,6 +227,7 @@ Future<Null> displaySearchBarPrediction(Prediction p, ScaffoldState scaffold, Bu
         },
       ),
     );
+
   }
 }
 
