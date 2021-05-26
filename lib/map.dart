@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_location/flutter_map_location.dart';
-import 'package:latlong/latlong.dart';
-import 'package:noisepollutionlocator_71/map_address_search_bar.dart';
+import 'package:flutter_google_places/flutter_google_places.dart';
+import 'package:google_api_headers/google_api_headers.dart';
+import 'package:google_maps_webservice/places.dart';
+import "package:latlong/latlong.dart" as latLng;
+
+const key = "AIzaSyDxSv3BsxRMJ59wrfvW49gLTXrHlUTa9VI";
+final homeScaffoldKey = GlobalKey<ScaffoldState>();
 
 class Map extends StatefulWidget {
   @override
@@ -10,6 +15,9 @@ class Map extends StatefulWidget {
 }
 
 class _Map extends State<Map> {
+  final Mode _mode = Mode.overlay;
+  final MapController mapController = MapController();
+
   bool noiseLayerIsOn = true;
   double _currentOpacityValue = 0.4;
 
@@ -26,9 +34,59 @@ class _Map extends State<Map> {
     }
   }
 
+  void onErrorSearchBar(PlacesAutocompleteResponse response) {
+    print(response.errorMessage);
+  }
+
+  Future<void> _handleSearchBarButtonPress() async {
+    Prediction p = await PlacesAutocomplete.show(
+      // Must have
+      // https://github.com/fluttercommunity/flutter_google_places/issues/165
+      offset: 0,
+      radius: 1000,
+      types: [],
+      strictbounds: false,
+      apiKey: key,
+      onError: onErrorSearchBar,
+
+      context: context,
+      mode: _mode,
+      language: "en",
+      decoration: InputDecoration(
+        hintText: 'Search',
+        focusedBorder: OutlineInputBorder(
+          gapPadding: 2,
+          borderRadius: BorderRadius.circular(20),
+          borderSide: BorderSide(
+            width: 1,
+            color: Colors.black,
+          ),
+        ),
+      ),
+      components: [Component(Component.country, "SE")],
+    );
+
+    displaySearchBarPrediction(p, homeScaffoldKey.currentState, context);
+  }
+
+Future<Null> displaySearchBarPrediction(Prediction p, ScaffoldState scaffold, BuildContext context) async {
+  if (p != null) {
+    GoogleMapsPlaces _places = GoogleMapsPlaces(
+      apiKey: key,
+      apiHeaders: await GoogleApiHeaders().getHeaders(),
+    );
+    PlacesDetailsResponse detail = await _places.getDetailsByPlaceId(p.placeId);
+    final lat = detail.result.geometry.location.lat;
+    final lng = detail.result.geometry.location.lng;
+
+
+    mapController.move(LatLngData(latLng.LatLng(lat, lng), 17.0).location, 17.0);
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("${p.description} - $lat/$lng")));
+  }
+}
+
   @override
   Widget build(BuildContext context) {
-    final MapController mapController = MapController();
 
     return Scaffold(
       body: Stack(
@@ -37,7 +95,7 @@ class _Map extends State<Map> {
             mapController: mapController,
             options: MapOptions(
               // Setting coordinates to Stockholm
-              center: LatLng(59.3294, 18.0686),
+              center: latLng.LatLng(59.3294, 18.0686),
               zoom: 14.0,
               plugins: <MapPlugin>[
                 LocationPlugin(),
@@ -130,11 +188,15 @@ class _Map extends State<Map> {
               ),
             ],
           ),
-
           Container(
               alignment: Alignment.topCenter,
-              padding: EdgeInsets.only(right: 90),
-              child: SearchBar()
+              padding: EdgeInsets.only(right: 80, top: 20),
+              child: ElevatedButton(
+                child: Text('Search'),
+                onPressed: () {
+                  _handleSearchBarButtonPress();
+                },
+              )
           ),
           Container(
             child: Image.asset('assets/dbkey.png'),
