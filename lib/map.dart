@@ -4,10 +4,11 @@ import 'package:flutter_map_location/flutter_map_location.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:google_api_headers/google_api_headers.dart';
 import 'package:google_maps_webservice/places.dart';
-import "package:latlong/latlong.dart" as latLng;
+import "package:latlong/latlong.dart" as LatLng;
 
 const key = "AIzaSyDxSv3BsxRMJ59wrfvW49gLTXrHlUTa9VI";
 final homeScaffoldKey = GlobalKey<ScaffoldState>();
+final List<Marker> markers = [];
 
 class Map extends StatefulWidget {
   @override
@@ -67,16 +68,17 @@ Future<Null> displaySearchBarPrediction(Prediction p, ScaffoldState scaffold, Bu
     PlacesDetailsResponse detail = await _places.getDetailsByPlaceId(p.placeId);
     final lat = detail.result.geometry.location.lat;
     final lng = detail.result.geometry.location.lng;
+    
 
 
-    mapController.move(LatLngData(latLng.LatLng(lat, lng), 17.0).location, 17.0);
+    mapController.move(LatLngData(LatLng.LatLng(lat, lng), 17.0).location, 17.0);
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("${p.description} - $lat/$lng")));
   }
 }
 
   @override
   Widget build(BuildContext context) {
-
+    
     return Scaffold(
       body: Stack(
         children: [
@@ -84,7 +86,7 @@ Future<Null> displaySearchBarPrediction(Prediction p, ScaffoldState scaffold, Bu
             mapController: mapController,
             options: MapOptions(
               // Setting coordinates to Stockholm
-              center: latLng.LatLng(59.3294, 18.0686),
+              center: LatLng.LatLng(59.3294, 18.0686),
               zoom: 14.0,
               plugins: <MapPlugin>[
                 LocationPlugin(),
@@ -92,12 +94,20 @@ Future<Null> displaySearchBarPrediction(Prediction p, ScaffoldState scaffold, Bu
               interactiveFlags: InteractiveFlag.all & ~InteractiveFlag.rotate,
             ),
             layers: [
+              // Marker layer, used to display searched and favourite places testing stuff now
+
+
+
+
               // Google maps layer
               TileLayerOptions(
                   urlTemplate:
                       'https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',
                   subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
                   backgroundColor: Colors.transparent),
+
+
+
 
               // Bullerdata layer from Stockholms stad
               TileLayerOptions(
@@ -109,7 +119,6 @@ Future<Null> displaySearchBarPrediction(Prediction p, ScaffoldState scaffold, Bu
                       format: "image/png"),
                   opacity: noiseLayerIsOn ? _currentOpacityValue : 0.0,
                   backgroundColor: Colors.transparent),
-
 
        LocationOptions(
                 onLocationUpdate: (LatLngData ld) {},
