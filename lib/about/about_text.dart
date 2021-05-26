@@ -26,9 +26,7 @@ class TextContent extends StatelessWidget {
           Separator(),
           textBlock3(context),
           Separator2(),
-          SizedBox(height: 50),
-          title4(context),
-          Separator()
+          SizedBox(height: 50)
         ],
       ),
     );
@@ -56,15 +54,6 @@ class TextContent extends StatelessWidget {
         alignment: Alignment.topLeft,
         child: Text(
           "HOW DO I USE THIS \nAPPLICATION?".toUpperCase(),
-          style: titleStyle(context),
-        ));
-  }
-
-  title4(context) {
-    return Align(
-        alignment: Alignment.topLeft,
-        child: Text(
-          "THE DIFFERENT NOISE LEVELS".toUpperCase(),
           style: titleStyle(context),
         ));
   }
