@@ -69,6 +69,10 @@ Future<Null> displaySearchBarPrediction(Prediction p, ScaffoldState scaffold, Bu
     final lat = detail.result.geometry.location.lat;
     final lng = detail.result.geometry.location.lng;
 
+    if (markers.isNotEmpty) {
+      markers.removeLast(); // if we aren't  adding more than one marker we might as well do this for now..
+    }
+
    addMarker(LatLng.LatLng (lat,lng));  // add place to markers
 
     mapController.move(LatLngData(LatLng.LatLng(lat, lng), 17.0).location, 17.0);
@@ -77,6 +81,7 @@ Future<Null> displaySearchBarPrediction(Prediction p, ScaffoldState scaffold, Bu
 }
 // add a place to markers
 addMarker (LatLng.LatLng coordinates){
+
     markers.add( Marker(
         width: 80.0,
         height: 80.0,
