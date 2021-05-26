@@ -84,7 +84,7 @@ addMarker (LatLng.LatLng coordinates){
       point: coordinates,
         builder: (ctx) =>
             Container(
-              child: FlutterLogo(),
+              child: FlutterLogo(), // temporary logo
             ),
 
         )
