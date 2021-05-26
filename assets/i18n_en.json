@@ -15,5 +15,6 @@
   "save": "Save",
   "close": "Close",
   "noiseMeasure": "Results from measurements",
-  "noiseSave": "Enter the name you wish to save under"
+  "noiseSave": "Enter the name you wish to save under",
+  "successSave": "Measurement saved"
 }

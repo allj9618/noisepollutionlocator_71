@@ -116,6 +116,9 @@ class FavoritesState extends State<Favorites> {
                 itemBuilder: (context, index) {
                   FavoriteAddress currFav = FavoriteAddress();
                   currFav = FavoriteAddress.decodedFavorite(currentFavList[index]);
+
+                  // Use keys for slidable
+
                   return Slidable(
                       actionPane: SlidableDrawerActionPane(),
                       actionExtentRatio: 0.25,

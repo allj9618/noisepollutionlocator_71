@@ -13,7 +13,7 @@ class AddFavorite {
       this.setFavorites = "ownMeasureFavorites";
   }
 
-  addFavorite() async {
+  add() async {
     if (!isMap) {
       try {
         int.parse(favAddress.decibel);
@@ -42,8 +42,7 @@ class AddFavorite {
     if (!isMap) {
       if (int.parse(favAddress.decibel) <= 0 ||
           int.parse(favAddress.decibel) >= 200) {
-        throw new Exception(
-            'String decibel has to be more or equal to 0 and less than 200');
+        throw new Exception('String decibel has to be more or equal to 0 and less than 200');
       }
     }
     else if (isMap) {

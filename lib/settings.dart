@@ -65,21 +65,21 @@ class _Settings extends State<Settings> {
                   AddFavorite add2 = AddFavorite(new FavoriteAddress(address: "Arkgatan", location: "Test", decibel: "45-50"), true);
                   AddFavorite add3 = AddFavorite(new FavoriteAddress(address: "bogatan 44", location: "Test", decibel: "40-45"), true);
                   AddFavorite add4 = AddFavorite(new FavoriteAddress(address: "Centrumgatan 10", location: "Test", decibel: "0-40"), true);
-                  add.addFavorite();
-                  add1.addFavorite();
-                  add2.addFavorite();
-                  add3.addFavorite();
-                  add4.addFavorite();
+                  add.add();
+                  add1.add();
+                  add2.add();
+                  add3.add();
+                  add4.add();
                   AddFavorite ad =  AddFavorite(new FavoriteAddress(address: "gård", location: "Test", decibel: "77"), false);
                   AddFavorite ad1 = AddFavorite(new FavoriteAddress(address: "konsär", location: "Test", decibel: "20"), false);
                   AddFavorite ad2 = AddFavorite(new FavoriteAddress(address: "home", location: "Test", decibel: "40"), false);
                   AddFavorite ad3 = AddFavorite(new FavoriteAddress(address: "Home", location: "Test", decibel: "13"), false);
                   AddFavorite ad4 = AddFavorite(new FavoriteAddress(address: "city", location: "Test", decibel: "12"), false);
-                  ad.addFavorite();
-                  ad1.addFavorite();
-                  ad2.addFavorite();
-                  ad3.addFavorite();
-                  ad4.addFavorite();
+                  ad.add();
+                  ad1.add();
+                  ad2.add();
+                  ad3.add();
+                  ad4.add();
                 } ,
               ),
 

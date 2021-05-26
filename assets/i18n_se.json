@@ -15,5 +15,6 @@
   "save": "Spara",
   "close": "Stäng",
   "noiseMeasure": "Resultatet från mätningen",
-  "noiseSave": "Mata in namnet du vill ge mätningen"
+  "noiseSave": "Mata in namnet du vill ge mätningen",
+  "successSave": "Mätningen sparad"
 }

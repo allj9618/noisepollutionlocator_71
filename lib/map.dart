@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_location/flutter_map_location.dart';
 import 'package:latlong/latlong.dart';
+import 'package:noisepollutionlocator_71/map_address_search_bar.dart';
 
 class Map extends StatefulWidget {
   @override
@@ -129,6 +130,12 @@ class _Map extends State<Map> {
               ),
             ],
           ),
+
+          Container(
+              alignment: Alignment.topCenter,
+              padding: EdgeInsets.only(right: 90),
+              child: SearchBar()
+          ),
           Container(
             child: Image.asset('assets/dbkey.png'),
             alignment: Alignment.topRight,
@@ -192,26 +199,28 @@ class _OpacityValueSliderState extends State<OpacityValueSlider> {
       insetPadding: EdgeInsets.symmetric(horizontal: 40, vertical: 200),
       content: Container(
         child: Slider.adaptive(
-            activeColor: Theme.of(context).accentColor,
-            inactiveColor: Theme.of(context).focusColor,
-            min: 0.1,
-            max: 0.9,
-            value: _currentOpacityValue,
-            onChanged: (value) {
-              setState(() {
-                _currentOpacityValue = value;
-              });
-            },),
+          activeColor: Theme.of(context).accentColor,
+          inactiveColor: Theme.of(context).focusColor,
+          min: 0.1,
+          max: 0.9,
+          value: _currentOpacityValue,
+          onChanged: (value) {
+            setState(() {
+              _currentOpacityValue = value;
+            });
+          },
+        ),
       ),
       actions: <Widget>[
         Container(
           padding: EdgeInsets.only(right: 90),
           child: ElevatedButton(
-          onPressed: () {
-            Navigator.pop(context, _currentOpacityValue);
-          },
-          child: Text('Select'),
-        ),)
+            onPressed: () {
+              Navigator.pop(context, _currentOpacityValue);
+            },
+            child: Text('Select'),
+          ),
+        )
       ],
     );
   }
