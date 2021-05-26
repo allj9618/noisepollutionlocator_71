@@ -69,6 +69,7 @@ Future<Null> displaySearchBarPrediction(Prediction p, ScaffoldState scaffold, Bu
     final lat = detail.result.geometry.location.lat;
     final lng = detail.result.geometry.location.lng;
 
+   addMarker(LatLng.LatLng (lat,lng));  // add place to markers
 
     mapController.move(LatLngData(LatLng.LatLng(lat, lng), 17.0).location, 17.0);
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("${p.description} - $lat/$lng")));
