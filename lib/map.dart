@@ -110,24 +110,8 @@ Future<Null> displaySearchBarPrediction(Prediction p, ScaffoldState scaffold, Bu
                   opacity: noiseLayerIsOn ? _currentOpacityValue : 0.0,
                   backgroundColor: Colors.transparent),
 
-/*
 
-          // layers from länsstyrelsens geodata server.
-          TileLayerOptions(
-            wmsOptions: WMSTileLayerOptions(
-              baseUrl:
-              "https://ext-geodata.lansstyrelsen.se/arcgis/services/WMS/LSTAB_WMS_bullernatverk/MapServer/WMSServer?",
-              layers: [ "3", "4", "5","6"],
-              transparent: true,
-              format: "image/png"
-            ),
-              backgroundColor: Colors.transparent
-
-
-
-          ),
-    */
-              LocationOptions(
+       LocationOptions(
                 onLocationUpdate: (LatLngData ld) {},
                 onLocationRequested: (LatLngData ld) {
                   if (ld == null || ld.location == null) {
