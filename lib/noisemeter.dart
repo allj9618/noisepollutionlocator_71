@@ -33,7 +33,7 @@ class _NoiseMeterState extends State<NoiseMeterApp> {
         this._isRecording = true;
       }
     });
-    print(noiseReading.toString());
+    //print(noiseReading.toString());
     _maxDecibelLevel = noiseReading.maxDecibel.toString();
     _meanDecibelLevel = noiseReading.meanDecibel.toString();
     _decibelreadings.add(noiseReading.maxDecibel);
@@ -53,6 +53,7 @@ class _NoiseMeterState extends State<NoiseMeterApp> {
   }
 
   void stop() async {
+    _totaldecibel = 0.0;
     try {
       if (_noiseSubscription != null) {
         _noiseSubscription.cancel();
@@ -75,7 +76,7 @@ class _NoiseMeterState extends State<NoiseMeterApp> {
     }
   }
 
-  List<Widget> getContent() => <Widget>[
+  /*List<Widget> getContent() => <Widget>[
         Container(
             margin: EdgeInsets.all(25),
             child: Column(children: [
@@ -88,7 +89,7 @@ class _NoiseMeterState extends State<NoiseMeterApp> {
               Container(child: Text("Mean db: " + _meanDecibelLevel)),
               Container(child: Text("Final average db reading: " + _averagedecibel.toString())),
             ]))
-      ];
+      ];*/
 
   @override
   Widget build(BuildContext context) {
