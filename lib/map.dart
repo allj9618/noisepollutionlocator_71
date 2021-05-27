@@ -7,7 +7,7 @@ import 'package:google_api_headers/google_api_headers.dart';
 import 'package:google_maps_webservice/places.dart';
 import "package:latlong/latlong.dart" as LatLng;
 
-const key = " ";
+const key = "AIzaSyDxSv3BsxRMJ59wrfvW49gLTXrHlUTa9VI";
 final homeScaffoldKey = GlobalKey<ScaffoldState>();
 
 class Map extends StatefulWidget {

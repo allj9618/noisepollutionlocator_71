@@ -10,7 +10,6 @@ class SignInGoogle extends StatefulWidget {
 }
 
 class _SignInGoogle extends State<SignInGoogle> {
-
   Future<void> _handleSignOut() => _googleSignIn.disconnect();
 
   @override
@@ -63,6 +62,14 @@ class _SignInGoogle extends State<SignInGoogle> {
                   return AlertDialog(
                     title: Text('Unable to Sign In to Google'),
                     content: Text(e.toString()),
+                    actions: <Widget>[
+                      TextButton(
+                          child: Text('OK'),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                      )
+                    ],
                   );
                   print(e);
                 }
