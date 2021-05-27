@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'translations.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_location/flutter_map_location.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
@@ -208,7 +209,8 @@ addMarker (LatLng.LatLng coordinates){
               padding: EdgeInsets.only(top: 10),
               child: ElevatedButton.icon(
                 icon: Icon(Icons.search),
-                label: Text('Search Address'),
+                //label: Text('Search Address'),
+                label: Text(Translations.of(context).text('searchAddress')),
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all<Color>(Theme.of(context).scaffoldBackgroundColor),
                   foregroundColor: MaterialStateProperty.all<Color>(Theme.of(context).accentColor),
@@ -242,7 +244,8 @@ addMarker (LatLng.LatLng coordinates){
       ),
       floatingActionButton: FloatingActionButton.extended(
         heroTag: "noisebt",
-        label: Text("Noise Layer"),
+        //label: Text("Noise Layer"),
+        label: Text(Translations.of(context).text('noiseLayer')),
         icon: Icon(Icons.layers),
         backgroundColor: noiseLayerIsOn ? Colors.green : Colors.red,
         onPressed: () {
@@ -277,7 +280,8 @@ class _OpacityValueSliderState extends State<OpacityValueSlider> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Center(child: Text('Noise Pollution Opacity')),
+      //title: Center(child: Text('Noise Pollution Opacity')),
+      title: Center(child: Text(Translations.of(context).text("opacity"))),
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       insetPadding: EdgeInsets.symmetric(horizontal: 40, vertical: 200),
       content: Container(
