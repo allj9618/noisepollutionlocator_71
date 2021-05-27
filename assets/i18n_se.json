@@ -16,5 +16,6 @@
   "close": "Stäng",
   "noiseMeasure": "Resultatet från mätningen",
   "noiseSave": "Mata in namnet du vill ge mätningen",
-  "successSave": "Mätningen sparad"
+  "successSave": "Mätningen sparad",
+  "noiseMeterDisclaimer": "OBS: mätningarna som utförs är inte pålitliga"
 }
