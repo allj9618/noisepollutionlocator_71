@@ -19,7 +19,6 @@ class FavoriteSharedPreferences {
   }
 
     removeFavorite(int index, bool selectedTab) async{
-    print("Index is $index");
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String> favMap;
     List<String> ownMap;
@@ -29,9 +28,6 @@ class FavoriteSharedPreferences {
     if (!selectedTab) {
       ownMap = prefs.getStringList(ownMeasureFavorites);
     }
-
-    print (favMap);
-    print (ownMap);
 
     if (selectedTab)
       favMap.removeAt(index);
