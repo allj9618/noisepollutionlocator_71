@@ -305,7 +305,8 @@ class _OpacityValueSliderState extends State<OpacityValueSlider> {
             onPressed: () {
               Navigator.pop(context, _currentOpacityValue);
             },
-            child: Text('Select'),
+            //child: Text('Select'),
+            child: Text(Translations.of(context).text("selectOpacity"))
           ),
         )
       ],
