@@ -115,7 +115,7 @@ class _NoiseMeterState extends State<NoiseMeterApp> {
                   padding: EdgeInsets.all(30),
                   margin: EdgeInsets.all(10),
                   child: Text(
-                    'Beware that measurements made with this tool are unreliable.',
+                      Translations.of(context).text('noiseMeterDisclaimer'),
                       style: TextStyle(
                         fontSize: 20.0,
                       )

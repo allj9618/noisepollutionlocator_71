@@ -16,5 +16,6 @@
   "close": "Close",
   "noiseMeasure": "Results from measurements",
   "noiseSave": "Enter the name you wish to save under",
-  "successSave": "Measurement saved"
+  "successSave": "Measurement saved",
+  "noiseMeterDisclaimer": "Beware that measurements made with this tool are unreliable"
 }
