@@ -7,7 +7,7 @@ import 'package:google_api_headers/google_api_headers.dart';
 import 'package:google_maps_webservice/places.dart';
 import "package:latlong/latlong.dart" as LatLng;
 
-const key = "AIzaSyDxSv3BsxRMJ59wrfvW49gLTXrHlUTa9VI";
+const key = " ";
 final homeScaffoldKey = GlobalKey<ScaffoldState>();
 
 class Map extends StatefulWidget {
@@ -74,7 +74,7 @@ Future<Null> displaySearchBarPrediction(Prediction p, ScaffoldState scaffold, Bu
       markers.removeLast(); // if we aren't  adding more than one marker we might as well do this for now..
     }
 
-   addMarker(LatLng.LatLng (lat,lng));  // add place to markers
+    addMarker(LatLng.LatLng (lat,lng));  // add place to markers
 
     mapController.move(LatLngData(LatLng.LatLng(lat, lng), 17.0).location, 17.0);
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("${p.description} - $lat/$lng")));

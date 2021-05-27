@@ -60,6 +60,10 @@ class _SignInGoogle extends State<SignInGoogle> {
                 try {
                   await _googleSignIn.signIn();
                 } on Exception catch (e) {
+                  return AlertDialog(
+                    title: Text('Unable to Sign In to Google'),
+                    content: Text(e.toString()),
+                  );
                   print(e);
                 }
               },
