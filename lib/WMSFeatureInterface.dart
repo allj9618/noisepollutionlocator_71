@@ -37,7 +37,7 @@ class WMSFeatureInterface {
             "&BBOX=" + bBox;
 
 
-    final response = await http.get(Uri.parse(featureURL));
+    final response = await http.get(Uri.parse(featureURL + parameters));
 
     if (response.statusCode != 200) {
       throw Exception('Failed to fetch WMS feature');
