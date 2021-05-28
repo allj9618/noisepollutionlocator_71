@@ -20,7 +20,7 @@
   "noiseLayer": "Bullerlager",
   "searchAddress": "Sök Adress",
   "opacity": "Bullerlager Genomskinlighet",
-  "unreliable": "Observera att mätningar som görs med detta verktyg är opålitliga.",
+  "unreliable": "Observera att mätningar som görs med detta verktyg ej är helt pålitliga, för pålitliga decibelmätningar rekommenderar vi specialiserade verktyg.",
   "whatIsNoise": "VAD ÄR BULLER?",
   "whyUse": "VARFÖR SKA JAG ANVÄNDA DENNA APP?",
   "howUse": "HUR ANVÄNDER JAG DENNA APP?",
@@ -34,5 +34,6 @@
   "measuredDB": "Uppmätt",
   "meanDecibel": "Ingen",
   "OFF": "AV",
-  "ON": "PÅ"
+  "ON": "PÅ",
+  "NOTE": "OBS:"
 }
