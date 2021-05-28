@@ -89,7 +89,7 @@ Future<Null> displaySearchBarPrediction(Prediction p, ScaffoldState scaffold, Bu
     LatLng.LatLng coordinates = new LatLng.LatLng(lat, lng);
     Future dBValue = featureInterface.getFeature(coordinates);
     dBValue.then((value) {
-       int dB = value;
+       int dB = value>0? value: 0;
       print("Decibel value: $dB");
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Noice level: ${dB}dB ${p.description} - $lat/$lng")));
     }, onError: (e) {
