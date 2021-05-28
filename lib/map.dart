@@ -36,7 +36,6 @@ class _Map extends State<Map> {
     if (selectedOpacity != null) {
       setState(() {
         _currentOpacityValue = selectedOpacity;
-
       });
     }
   }
@@ -47,6 +46,8 @@ class _Map extends State<Map> {
 
   Future<void> _handleSearchBarButtonPress() async {
     Prediction p = await PlacesAutocomplete.show(
+
+
       // Must have
       // https://github.com/fluttercommunity/flutter_google_places/issues/165
       offset: 0,
@@ -63,6 +64,7 @@ class _Map extends State<Map> {
     );
 
     displaySearchBarPrediction(p, homeScaffoldKey.currentState, context);
+
   }
 
 Future<Null> displaySearchBarPrediction(Prediction p, ScaffoldState scaffold, BuildContext context) async {
@@ -78,12 +80,25 @@ Future<Null> displaySearchBarPrediction(Prediction p, ScaffoldState scaffold, Bu
     if (markers.isNotEmpty) {
       markers.removeLast(); // if we aren't  adding more than one marker we might as well do this for now..
     }
-
     addMarker(LatLng.LatLng (lat,lng));  // add place to markers
-
     mapController.move(LatLngData(LatLng.LatLng(lat, lng), 17.0).location, 17.0);
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("${p.description} - $lat/$lng")));
-  }
+
+
+    // testing api for dB rearing.
+
+    LatLng.LatLng coordinates = new LatLng.LatLng(lat, lng);
+    Future dBValue = featureInterface.getFeature(coordinates);
+    dBValue.then((value) {
+       int dB = value;
+      print("Decibel value: $dB");
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Noice level: ${dB}dB ${p.description} - $lat/$lng")));
+    }, onError: (e) {
+      print(e);
+    });
+
+
+
+  };
 }
 // add a place to markers
 addMarker (LatLng.LatLng coordinates){
