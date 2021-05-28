@@ -43,7 +43,6 @@ class WMSFeatureInterface {
         bBox;
 
     final response = await http.get(Uri.parse(featureURL + parameters));
-   // final response = await http.get(Uri.parse("http://kartor.miljo.stockholm.se/geoserver/mfraster/wms?SERVICE=WMS&VERSION=1.1.0&REQUEST=GetFeatureInfo&FORMAT=application/json&TRANSPARENT=true&QUERY_LAYERS=mfraster%3Abullerkartan-2012-allakallor&LAYERS=mfraster%3Abullerkartan-2012-allakallor&exceptions=application/vnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50000&X=50&Y=50&SRS=EPSG:4326&STYLES=&WIDTH=101&HEIGHT=101&BBOX=18.076506,59.309229,18.084231,59.311414"));
     if (response.statusCode != 200) {
       throw Exception('Failed to fetch WMS feature');
     }
