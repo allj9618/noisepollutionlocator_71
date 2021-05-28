@@ -20,7 +20,7 @@
   "noiseLayer": "Noise Layer",
   "searchAddress": "Search Address",
   "opacity": "Noise Pollution Opacity",
-  "unreliable": "Beware that measurements made with this tool are unreliable.",
+  "unreliable": "Beware that measurements made with this tool are not entirely reliable, for reliable decibel readings we advise proper decibel measuring tools.",
   "whatIsNoise": "WHAT IS NOISE POLLUTION?",
   "whyUse": "WHY SHOULD I USE THIS APPLICATION?",
   "howUse": "HOW DO I USE THIS APPLICATION?",
@@ -34,5 +34,6 @@
   "measuredDB": "Measured",
   "meanDecibel": "None",
   "OFF": "OFF",
-  "ON": "ON"
+  "ON": "ON",
+  "NOTE": "NOTE:"
 }

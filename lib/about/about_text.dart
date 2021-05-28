@@ -26,7 +26,12 @@ class TextContent extends StatelessWidget {
           Separator(),
           textBlock3(context),
           Separator2(),
-          SizedBox(height: 50)
+          SizedBox(height: 50),
+          title4(context),
+          Separator(),
+          textBlock4(context),
+          Separator2(),
+          SizedBox(height: 50),
         ],
       ),
     );
@@ -59,6 +64,12 @@ class TextContent extends StatelessWidget {
           Translations.of(context).text("howUse").toUpperCase(),
           style: titleStyle(context),
         ));
+  }
+  title4(context) {
+    return Align(
+        alignment: Alignment.topLeft,
+        child: Text(Translations.of(context).text("NOTE").toUpperCase(),
+            style: titleStyle(context)));
   }
 
   textBlock1(context) {
@@ -101,11 +112,12 @@ class TextContent extends StatelessWidget {
   // ex. https://medium.com/flutterdevs/animated-bar-chart-in-flutter-85e58ebd29ed
   textBlock4(context) {
     return Text(
-      "",
+      Translations.of(context).text("unreliable"),
       style: textBlockStyle(context),
     );
   }
 }
+
 
 titleStyle(context) {
   return TextStyle(
