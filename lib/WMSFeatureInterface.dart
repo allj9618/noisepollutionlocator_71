@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import "package:latlong/latlong.dart" as LatLng;
 
 class WMSFeatureInterface {
-  Future<int> getFeature(LatLng.LatLng coordinates) async {
+  Future<int> getDecibel(LatLng.LatLng coordinates) async {
     final double bBoxLimiter = 0.0001;
     final String featureURL =
         "http://kartor.miljo.stockholm.se/geoserver/mfraster/wms?SERVICE=WMS&";

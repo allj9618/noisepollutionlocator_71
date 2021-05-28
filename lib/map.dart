@@ -87,7 +87,7 @@ Future<Null> displaySearchBarPrediction(Prediction p, ScaffoldState scaffold, Bu
     // testing api for dB rearing.
 
     LatLng.LatLng coordinates = new LatLng.LatLng(lat, lng);
-    Future dBValue = featureInterface.getFeature(coordinates);
+    Future dBValue = featureInterface.getDecibel(coordinates);
     dBValue.then((value) {
        int dB = value>0? value: 0;
       print("Decibel value: $dB");

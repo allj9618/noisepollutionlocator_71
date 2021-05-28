@@ -9,7 +9,7 @@ void main() {
   WMSFeatureInterface wms = new WMSFeatureInterface();
   LatLng.LatLng coordinates = new LatLng.LatLng(18.076506,59.309229);
 
-  Future dB = wms.getFeature(coordinates);
+  Future dB = wms.getDecibel(coordinates);
   dB.then((data) {
     String testString = data[0]['type'];
     print(testString);
