@@ -15,7 +15,7 @@ class _NoiseMeterState extends State<NoiseMeterApp> {
   bool _isRecording = false;
   StreamSubscription<NoiseReading> _noiseSubscription;
   NoiseMeter _noiseMeter;
-  String _maxDecibelLevel = "No reading.";
+  //String _maxDecibelLevel = "No reading.";
   String _meanDecibelLevel = "None";
   var _decibelreadings = [];
   var _averagedecibel = 0.0;
@@ -34,9 +34,9 @@ class _NoiseMeterState extends State<NoiseMeterApp> {
       }
     });
     //print(noiseReading.toString());
-    _maxDecibelLevel = noiseReading.maxDecibel.toString();
+    //_maxDecibelLevel = noiseReading.maxDecibel.toString();
     _meanDecibelLevel = noiseReading.meanDecibel.toString();
-    _decibelreadings.add(noiseReading.maxDecibel);
+    _decibelreadings.add(noiseReading.meanDecibel);
   }
 
   void onError(PlatformException e) {
@@ -45,6 +45,7 @@ class _NoiseMeterState extends State<NoiseMeterApp> {
   }
 
   void start() async {
+    _decibelreadings = [];
     try {
       _noiseSubscription = _noiseMeter.noiseStream.listen(onData);
     } catch (err) {
@@ -62,6 +63,7 @@ class _NoiseMeterState extends State<NoiseMeterApp> {
       this.setState(() {
         this._isRecording = false;
       });
+      _decibelreadings.removeAt(0);
       _decibelreadings.forEach((element) {
         _totaldecibel += element;
       });
@@ -112,17 +114,39 @@ class _NoiseMeterState extends State<NoiseMeterApp> {
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Container(
-                  padding: EdgeInsets.all(30),
-                  margin: EdgeInsets.all(10),
-                  child: Text(
+                  padding: EdgeInsets.all(140),
+                  margin: EdgeInsets.all(5),
+                    child: Text(_isRecording ? "Mic: "+Translations.of(context).text('ON') : "Mic: "+Translations.of(context).text('OFF'),
+                        style: TextStyle(fontSize: 25, color: Colors.black)),
+                    //margin: EdgeInsets.only(top: 20),
+                  ),
+                     /* child: Column(children: [
+                        Container(
+                          child: Text(_isRecording ? "Mic: ON" : "Mic: OFF",
+                              style: TextStyle(fontSize: 25, color: Colors.black)),
+                          margin: EdgeInsets.only(top: 20),
+                        ),
+                        //Container(child: Text("Max db: " + _maxDecibelLevel)),
+                        Container(child: Text("Mean db: " + _meanDecibelLevel)),
+                        //Container(child: Text("Final average db reading: " + _averagedecibel.toString())),
+                      ]),),*/
+                  /*child: Text(
                     //'Beware that measurements made with this tool are unreliable.',
                     Translations.of(context).text("unreliable"),
                       style: TextStyle(
                         fontSize: 20.0,
                       )
+                ),*/
                 ),
-                ),
-                ),
+                  Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Container(
+                        padding: EdgeInsets.all(80),
+                        margin: EdgeInsets.all(5),
+                          child: Text(Translations.of(context).text('measuredDB') + " db: " + _meanDecibelLevel.split(".")[0],
+                              style: TextStyle(fontSize: 20, color: Colors.black)),
+                      )
+                  )
                 ]
             )
         ),
