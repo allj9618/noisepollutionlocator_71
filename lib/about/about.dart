@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:noisepollutionlocator_71/about/about_text.dart';
+import 'package:noisepollutionlocator_71/translations.dart';
 
 // https://www.folkhalsomyndigheten.se/livsvillkor-levnadsvanor/miljohalsa-och-halsoskydd/tillsynsvagledning-halsoskydd/buller/
 
@@ -37,7 +38,8 @@ class AboutScaffold extends StatelessWidget {
       appBar: AppBar(
         title: Container(
           alignment: Alignment.centerLeft,
-          child: Text("About us",
+          //child: Text("About us",
+          child: Text(Translations.of(context).text('aboutUs'),
           ),
         ),
       ),
@@ -63,7 +65,8 @@ Widget _upperBodyContent(context) {
       Padding(
         padding: const EdgeInsets.all(40.0),
         child: Text(
-            "About us",
+            //"About us",
+            Translations.of(context).text("_aboutUs"),
              style: TextStyle(
              fontSize: 25,
              color: Theme.of(context).textTheme.bodyText2.color
