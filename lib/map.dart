@@ -5,6 +5,8 @@ import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:google_api_headers/google_api_headers.dart';
 import 'package:google_maps_webservice/places.dart';
 import "package:latlong/latlong.dart" as LatLng;
+import 'package:noisepollutionlocator_71/WMSFeatureInterface.dart';
+import 'dart:async';
 
 const key = "AIzaSyDxSv3BsxRMJ59wrfvW49gLTXrHlUTa9VI";
 final homeScaffoldKey = GlobalKey<ScaffoldState>();
@@ -15,6 +17,8 @@ class Map extends StatefulWidget {
 }
 
 class _Map extends State<Map> {
+  final WMSFeatureInterface featureInterface= new WMSFeatureInterface();
+
   final Mode _mode = Mode.overlay;
   final MapController mapController = MapController();
   final List<Marker> markers = [];
@@ -31,6 +35,7 @@ class _Map extends State<Map> {
     if (selectedOpacity != null) {
       setState(() {
         _currentOpacityValue = selectedOpacity;
+
       });
     }
   }
@@ -82,6 +87,8 @@ Future<Null> displaySearchBarPrediction(Prediction p, ScaffoldState scaffold, Bu
 // add a place to markers
 addMarker (LatLng.LatLng coordinates){
 
+
+
     markers.add( Marker(
         width: 80.0,
         height: 80.0,
@@ -97,8 +104,9 @@ addMarker (LatLng.LatLng coordinates){
 
   setState(() {
 
-  }); // testing to add to map
+  });
 }
+
   @override
   Widget build(BuildContext context) {
 
@@ -256,6 +264,7 @@ addMarker (LatLng.LatLng coordinates){
   }
 }
 
+
 class OpacityValueSlider extends StatefulWidget {
   final double initialOpacityValue;
 
@@ -307,4 +316,18 @@ class _OpacityValueSliderState extends State<OpacityValueSlider> {
       ],
     );
   }
+
+
+
+  // testing
+
+
+
+
+
+
+
 }
+
+
+
