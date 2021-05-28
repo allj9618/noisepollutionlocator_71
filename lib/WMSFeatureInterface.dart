@@ -43,6 +43,10 @@ class WMSFeatureInterface {
       throw Exception('Failed to fetch WMS feature');
     }
 
+// parse the result from GeoJson to dynamic Map.
+    Map<String, dynamic> result = jsonDecode(response.body);
+
+    return result;
 
   } // getFeature
 } // FeatureInterface
