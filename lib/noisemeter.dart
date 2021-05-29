@@ -260,6 +260,6 @@ Widget successText(context) {
 void addNoise(String name, int averageToSave) {
   AddFavorite addFavorite = AddFavorite(
        FavoriteAddress(
-          address: name, location: "Test", decibel: averageToSave.toString()), false);
+          address: name, location: "", decibel: averageToSave.toString()), false);
   addFavorite.add();
 }

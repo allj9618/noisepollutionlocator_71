@@ -5,6 +5,8 @@ class FavoriteAddress {
   String _address;
   String _decibel;
   String _location;
+  String _lat;
+  String _long;
 
   FavoriteAddress({String address, decibel, location}):
         _address = address, _decibel = decibel, _location = location;
@@ -22,7 +24,21 @@ class FavoriteAddress {
       location: map['location']
   );
 
-    encodeFavorite(FavoriteAddress newFav) {
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is FavoriteAddress &&
+          runtimeType == other.runtimeType &&
+          _address == other._address &&
+          _decibel == other._decibel &&
+          _location == other._location;
+
+  @override
+  int get hashCode =>
+      _address.hashCode ^ _decibel.hashCode ^ _location.hashCode;
+
+  encodeFavorite(FavoriteAddress newFav) {
     Map<String, dynamic> mapObject = newFav.toMap();
     return jsonEncode(mapObject);
   }
@@ -47,5 +63,16 @@ class FavoriteAddress {
 
   String get address => _address;
 
+  String get long => _long;
+
+  String get lat => _lat;
+
+  set lat(String value) {
+    _lat = value;
+  }
+
+  set long(String value) {
+    _long = value;
+  }
 }
 

@@ -48,16 +48,12 @@ class AddFavorite {
     else if (isMap) {
       for (int i = 0; i < favAddress.decibel.length; i++) {
         var char = favAddress.decibel[i];
-        if (char != "-" && char != "+" && char != " " && int.parse(char) is! int) {
+        if (char != "+" && char != "." && int.parse(char) is! int) {
           throw new Exception('bad format');
         }
       }
-      addWhiteSpaceMapFav();
     }
   }
 
-  void addWhiteSpaceMapFav() {
-    if (!favAddress.decibel.contains(" ") && favAddress.decibel.contains("-"))
-    favAddress.addWhiteSpace();
-  }
+
 }

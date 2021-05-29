@@ -12,7 +12,6 @@ class Favorites extends StatefulWidget {
 }
 
 class FavoritesState extends State<Favorites> {
-
   FavoriteSharedPreferences _sharedPref;
   FavoriteUi _ui = FavoriteUi();
   SortDecibel _sortDecibel = SortDecibel();
@@ -38,6 +37,13 @@ class FavoritesState extends State<Favorites> {
     }
   }
 
+  void removeAtList(index) {
+    setState(() {
+      if (_selectedTab) _mapFavorites.removeAt(index);
+      if (!_selectedTab) _ownMeasureFavorites.removeAt(index);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -48,12 +54,11 @@ class FavoritesState extends State<Favorites> {
               child: AppBar(
                 elevation: 0,
                 bottom: TabBar(
-
                   unselectedLabelColor: Colors.grey,
                   onTap: (index) {
                     if (index == 0)
                       setState(() => _selectedTab = true);
-                     else
+                    else
                       setState(() => _selectedTab = false);
                   },
                   indicatorColor: Colors.greenAccent,
@@ -74,20 +79,18 @@ class FavoritesState extends State<Favorites> {
           title: Row(
             children: [
               IconButton(
-                icon: Icon(
-                  Icons.sort_by_alpha_outlined,
-                  size: 25,
-                ),
-                onPressed: () => _sortByAddress()
-              ),
+                  icon: Icon(
+                    Icons.sort_by_alpha_outlined,
+                    size: 25,
+                  ),
+                  onPressed: () => _sortByAddress()),
               SizedBox(width: 250),
               IconButton(
-                icon: Icon(
-                  Icons.sort_rounded,
-                  size: 25,
-                ),
-                onPressed: () => _sortByDecibel()
-              ),
+                  icon: Icon(
+                    Icons.sort_rounded,
+                    size: 25,
+                  ),
+                  onPressed: () => _sortByDecibel())
             ],
           ),
         ),
@@ -119,10 +122,9 @@ class FavoritesState extends State<Favorites> {
                 itemCount: currentFavList.length,
                 itemBuilder: (context, index) {
                   FavoriteAddress currFav = FavoriteAddress();
-                  currFav = FavoriteAddress.decodedFavorite(currentFavList[index]);
-
+                  currFav =
+                      FavoriteAddress.decodedFavorite(currentFavList[index]);
                   // Use keys for slidable
-
                   return Slidable(
                       actionPane: SlidableDrawerActionPane(),
                       actionExtentRatio: 0.25,
@@ -132,7 +134,8 @@ class FavoritesState extends State<Favorites> {
                             children: [
                               _ui.addressText(currFav.address),
                               Spacer(),
-                              _ui.trailingDecibel(currFav.decibel, _selectedTab),
+                              _ui.trailingDecibel(
+                                  currFav.decibel, _selectedTab, context),
                               SizedBox(
                                 width: 37,
                               )
@@ -143,21 +146,34 @@ class FavoritesState extends State<Favorites> {
                       ),
                       secondaryActions: <Widget>[
                         IconSlideAction(
-                          caption: 'Delete',
-                          color: Colors.red,
-                          icon: Icons.delete,
-                          onTap: () => _sharedPref.removeFavorite(index, _selectedTab))
+                            caption: 'Delete',
+                            color: Colors.red,
+                            icon: Icons.delete,
+                            onTap: () {
+                              setState(() {
+                                if (_selectedTab) _mapFavorites.removeAt(index);
+                                if (!_selectedTab) {
+                                  _ownMeasureFavorites.removeAt(index);
+                                }
+                              });
+                              setState(() {
+                                _sharedPref.removeFavorite(
+                                    _mapFavorites, _ownMeasureFavorites);
+                              });
+                            })
                       ]);
                 }));
   }
 
   void _sortByDecibel() {
-    setState(() => _sortDecibel.initSort(_mapFavorites, _ownMeasureFavorites, _selectedTab));
+    setState(() => _sortDecibel.initSort(
+        _mapFavorites, _ownMeasureFavorites, _selectedTab));
     _sharedPref.setLists(_mapFavorites, _ownMeasureFavorites);
   }
 
   void _sortByAddress() {
-    setState(() => _sortAddress.initSort(_mapFavorites, _ownMeasureFavorites, _selectedTab));
+    setState(() => _sortAddress.initSort(
+        _mapFavorites, _ownMeasureFavorites, _selectedTab));
     _sharedPref.setLists(_mapFavorites, _ownMeasureFavorites);
   }
 }

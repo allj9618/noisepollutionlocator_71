@@ -6,6 +6,8 @@ import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:google_api_headers/google_api_headers.dart';
 import 'package:google_maps_webservice/places.dart';
 import "package:latlong/latlong.dart" as LatLng;
+import 'favorite/favorite_add.dart';
+import 'favorite/favorite_adress.dart';
 import 'package:noisepollutionlocator_71/WMSFeatureInterface.dart';
 import 'dart:async';
 
@@ -18,7 +20,7 @@ class Map extends StatefulWidget {
 }
 
 class _Map extends State<Map> {
-  final WMSFeatureInterface featureInterface= new WMSFeatureInterface();
+  final WMSFeatureInterface featureInterface = new WMSFeatureInterface();
 
   final Mode _mode = Mode.overlay;
   final MapController mapController = MapController();
@@ -26,6 +28,11 @@ class _Map extends State<Map> {
 
   bool noiseLayerIsOn = true;
   double _currentOpacityValue = 0.4;
+
+  LatLngData currentLatLongForPlaces;
+  String currentLocation;
+  int currentDB = 0;
+  bool userCanSaveLastSearch = false;
 
   void _opacityValueSliderDialog() async {
     final selectedOpacity = await showDialog<double>(
@@ -46,8 +53,6 @@ class _Map extends State<Map> {
 
   Future<void> _handleSearchBarButtonPress() async {
     Prediction p = await PlacesAutocomplete.show(
-
-
       // Must have
       // https://github.com/fluttercommunity/flutter_google_places/issues/165
       offset: 0,
@@ -64,69 +69,71 @@ class _Map extends State<Map> {
     );
 
     displaySearchBarPrediction(p, homeScaffoldKey.currentState, context);
-
   }
 
-Future<Null> displaySearchBarPrediction(Prediction p, ScaffoldState scaffold, BuildContext context) async {
-  if (p != null) {
-    GoogleMapsPlaces _places = GoogleMapsPlaces(
-      apiKey: key,
-      apiHeaders: await GoogleApiHeaders().getHeaders(),
-    );
-    PlacesDetailsResponse detail = await _places.getDetailsByPlaceId(p.placeId);
-    final lat = detail.result.geometry.location.lat;
-    final lng = detail.result.geometry.location.lng;
+  Future<Null> displaySearchBarPrediction(Prediction p, ScaffoldState scaffold, BuildContext context) async {
+    if (p != null) {
+      GoogleMapsPlaces _places = GoogleMapsPlaces(
+        apiKey: key,
+        apiHeaders: await GoogleApiHeaders().getHeaders(),
+      );
+      PlacesDetailsResponse detail =
+          await _places.getDetailsByPlaceId(p.placeId);
+      final lat = detail.result.geometry.location.lat;
+      final lng = detail.result.geometry.location.lng;
 
-    if (markers.isNotEmpty) {
-      markers.removeLast(); // if we aren't  adding more than one marker we might as well do this for now..
+      if (markers.isNotEmpty) {
+        markers
+            .removeLast(); // if we aren't  adding more than one marker we might as well do this for now..
+      }
+      addMarker(LatLng.LatLng(lat, lng)); // add place to markers
+      mapController.move(LatLngData(LatLng.LatLng(lat, lng), 17.0).location, 17.0);
+
+      LatLng.LatLng coordinates = new LatLng.LatLng(lat, lng);
+      Future dBValue = featureInterface.getDecibel(coordinates);
+      await dBValue.then((value) {
+        int dB = value > 0 ? value : 0;
+        setState(()  => currentDB = dB);
+        print("Decibel value: $dB");
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text("Noice level: ${dB}dB ${p.description} - $lat/$lng")));
+      }, onError: (e) {
+        print(e);
+      }
+      );
+      setState(() {
+        updateCurrentSearchPosition(p, lat, lng, currentDB);
+      });
     }
-    addMarker(LatLng.LatLng (lat,lng));  // add place to markers
-    mapController.move(LatLngData(LatLng.LatLng(lat, lng), 17.0).location, 17.0);
+  }
 
+  void updateCurrentSearchPosition(Prediction p, double lat, double lng, int db) {
+    if (currentDB > 0) {
+      setState(() {
+        currentDB = db;
+        userCanSaveLastSearch = true;
+        currentLocation = p.description;
+        currentLatLongForPlaces = LatLngData(LatLng.LatLng(lat, lng), 17);
+      });
+    }
+  }
 
-    // testing api for dB rearing.
-
-    LatLng.LatLng coordinates = new LatLng.LatLng(lat, lng);
-    Future dBValue = featureInterface.getDecibel(coordinates);
-    dBValue.then((value) {
-       int dB = value>0? value: 0;
-      print("Decibel value: $dB");
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Noice level: ${dB}dB ${p.description} - $lat/$lng")));
-    }, onError: (e) {
-      print(e);
-    });
-
-
-
-  };
-}
 // add a place to markers
-addMarker (LatLng.LatLng coordinates){
-
-
-
-    markers.add( Marker(
-        width: 80.0,
-        height: 80.0,
-
+  addMarker(LatLng.LatLng coordinates) {
+    markers.add(Marker(
+      width: 80.0,
+      height: 80.0,
       point: coordinates,
-        builder: (ctx) =>
-            Container(
-              child: FlutterLogo(), // temporary logo
-            ),
+      builder: (ctx) => Container(
+        child: FlutterLogo(), // temporary logo
+      ),
+    ));
 
-        )
-    );
-
-  setState(() {
-
-  });
-}
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
       body: Stack(
         children: [
@@ -142,19 +149,12 @@ addMarker (LatLng.LatLng coordinates){
               interactiveFlags: InteractiveFlag.all & ~InteractiveFlag.rotate,
             ),
             layers: [
-
               // Google maps layer
               TileLayerOptions(
                   urlTemplate:
                       'https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',
                   subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
-                  backgroundColor: Colors.transparent
-              ),
-
-
-
-
-
+                  backgroundColor: Colors.transparent),
               // Bullerdata layer from Stockholms stad
               TileLayerOptions(
                   wmsOptions: WMSTileLayerOptions(
@@ -164,24 +164,19 @@ addMarker (LatLng.LatLng coordinates){
                       transparent: false,
                       format: "image/png"),
                   opacity: noiseLayerIsOn ? _currentOpacityValue : 0.0,
-                  backgroundColor: Colors.transparent
+                  backgroundColor: Colors.transparent),
 
-              ),
-
-              MarkerLayerOptions(
-                markers: markers
-              ),
-       LocationOptions(
+              MarkerLayerOptions(markers: markers),
+              LocationOptions(
                 onLocationUpdate: (LatLngData ld) {},
                 onLocationRequested: (LatLngData ld) {
                   if (ld == null || ld.location == null) {
                     return;
                   }
-
                   mapController.onReady.then((result) {
                     mapController.move(ld.location, 14.0);
+                    currentLocation = ld.location.toString();
                   });
-
                 },
                 buttonBuilder: (BuildContext context,
                     ValueNotifier<LocationServiceStatus> status,
@@ -220,11 +215,6 @@ addMarker (LatLng.LatLng coordinates){
                   );
                 },
               ),
-
-              // Marker layer, used to display searched and favourite places testing stuff now
-
-
-
             ],
           ),
           Container(
@@ -235,14 +225,15 @@ addMarker (LatLng.LatLng coordinates){
                 //label: Text('Search Address'),
                 label: Text(Translations.of(context).text('searchAddress')),
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(Theme.of(context).scaffoldBackgroundColor),
-                  foregroundColor: MaterialStateProperty.all<Color>(Theme.of(context).accentColor),
+                  backgroundColor: MaterialStateProperty.all<Color>(
+                      Theme.of(context).scaffoldBackgroundColor),
+                  foregroundColor: MaterialStateProperty.all<Color>(
+                      Theme.of(context).accentColor),
                 ),
                 onPressed: () {
                   _handleSearchBarButtonPress();
                 },
-              )
-          ),
+              )),
           Container(
             child: Image.asset('assets/dbkey.png'),
             alignment: Alignment.topRight,
@@ -262,7 +253,29 @@ addMarker (LatLng.LatLng coordinates){
               ),
               onPressed: _opacityValueSliderDialog,
             ),
-          )
+          ),
+          Container(
+            alignment: Alignment.bottomCenter,
+            padding: const EdgeInsets.only(left: 40, bottom: 71, right: 0.0),
+            child: FloatingActionButton(
+              heroTag: "savebt",
+              backgroundColor: userCanSaveLastSearch ? Theme.of(context).scaffoldBackgroundColor : Colors.transparent,
+              onPressed: () {
+                if (userCanSaveLastSearch && currentDB > 0) {
+                  addToFavorites();
+                  setState(() {
+                    userCanSaveLastSearch = !userCanSaveLastSearch;
+                    currentDB = 0;
+                  }
+                  );
+                }
+              },
+              child: Icon(
+                Icons.save,
+                color: Theme.of(context).accentColor,
+              ),
+            ),
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
@@ -278,10 +291,21 @@ addMarker (LatLng.LatLng coordinates){
         },
       ),
     );
+  }
 
+  void addToFavorites() {
+    String address = currentLocation.substring(0, currentLocation.indexOf(','));
+    String location = currentLocation.replaceAll(address, "");
+    address.replaceAll(",", "");
+    location = location.replaceFirst(RegExp(','), '', 0);
+
+    FavoriteAddress fa =  FavoriteAddress(address: address, location: location, decibel: currentDB.toString());
+    fa.long = currentLatLongForPlaces.location.longitude.toString();
+    fa.lat = currentLatLongForPlaces.location.latitude.toString();
+    AddFavorite addFavorite = AddFavorite(fa,true);
+    addFavorite.add();
   }
 }
-
 
 class OpacityValueSlider extends StatefulWidget {
   final double initialOpacityValue;
@@ -326,28 +350,13 @@ class _OpacityValueSliderState extends State<OpacityValueSlider> {
         Container(
           padding: EdgeInsets.only(right: 90),
           child: ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context, _currentOpacityValue);
-            },
-            //child: Text('Select'),
-            child: Text(Translations.of(context).text("selectOpacity"))
-          ),
+              onPressed: () {
+                Navigator.pop(context, _currentOpacityValue);
+              },
+              //child: Text('Select'),
+              child: Text(Translations.of(context).text("selectOpacity"))),
         )
       ],
     );
   }
-
-
-
-  // testing
-
-
-
-
-
-
-
 }
-
-
-
