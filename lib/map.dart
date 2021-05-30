@@ -120,6 +120,21 @@ class _Map extends State<Map> {
 
 // add a place to markers
   addMarker(LatLng.LatLng coordinates) {
+
+
+
+
+    markers.add(Marker(
+      width: 80.0,
+      height: 80.0,
+      point: coordinates,
+      builder: (ctx) => Icon(Icons.location_pin,color:Colors.red, size:40.0)
+    ),
+    );
+
+
+
+    /*
     markers.add(Marker(
       width: 80.0,
       height: 80.0,
@@ -128,7 +143,7 @@ class _Map extends State<Map> {
         child: FlutterLogo(), // temporary logo
       ),
     ));
-
+*/
     setState(() {});
   }
 
