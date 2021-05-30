@@ -1,15 +1,17 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'translations.dart';
+import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_location/flutter_map_location.dart';
-import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:google_api_headers/google_api_headers.dart';
 import 'package:google_maps_webservice/places.dart';
 import "package:latlong/latlong.dart" as LatLng;
+import 'package:noisepollutionlocator_71/WMSFeatureInterface.dart';
+
 import 'favorite/favorite_add.dart';
 import 'favorite/favorite_adress.dart';
-import 'package:noisepollutionlocator_71/WMSFeatureInterface.dart';
-import 'dart:async';
+import 'translations.dart';
 
 const key = "AIzaSyDxSv3BsxRMJ59wrfvW49gLTXrHlUTa9VI";
 final homeScaffoldKey = GlobalKey<ScaffoldState>();
@@ -71,7 +73,8 @@ class _Map extends State<Map> {
     displaySearchBarPrediction(p, homeScaffoldKey.currentState, context);
   }
 
-  Future<Null> displaySearchBarPrediction(Prediction p, ScaffoldState scaffold, BuildContext context) async {
+  Future<Null> displaySearchBarPrediction(
+      Prediction p, ScaffoldState scaffold, BuildContext context) async {
     if (p != null) {
       GoogleMapsPlaces _places = GoogleMapsPlaces(
         apiKey: key,
@@ -87,27 +90,29 @@ class _Map extends State<Map> {
             .removeLast(); // if we aren't  adding more than one marker we might as well do this for now..
       }
       addMarker(LatLng.LatLng(lat, lng)); // add place to markers
-      mapController.move(LatLngData(LatLng.LatLng(lat, lng), 17.0).location, 17.0);
+      mapController.move(
+          LatLngData(LatLng.LatLng(lat, lng), 17.0).location, 17.0);
 
       LatLng.LatLng coordinates = new LatLng.LatLng(lat, lng);
       Future dBValue = featureInterface.getDecibel(coordinates);
       await dBValue.then((value) {
         int dB = value > 0 ? value : 0;
-        setState(()  => currentDB = dB);
+        setState(() => currentDB = dB);
         print("Decibel value: $dB");
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text("Noice level: ${dB}dB ${p.description} - $lat/$lng")));
+            content:
+                Text("Noise level: ${dB}dB ${p.description} - $lat/$lng")));
       }, onError: (e) {
         print(e);
-      }
-      );
+      });
       setState(() {
         updateCurrentSearchPosition(p, lat, lng, currentDB);
       });
     }
   }
 
-  void updateCurrentSearchPosition(Prediction p, double lat, double lng, int db) {
+  void updateCurrentSearchPosition(
+      Prediction p, double lat, double lng, int db) {
     if (currentDB > 0) {
       setState(() {
         currentDB = db;
@@ -121,20 +126,14 @@ class _Map extends State<Map> {
 // add a place to markers
   addMarker(LatLng.LatLng coordinates) {
 
-
-
-
     markers.add(Marker(
-      width: 80.0,
-      height: 80.0,
-      point: coordinates,
-      builder: (ctx) => Icon(Icons.location_pin,color:Colors.red, size:40.0)
-    ),
-    );
+        width: 80.0,
+        height: 80.0,
+        point: coordinates,
+        builder: (ctx) =>
+            Icon(Icons.location_pin, color: Colors.red, size: 40.0)
 
-
-
-    /*
+        /*
     markers.add(Marker(
       width: 80.0,
       height: 80.0,
@@ -144,7 +143,7 @@ class _Map extends State<Map> {
       ),
     ));
 */
-    setState(() {});
+        ));
   }
 
   @override
@@ -158,6 +157,7 @@ class _Map extends State<Map> {
               // Setting coordinates to Stockholm
               center: LatLng.LatLng(59.3103, 18.0806),
               zoom: 14.0,
+              interactive: true,
               plugins: <MapPlugin>[
                 LocationPlugin(),
               ],
@@ -182,6 +182,7 @@ class _Map extends State<Map> {
                   backgroundColor: Colors.transparent),
 
               MarkerLayerOptions(markers: markers),
+
               LocationOptions(
                 onLocationUpdate: (LatLngData ld) {},
                 onLocationRequested: (LatLngData ld) {
@@ -274,15 +275,16 @@ class _Map extends State<Map> {
             padding: const EdgeInsets.only(left: 40, bottom: 71, right: 0.0),
             child: FloatingActionButton(
               heroTag: "savebt",
-              backgroundColor: userCanSaveLastSearch ? Theme.of(context).scaffoldBackgroundColor : Colors.transparent,
+              backgroundColor: userCanSaveLastSearch
+                  ? Theme.of(context).scaffoldBackgroundColor
+                  : Colors.transparent,
               onPressed: () {
                 if (userCanSaveLastSearch && currentDB > 0) {
                   addToFavorites();
                   setState(() {
                     userCanSaveLastSearch = !userCanSaveLastSearch;
                     currentDB = 0;
-                  }
-                  );
+                  });
                 }
               },
               child: Icon(
@@ -314,10 +316,11 @@ class _Map extends State<Map> {
     address.replaceAll(",", "");
     location = location.replaceFirst(RegExp(','), '', 0);
 
-    FavoriteAddress fa =  FavoriteAddress(address: address, location: location, decibel: currentDB.toString());
+    FavoriteAddress fa = FavoriteAddress(
+        address: address, location: location, decibel: currentDB.toString());
     fa.long = currentLatLongForPlaces.location.longitude.toString();
     fa.lat = currentLatLongForPlaces.location.latitude.toString();
-    AddFavorite addFavorite = AddFavorite(fa,true);
+    AddFavorite addFavorite = AddFavorite(fa, true);
     addFavorite.add();
   }
 }
