@@ -26,7 +26,7 @@ class _Map extends State<Map> {
 
   final Mode _mode = Mode.overlay;
   final MapController mapController = MapController();
-  final List<Marker> markers = [];
+  final List<Marker> temporaryMarkers = [];
 
   bool noiseLayerIsOn = true;
   double _currentOpacityValue = 0.4;
@@ -87,10 +87,8 @@ class _Map extends State<Map> {
       final lat = detail.result.geometry.location.lat;
       final lng = detail.result.geometry.location.lng;
 
-      if (markers.isNotEmpty) {
-        markers
-            .removeLast(); // if we aren't  adding more than one marker we might as well do this for now..
-      }
+      removeAllTemporaryMarkers(); // if we aren't  adding more than one marker we might as well do this for now..
+
       mapController.move(
           LatLngData(LatLng.LatLng(lat, lng), 17.0).location, 17.0);
 
@@ -130,7 +128,7 @@ class _Map extends State<Map> {
 
 
 
-    markers.add(Marker(
+    temporaryMarkers.add(Marker(
         point:coordinates, // the position
         builder: (BuildContext context) {
       return PopupMarker(
@@ -141,14 +139,7 @@ class _Map extends State<Map> {
   }
 
 
-   longPressHandler(LatLng.LatLng point){
-    // test
-    print("Long press detected: $point ");
-
-    // test if effects markers.
-
-
-     // after that: create marker,  and get dB reading.
+   longPressHandler(LatLng.LatLng point) async{
 
 
 
@@ -190,7 +181,7 @@ class _Map extends State<Map> {
                   opacity: noiseLayerIsOn ? _currentOpacityValue : 0.0,
                   backgroundColor: Colors.transparent),
 
-              MarkerLayerOptions(markers: markers),
+              MarkerLayerOptions(markers: temporaryMarkers),
 
               LocationOptions(
                 onLocationUpdate: (LatLngData ld) {},
@@ -331,6 +322,12 @@ class _Map extends State<Map> {
     fa.lat = currentLatLongForPlaces.location.latitude.toString();
     AddFavorite addFavorite = AddFavorite(fa, true);
     addFavorite.add();
+  }
+
+  void removeAllTemporaryMarkers() {
+    if (temporaryMarkers.isNotEmpty) {
+      temporaryMarkers.removeLast();
+    }
   }
 }
 
