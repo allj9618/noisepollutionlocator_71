@@ -8,6 +8,7 @@ import 'package:google_api_headers/google_api_headers.dart';
 import 'package:google_maps_webservice/places.dart';
 import "package:latlong/latlong.dart" as LatLng;
 import 'package:noisepollutionlocator_71/WMSFeatureInterface.dart';
+
 import 'PopupMarker.dart';
 import 'favorite/favorite_add.dart';
 import 'favorite/favorite_adress.dart';
@@ -97,7 +98,8 @@ class _Map extends State<Map> {
       await dBValue.then((value) {
         int dB = value > 0 ? value : 0;
         setState(() => currentDB = dB);
-        addMarker(LatLng.LatLng(lat, lng), "${p.description} \nNoise level: ${dB}dB"); // add place to markers
+        addMarker(LatLng.LatLng(lat, lng),
+            "${p.description} \nNoise level: ${dB}dB"); // add place to markers
         print("Decibel value: $dB");
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content:
@@ -125,23 +127,19 @@ class _Map extends State<Map> {
 
 // add a place to markers
   addMarker(LatLng.LatLng coordinates, String text) {
-
-
-
-    temporaryMarkers.add(Marker(
-        point:coordinates, // the position
-        builder: (BuildContext context) {
-      return PopupMarker(
-          child: Icon(Icons.location_pin, color: Colors.red, size: 40),
-          tooltip: text,
-          onTap: onTap);
-    }));
+    setState(() {
+      temporaryMarkers.add(Marker(
+          point: coordinates, // the position
+          builder: (BuildContext context) {
+            return PopupMarker(
+                child: Icon(Icons.location_pin, color: Colors.red, size: 40),
+                tooltip: text,
+                onTap: onTap);
+          }));
+    });
   }
 
-
-   longPressHandler(LatLng.LatLng point) async{
-
-
+  longPressHandler(LatLng.LatLng point) async {
 
   }
 
