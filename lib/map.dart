@@ -169,9 +169,9 @@ class _Map extends State<Map> {
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
               ListTile(
-                leading: Icon(Icons.album),
-                title: Text(point.toString()),
-                subtitle: Text("Noice level: ${dB}dB"),
+                leading: Icon(Icons.star_border_outlined),
+                title: Text("Noise level: ${dB}dB"),
+                subtitle: Text(point.toString()),
               ),
             ],
           ),
