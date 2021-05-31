@@ -252,7 +252,7 @@ class _Map extends State<Map> {
                       baseUrl:
                           "http://kartor.miljo.stockholm.se/geoserver/wms?",
                       layers: ["mfraster:bullerkartan-2012-allakallor"],
-                      transparent: false,
+                      transparent: true,
                       format: "image/png"),
                   opacity: noiseLayerIsOn ? _currentOpacityValue : 0.0,
                   backgroundColor: Colors.transparent),
