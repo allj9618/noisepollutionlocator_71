@@ -33,9 +33,11 @@ class _Map extends State<Map> {
   double _currentOpacityValue = 0.4;
 
   LatLngData currentLatLongForPlaces;
+  LatLng.LatLng currentLatLng;
   String currentLocation;
   int currentDB = 0;
   bool userCanSaveLastSearch = false;
+  bool saveFavFromPress = false;
 
   get onTap => print("tapped"); // testing
 
@@ -147,7 +149,13 @@ class _Map extends State<Map> {
     removeAllTemporaryMarkers();
     addMarker(point, "$point \nNoise level: ${dB}dB");
 
+    double lat = point.latitude;
+    double lng = point.longitude;
 
+        currentDB = dB;
+        userCanSaveLastSearch = true;
+        saveFavFromPress = true;
+        currentLatLongForPlaces = LatLngData(LatLng.LatLng(lat, lng), 17);
 
   }
 
@@ -285,7 +293,15 @@ class _Map extends State<Map> {
                   ? Theme.of(context).scaffoldBackgroundColor
                   : Colors.transparent,
               onPressed: () {
-                if (userCanSaveLastSearch && currentDB > 0) {
+                if (userCanSaveLastSearch && saveFavFromPress){
+                  addToFavoritesFromPress();
+                  setState((){
+                    userCanSaveLastSearch = !userCanSaveLastSearch;
+                    saveFavFromPress = !saveFavFromPress;
+                    currentDB = 0;
+                  });
+                }
+                else if (!saveFavFromPress && userCanSaveLastSearch && currentDB > 0) {
                   addToFavorites();
                   setState(() {
                     userCanSaveLastSearch = !userCanSaveLastSearch;
@@ -328,6 +344,17 @@ class _Map extends State<Map> {
     fa.lat = currentLatLongForPlaces.location.latitude.toString();
     AddFavorite addFavorite = AddFavorite(fa, true);
     addFavorite.add();
+  }
+
+  void addToFavoritesFromPress(){
+      String latS = "Lat: " + currentLatLongForPlaces.location.latitude.toStringAsFixed(8);
+      String longS = "Long: " + currentLatLongForPlaces.location.longitude.toStringAsFixed(8);
+      FavoriteAddress fa = FavoriteAddress(
+          address: latS, location: longS, decibel: currentDB.toString());
+      fa.long = currentLatLongForPlaces.location.longitude.toString();
+      fa.lat = currentLatLongForPlaces.location.latitude.toString();
+      AddFavorite addFavorite = AddFavorite(fa, true);
+      addFavorite.add();
   }
 
   void removeAllTemporaryMarkers() {
