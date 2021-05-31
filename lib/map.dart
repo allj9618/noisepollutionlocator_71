@@ -8,7 +8,7 @@ import 'package:google_api_headers/google_api_headers.dart';
 import 'package:google_maps_webservice/places.dart';
 import "package:latlong/latlong.dart" as LatLng;
 import 'package:noisepollutionlocator_71/WMSFeatureInterface.dart';
-
+import 'PopupMarker.dart';
 import 'favorite/favorite_add.dart';
 import 'favorite/favorite_adress.dart';
 import 'translations.dart';
@@ -35,6 +35,8 @@ class _Map extends State<Map> {
   String currentLocation;
   int currentDB = 0;
   bool userCanSaveLastSearch = false;
+
+  get onTap => print("tapped");
 
   void _opacityValueSliderDialog() async {
     final selectedOpacity = await showDialog<double>(
@@ -89,7 +91,6 @@ class _Map extends State<Map> {
         markers
             .removeLast(); // if we aren't  adding more than one marker we might as well do this for now..
       }
-      addMarker(LatLng.LatLng(lat, lng)); // add place to markers
       mapController.move(
           LatLngData(LatLng.LatLng(lat, lng), 17.0).location, 17.0);
 
@@ -97,6 +98,7 @@ class _Map extends State<Map> {
       Future dBValue = featureInterface.getDecibel(coordinates);
       await dBValue.then((value) {
         int dB = value > 0 ? value : 0;
+        addMarker(LatLng.LatLng(lat, lng)); // add place to markers
         setState(() => currentDB = dB);
         print("Decibel value: $dB");
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -127,23 +129,13 @@ class _Map extends State<Map> {
   addMarker(LatLng.LatLng coordinates) {
 
     markers.add(Marker(
-        width: 80.0,
-        height: 80.0,
-        point: coordinates,
-        builder: (ctx) =>
-            Icon(Icons.location_pin, color: Colors.red, size: 40.0)
-
-        /*
-    markers.add(Marker(
-      width: 80.0,
-      height: 80.0,
-      point: coordinates,
-      builder: (ctx) => Container(
-        child: FlutterLogo(), // temporary logo
-      ),
-    ));
-*/
-        ));
+        point:coordinates, // the position
+        builder: (BuildContext context) {
+      return PopupMarker(
+          child: Icon(Icons.location_pin, color: Colors.red, size: 40),
+          tooltip: "$currentLocation \nNoise level: ${currentDB}dB",
+          onTap: onTap);
+    }));
   }
 
   @override
