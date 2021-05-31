@@ -125,23 +125,6 @@ class _Map extends State<Map> {
     }
   }
 
-  /*
-
-// add a place to markers
-  addMarker(LatLng.LatLng coordinates, String text) {
-    setState(() {
-      temporaryMarkers.add(Marker(
-          point: coordinates, // the position
-          builder: (BuildContext context) {
-            return PopupMarker(
-                child: Icon(Icons.location_pin, color: Colors.red, size: 40),
-                tooltip: text,
-                onTap: onTap);
-          }));
-    });
-  }
-*/
-
   addMarkers(LatLng.LatLng point, int dB) {
     final double popupOffset = 0.001;
     //offset popup coordinates so popup is displayed above point.
