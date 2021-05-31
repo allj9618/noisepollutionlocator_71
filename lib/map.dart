@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
@@ -127,8 +128,11 @@ class _Map extends State<Map> {
   }
 
   addMarkers(LatLng.LatLng point, int dB) {
-     double popupOffset = 0.001;
+     final double slightOffset = 0.00000005;
+     final double curve = 591657550.500000;
     //offset popup coordinates so popup is displayed above point.
+     num scale =  curve / (pow(2, mapController.zoom-1));
+    double popupOffset = slightOffset*scale;
 
 
     LatLng.LatLng popupPoint = LatLng.LatLng(
