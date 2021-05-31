@@ -36,7 +36,7 @@ class _Map extends State<Map> {
   int currentDB = 0;
   bool userCanSaveLastSearch = false;
 
-  get onTap => print("tapped");
+  get onTap => print("tapped"); // testing
 
   void _opacityValueSliderDialog() async {
     final selectedOpacity = await showDialog<double>(
