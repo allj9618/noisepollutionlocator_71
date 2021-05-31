@@ -37,6 +37,7 @@ class _Map extends State<Map> {
   String currentLocation;
   int currentDB = 0;
   bool userCanSaveLastSearch = false;
+  bool saveFavFromPress = false;
 
   get onTap => print("tapped"); // testing
 
@@ -209,6 +210,13 @@ class _Map extends State<Map> {
     removeAllMarkers();
     addMarkers(point, dB);
 
+    double lat = point.latitude;
+    double lng = point.longitude;
+
+    currentDB = dB;
+    userCanSaveLastSearch = true;
+    saveFavFromPress = true;
+    currentLatLongForPlaces = LatLngData(LatLng.LatLng(lat, lng), 17);
     // fix so addFavourites works
   }
 
@@ -347,7 +355,15 @@ class _Map extends State<Map> {
                   ? Theme.of(context).scaffoldBackgroundColor
                   : Colors.transparent,
               onPressed: () {
-                if (userCanSaveLastSearch && currentDB > 0) {
+                if (userCanSaveLastSearch && saveFavFromPress){
+                  addToFavoritesFromPress();
+                  setState((){
+                    userCanSaveLastSearch = !userCanSaveLastSearch;
+                    saveFavFromPress = !saveFavFromPress;
+                    currentDB = 0;
+                  });
+                }
+                else if (!saveFavFromPress && userCanSaveLastSearch && currentDB > 0) {
                   addToFavorites();
                   setState(() {
                     userCanSaveLastSearch = !userCanSaveLastSearch;
@@ -386,6 +402,17 @@ class _Map extends State<Map> {
 
     FavoriteAddress fa = FavoriteAddress(
         address: address, location: location, decibel: currentDB.toString());
+    fa.long = currentLatLongForPlaces.location.longitude.toString();
+    fa.lat = currentLatLongForPlaces.location.latitude.toString();
+    AddFavorite addFavorite = AddFavorite(fa, true);
+    addFavorite.add();
+  }
+
+  void addToFavoritesFromPress(){
+    String latS = "Lat: " + currentLatLongForPlaces.location.latitude.toStringAsFixed(8);
+    String longS = "Long: " + currentLatLongForPlaces.location.longitude.toStringAsFixed(8);
+    FavoriteAddress fa = FavoriteAddress(
+        address: latS, location: longS, decibel: currentDB.toString());
     fa.long = currentLatLongForPlaces.location.longitude.toString();
     fa.lat = currentLatLongForPlaces.location.latitude.toString();
     AddFavorite addFavorite = AddFavorite(fa, true);
