@@ -145,7 +145,7 @@ class _Map extends State<Map> {
 */
 
   addTemporaryMarker(LatLng.LatLng point, String text) {
-    final double popupOffset = 0.002;
+    final double popupOffset = 0.004;
     //offset popup coordinates so popup is displayed above point.
 
     LatLng.LatLng popupPoint = LatLng.LatLng(
@@ -215,7 +215,7 @@ class _Map extends State<Map> {
 
       temporaryMarkers.add(
           new Marker(
-            width: 150.0,
+            width: 300.0,
             height: 150.0,
             point: popupPoint,
             builder: (ctx) => popupContainer,
