@@ -26,9 +26,9 @@ class _Map extends State<Map> {
 
   final Mode _mode = Mode.overlay;
   final MapController mapController = MapController();
-  final List<Marker> temporaryMarkers = [];
-  bool markerPopupIsShowing;
-  Marker popupMarker;
+  final List<Marker> markersList = [];
+  bool markerPopupIsShowing = true;
+  Marker popupMarker, marker;
 
   bool noiseLayerIsOn = true;
   double _currentOpacityValue = 0.4;
@@ -152,28 +152,29 @@ class _Map extends State<Map> {
       point.longitude,
     );
 
-    if (temporaryMarkers.isNotEmpty) {
-      temporaryMarkers.clear();
+    if (markersList.isNotEmpty) {
+      markersList.clear();
     }
 
     // Marker holding onTap functionality
     Container markerContent = new Container(
         child: new GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      child: new Icon(Icons.location_pin, color: Colors.red, size: 40.0),
-
-      // Display popup when pressed.
       onTap: () {
         setState(() {
-          markerPopupIsShowing = false;
-          temporaryMarkers.remove(popupMarker);
+          if (markersList.contains(popupMarker) ) {
+            markersList.remove(popupMarker);
+          } else {
+            markersList.add(popupMarker);
+          }
+          markerPopupIsShowing = !markerPopupIsShowing;
         });
       },
+      child: new Icon(Icons.location_pin, color: Colors.red, size: 40.0),
     ));
 
     // Adding Marker to List.
-    temporaryMarkers.add(
-      new Marker(
+    markersList.add(
+      marker = new Marker(
         width: 80.0,
         height: 80.0,
         point: point,
@@ -187,8 +188,8 @@ class _Map extends State<Map> {
         behavior: HitTestBehavior.opaque,
         onTap: () {
           setState(() {
+            markersList.remove(popupMarker);
             markerPopupIsShowing = false;
-            temporaryMarkers.remove(popupMarker);
           });
         }, // remove popup if clicked.
         child: new Card(
@@ -207,17 +208,16 @@ class _Map extends State<Map> {
     );
 
     /// Add the Marker to our list if we previously clicked it and set popupshown=true
-    if (markerPopupIsShowing == false) {
+    if (markerPopupIsShowing == true) {
       // fix temp test
-      setState(() {
-        temporaryMarkers.add(new Marker(
-          width: 300.0,
-          height: 150.0,
-          point: popupPoint,
-          builder: (ctx) => popupContainer,
-        ));
-      });
+      markersList.add(popupMarker = new Marker(
+        width: 300.0,
+        height: 150.0,
+        point: popupPoint,
+        builder: (ctx) => popupContainer,
+      ));
     }
+    setState(() {});
   }
 
   // add a pressable marker that displays information about location and dB.
@@ -243,6 +243,7 @@ class _Map extends State<Map> {
               center: LatLng.LatLng(59.3103, 18.0806),
               zoom: 14.0,
               interactive: true,
+              onTap:(point)=> onTapHandler() ,
               onLongPress: (point) => onLongPressHandler(point),
               plugins: <MapPlugin>[
                 LocationPlugin(),
@@ -267,7 +268,7 @@ class _Map extends State<Map> {
                   opacity: noiseLayerIsOn ? _currentOpacityValue : 0.0,
                   backgroundColor: Colors.transparent),
 
-              MarkerLayerOptions(markers: temporaryMarkers),
+              MarkerLayerOptions(markers: markersList),
 
               LocationOptions(
                 onLocationUpdate: (LatLngData ld) {},
@@ -411,8 +412,17 @@ class _Map extends State<Map> {
   }
 
   void removeAllMarkers() {
-    if (temporaryMarkers.isNotEmpty) {
-      temporaryMarkers.removeLast();
+    if (markersList.isNotEmpty) {
+      markersList.removeLast();
+    }
+  }
+
+  onTapHandler() {
+    if (markersList.contains(popupMarker)){
+      markersList.remove(popupMarker);
+      setState(() {
+
+      });
     }
   }
 }
