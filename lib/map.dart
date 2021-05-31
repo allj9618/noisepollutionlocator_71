@@ -98,8 +98,8 @@ class _Map extends State<Map> {
       Future dBValue = featureInterface.getDecibel(coordinates);
       await dBValue.then((value) {
         int dB = value > 0 ? value : 0;
-        addMarker(LatLng.LatLng(lat, lng)); // add place to markers
         setState(() => currentDB = dB);
+        addMarker(LatLng.LatLng(lat, lng), "${p.description} \nNoise level: ${dB}dB"); // add place to markers
         print("Decibel value: $dB");
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content:
@@ -126,14 +126,16 @@ class _Map extends State<Map> {
   }
 
 // add a place to markers
-  addMarker(LatLng.LatLng coordinates) {
+  addMarker(LatLng.LatLng coordinates, String text) {
+
+
 
     markers.add(Marker(
         point:coordinates, // the position
         builder: (BuildContext context) {
       return PopupMarker(
           child: Icon(Icons.location_pin, color: Colors.red, size: 40),
-          tooltip: "$currentLocation \nNoise level: ${currentDB}dB",
+          tooltip: text,
           onTap: onTap);
     }));
   }
