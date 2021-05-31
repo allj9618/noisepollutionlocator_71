@@ -127,8 +127,9 @@ class _Map extends State<Map> {
   }
 
   addMarkers(LatLng.LatLng point, int dB) {
-    final double popupOffset = 0.001;
+     double popupOffset = 0.001;
     //offset popup coordinates so popup is displayed above point.
+
 
     LatLng.LatLng popupPoint = LatLng.LatLng(
       point.latitude + popupOffset,
@@ -231,6 +232,7 @@ class _Map extends State<Map> {
               // Setting coordinates to Stockholm
               center: LatLng.LatLng(59.3103, 18.0806),
               zoom: 14.0,
+              maxZoom:18.4,
               interactive: true,
               onTap: (point) => onTapHandler(),
               onLongPress: (point) => onLongPressHandler(point),
