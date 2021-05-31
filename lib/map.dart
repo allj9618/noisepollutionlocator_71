@@ -139,7 +139,15 @@ class _Map extends State<Map> {
     });
   }
 
+  // add a pressable marker that displays information about location and dB.
   longPressHandler(LatLng.LatLng point) async {
+    // get dB value for coordinate.
+    int dB = await featureInterface.getDecibel(point);
+
+    removeAllTemporaryMarkers();
+    addMarker(point, "$point \nNoise level: ${dB}dB");
+
+
 
   }
 
