@@ -99,8 +99,7 @@ class _Map extends State<Map> {
       await dBValue.then((value) {
         int dB = value > 0 ? value : 0;
         setState(() => currentDB = dB);
-        addMarkers(LatLng.LatLng(lat, lng),
-            "${p.description} \nNoise level: ${dB}dB"); // add place to markers
+        addMarkers(LatLng.LatLng(lat, lng), dB); // add place to markers
         print("Decibel value: $dB");
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content:
@@ -143,8 +142,8 @@ class _Map extends State<Map> {
   }
 */
 
-  addMarkers(LatLng.LatLng point, String text) {
-    final double popupOffset = 0.004;
+  addMarkers(LatLng.LatLng point, int dB) {
+    final double popupOffset = 0.001;
     //offset popup coordinates so popup is displayed above point.
 
     LatLng.LatLng popupPoint = LatLng.LatLng(
@@ -161,7 +160,7 @@ class _Map extends State<Map> {
         child: new GestureDetector(
       onTap: () {
         setState(() {
-          if (markersList.contains(popupMarker) ) {
+          if (markersList.contains(popupMarker)) {
             markersList.remove(popupMarker);
           } else {
             markersList.add(popupMarker);
@@ -171,16 +170,6 @@ class _Map extends State<Map> {
       },
       child: new Icon(Icons.location_pin, color: Colors.red, size: 40.0),
     ));
-
-    // Adding Marker to List.
-    markersList.add(
-      marker = new Marker(
-        width: 80.0,
-        height: 80.0,
-        point: point,
-        builder: (ctx) => markerContent,
-      ),
-    );
 
     // Information popup
     Container popupContainer = new Container(
@@ -198,8 +187,8 @@ class _Map extends State<Map> {
             children: <Widget>[
               ListTile(
                 leading: Icon(Icons.album),
-                title: Text('This is at:'),
-                subtitle: Text(point.toString()),
+                title: Text(point.toString()),
+                subtitle: Text("Noice level: ${dB}dB"),
               ),
             ],
           ),
@@ -207,16 +196,24 @@ class _Map extends State<Map> {
       ),
     );
 
-    /// Add the Marker to our list if we previously clicked it and set popupshown=true
-    if (markerPopupIsShowing == true) {
-      // fix temp test
-      markersList.add(popupMarker = new Marker(
-        width: 300.0,
-        height: 150.0,
-        point: popupPoint,
-        builder: (ctx) => popupContainer,
-      ));
-    }
+    // Adding Marker to List.
+    markersList.add(
+      marker = new Marker(
+        width: 80.0,
+        height: 80.0,
+        point: point,
+        builder: (ctx) => markerContent,
+      ),
+    );
+
+    // fix temp test
+    markersList.add(popupMarker = new Marker(
+      width: 300.0,
+      height: 150.0,
+      point: popupPoint,
+      builder: (ctx) => popupContainer,
+    ));
+
     setState(() {});
   }
 
@@ -226,7 +223,7 @@ class _Map extends State<Map> {
     int dB = await featureInterface.getDecibel(point);
 
     removeAllMarkers();
-    addMarkers(point, "$point \nNoise level: ${dB}dB");
+    addMarkers(point, dB);
 
     // fix so addFavourites works
   }
@@ -243,7 +240,7 @@ class _Map extends State<Map> {
               center: LatLng.LatLng(59.3103, 18.0806),
               zoom: 14.0,
               interactive: true,
-              onTap:(point)=> onTapHandler() ,
+              onTap: (point) => onTapHandler(),
               onLongPress: (point) => onLongPressHandler(point),
               plugins: <MapPlugin>[
                 LocationPlugin(),
@@ -418,11 +415,9 @@ class _Map extends State<Map> {
   }
 
   onTapHandler() {
-    if (markersList.contains(popupMarker)){
+    if (markersList.contains(popupMarker)) {
       markersList.remove(popupMarker);
-      setState(() {
-
-      });
+      setState(() {});
     }
   }
 }
