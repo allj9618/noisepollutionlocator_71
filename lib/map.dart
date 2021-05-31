@@ -179,6 +179,7 @@ class _Map extends State<Map> {
       ),
     );
 
+
     // Adding Marker to List.
     markersList.add(
       marker = new Marker(
