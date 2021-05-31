@@ -35,5 +35,8 @@
   "meanDecibel": "None",
   "OFF": "OFF",
   "ON": "ON",
-  "NOTE": "NOTE:"
+  "NOTE": "NOTE:",
+  "removeFav": "Remove all favorites",
+  "noFavs": "No favorites to display",
+  "delete": "Delete"
 }

@@ -5,6 +5,7 @@ import 'package:noisepollutionlocator_71/favorite/favorites_sort_address.dart';
 import 'favorite_adress.dart';
 import 'package:flutter/material.dart';
 import 'favorites_sort_decibel.dart';
+import 'package:noisepollutionlocator_71/translations.dart';
 
 class Favorites extends StatefulWidget {
   @override
@@ -84,7 +85,7 @@ class FavoritesState extends State<Favorites> {
                     size: 25,
                   ),
                   onPressed: () => _sortByAddress()),
-              SizedBox(width: 250),
+              SizedBox(width: 200),
               IconButton(
                   icon: Icon(
                     Icons.sort_rounded,
@@ -114,7 +115,8 @@ class FavoritesState extends State<Favorites> {
   Widget buildList(List<String> currentFavList, context) {
     return Scaffold(
         body: currentFavList.length == 0
-            ? Center(child: Text('No favorites to display'))
+            ? //Center(child: Text('No favorites to display'))
+              Center(child: Text(Translations.of(context).text("noFavs")))
             : ListView.separated(
                 separatorBuilder: (context, index) => Divider(
                       color: Colors.greenAccent,
@@ -136,9 +138,9 @@ class FavoritesState extends State<Favorites> {
                               Spacer(),
                               _ui.trailingDecibel(
                                   currFav.decibel, _selectedTab, context),
-                              SizedBox(
-                                width: 37,
-                              )
+                              //SizedBox(
+                                //width: 37,
+                              //)
                             ],
                           ),
                           subtitle: _ui.locationText(currFav.location),
@@ -146,7 +148,8 @@ class FavoritesState extends State<Favorites> {
                       ),
                       secondaryActions: <Widget>[
                         IconSlideAction(
-                            caption: 'Delete',
+                            //caption: 'Delete',
+                            caption: Translations.of(context).text("delete"),
                             color: Colors.red,
                             icon: Icons.delete,
                             onTap: () {

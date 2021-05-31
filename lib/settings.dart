@@ -53,7 +53,8 @@ class _Settings extends State<Settings> {
                 },
               ),
               SettingsTile(
-                title: 'Remove all favorites',
+                //title: 'Remove all favorites',
+                title: Translations.of(context).text("removeFav"),
                 leading: Icon(Icons.remove),
                 onPressed: (BuildContext context) {
                   FavoriteSharedPreferences.removeAll();
