@@ -9,7 +9,6 @@ import 'package:google_maps_webservice/places.dart';
 import "package:latlong/latlong.dart" as LatLng;
 import 'package:noisepollutionlocator_71/WMSFeatureInterface.dart';
 
-import 'PopupMarker.dart';
 import 'favorite/favorite_add.dart';
 import 'favorite/favorite_adress.dart';
 import 'translations.dart';
@@ -27,7 +26,9 @@ class _Map extends State<Map> {
 
   final Mode _mode = Mode.overlay;
   final MapController mapController = MapController();
-  final List<Marker> temporaryMarkers = [];
+  final List<Marker> markersList = [];
+  bool markerPopupIsShowing = true;
+  Marker popupMarker, marker;
 
   bool noiseLayerIsOn = true;
   double _currentOpacityValue = 0.4;
@@ -88,7 +89,7 @@ class _Map extends State<Map> {
       final lat = detail.result.geometry.location.lat;
       final lng = detail.result.geometry.location.lng;
 
-      removeAllTemporaryMarkers(); // if we aren't  adding more than one marker we might as well do this for now..
+      removeAllMarkers(); // if we aren't  adding more than one marker we might as well do this for now..
 
       mapController.move(
           LatLngData(LatLng.LatLng(lat, lng), 17.0).location, 17.0);
@@ -98,8 +99,7 @@ class _Map extends State<Map> {
       await dBValue.then((value) {
         int dB = value > 0 ? value : 0;
         setState(() => currentDB = dB);
-        addMarker(LatLng.LatLng(lat, lng),
-            "${p.description} \nNoise level: ${dB}dB"); // add place to markers
+        addMarkers(LatLng.LatLng(lat, lng), dB); // add place to markers
         print("Decibel value: $dB");
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content:
@@ -125,6 +125,8 @@ class _Map extends State<Map> {
     }
   }
 
+  /*
+
 // add a place to markers
   addMarker(LatLng.LatLng coordinates, String text) {
     setState(() {
@@ -138,17 +140,92 @@ class _Map extends State<Map> {
           }));
     });
   }
+*/
+
+  addMarkers(LatLng.LatLng point, int dB) {
+    final double popupOffset = 0.001;
+    //offset popup coordinates so popup is displayed above point.
+
+    LatLng.LatLng popupPoint = LatLng.LatLng(
+      point.latitude + popupOffset,
+      point.longitude,
+    );
+
+    if (markersList.isNotEmpty) {
+      markersList.clear();
+    }
+
+    // Marker holding onTap functionality
+    Container markerContent = new Container(
+        child: new GestureDetector(
+      onTap: () {
+        setState(() {
+          if (markersList.contains(popupMarker)) {
+            markersList.remove(popupMarker);
+          } else {
+            markersList.add(popupMarker);
+          }
+          markerPopupIsShowing = !markerPopupIsShowing;
+        });
+      },
+      child: new Icon(Icons.location_pin, color: Colors.red, size: 40.0),
+    ));
+
+    // Information popup
+    Container popupContainer = new Container(
+      child: new GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () {
+          setState(() {
+            markersList.remove(popupMarker);
+            markerPopupIsShowing = false;
+          });
+        }, // remove popup if clicked.
+        child: new Card(
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              ListTile(
+                leading: Icon(Icons.album),
+                title: Text(point.toString()),
+                subtitle: Text("Noice level: ${dB}dB"),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
+    // Adding Marker to List.
+    markersList.add(
+      marker = new Marker(
+        width: 80.0,
+        height: 80.0,
+        point: point,
+        builder: (ctx) => markerContent,
+      ),
+    );
+
+    // fix temp test
+    markersList.add(popupMarker = new Marker(
+      width: 300.0,
+      height: 150.0,
+      point: popupPoint,
+      builder: (ctx) => popupContainer,
+    ));
+
+    setState(() {});
+  }
 
   // add a pressable marker that displays information about location and dB.
-  longPressHandler(LatLng.LatLng point) async {
+  onLongPressHandler(LatLng.LatLng point) async {
     // get dB value for coordinate.
     int dB = await featureInterface.getDecibel(point);
 
-    removeAllTemporaryMarkers();
-    addMarker(point, "$point \nNoise level: ${dB}dB");
+    removeAllMarkers();
+    addMarkers(point, dB);
 
-
-
+    // fix so addFavourites works
   }
 
   @override
@@ -163,7 +240,8 @@ class _Map extends State<Map> {
               center: LatLng.LatLng(59.3103, 18.0806),
               zoom: 14.0,
               interactive: true,
-              onLongPress: (point) => longPressHandler(point),
+              onTap: (point) => onTapHandler(),
+              onLongPress: (point) => onLongPressHandler(point),
               plugins: <MapPlugin>[
                 LocationPlugin(),
               ],
@@ -187,7 +265,7 @@ class _Map extends State<Map> {
                   opacity: noiseLayerIsOn ? _currentOpacityValue : 0.0,
                   backgroundColor: Colors.transparent),
 
-              MarkerLayerOptions(markers: temporaryMarkers),
+              MarkerLayerOptions(markers: markersList),
 
               LocationOptions(
                 onLocationUpdate: (LatLngData ld) {},
@@ -330,9 +408,16 @@ class _Map extends State<Map> {
     addFavorite.add();
   }
 
-  void removeAllTemporaryMarkers() {
-    if (temporaryMarkers.isNotEmpty) {
-      temporaryMarkers.removeLast();
+  void removeAllMarkers() {
+    if (markersList.isNotEmpty) {
+      markersList.removeLast();
+    }
+  }
+
+  onTapHandler() {
+    if (markersList.contains(popupMarker)) {
+      markersList.remove(popupMarker);
+      setState(() {});
     }
   }
 }
