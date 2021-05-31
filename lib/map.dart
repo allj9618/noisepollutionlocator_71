@@ -28,6 +28,8 @@ class _Map extends State<Map> {
   final Mode _mode = Mode.overlay;
   final MapController mapController = MapController();
   final List<Marker> temporaryMarkers = [];
+  bool markerPopupIsShowing;
+  Marker popupMarker;
 
   bool noiseLayerIsOn = true;
   double _currentOpacityValue = 0.4;
@@ -98,7 +100,7 @@ class _Map extends State<Map> {
       await dBValue.then((value) {
         int dB = value > 0 ? value : 0;
         setState(() => currentDB = dB);
-        addMarker(LatLng.LatLng(lat, lng),
+        addTemporaryMarker(LatLng.LatLng(lat, lng),
             "${p.description} \nNoise level: ${dB}dB"); // add place to markers
         print("Decibel value: $dB");
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -125,6 +127,8 @@ class _Map extends State<Map> {
     }
   }
 
+  /*
+
 // add a place to markers
   addMarker(LatLng.LatLng coordinates, String text) {
     setState(() {
@@ -138,6 +142,88 @@ class _Map extends State<Map> {
           }));
     });
   }
+*/
+
+  addTemporaryMarker(LatLng.LatLng point, String text) {
+    final double popupOffset = 0.002;
+    //offset popup coordinates so popup is displayed above point.
+
+    LatLng.LatLng popupPoint = LatLng.LatLng(
+      point.latitude + popupOffset,
+      point.longitude,
+    );
+
+    if( temporaryMarkers.isNotEmpty){
+      temporaryMarkers.clear();
+    }
+
+    // Marker holding onTap functionality
+    Container markerContent = new Container(
+        child: new GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          child: new Icon(Icons.location_pin, color: Colors.red, size: 40.0),
+
+          // Display popup when pressed.
+          onTap: () {
+            setState(() {
+            markerPopupIsShowing = false;
+            temporaryMarkers.remove(popupMarker);
+            });
+          },)
+
+    );
+
+    // Adding Marker to List.
+    temporaryMarkers.add(
+      new Marker(
+        width: 80.0,
+        height: 80.0,
+        point: point,
+        builder: (ctx) =>
+        markerContent,
+      ),
+    );
+
+    // Information popup
+    Container popupContainer = new Container(
+      child: new GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () {
+          markerPopupIsShowing = false;
+          temporaryMarkers.remove(popupMarker);
+          setState(() {});
+        }, // remove popup if clicked.
+        child: new Card(
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              ListTile(
+                leading: Icon(Icons.album),
+                title: Text('This is at:'),
+                subtitle: Text(point.toString()),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
+    /// Add the Marker to our list if we previously clicked it and set popupshown=true
+    if (markerPopupIsShowing == false) { // fix temp test
+      setState(() {
+
+
+      temporaryMarkers.add(
+          new Marker(
+            width: 150.0,
+            height: 150.0,
+            point: popupPoint,
+            builder: (ctx) => popupContainer,
+          )
+      );
+      });
+    }
+  }
 
   // add a pressable marker that displays information about location and dB.
   longPressHandler(LatLng.LatLng point) async {
@@ -145,10 +231,9 @@ class _Map extends State<Map> {
     int dB = await featureInterface.getDecibel(point);
 
     removeAllTemporaryMarkers();
-    addMarker(point, "$point \nNoise level: ${dB}dB");
+    addTemporaryMarker(point, "$point \nNoise level: ${dB}dB");
 
-
-
+    // fix so addFavourites works
   }
 
   @override
