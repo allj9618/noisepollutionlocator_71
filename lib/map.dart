@@ -140,6 +140,20 @@ class _Map extends State<Map> {
     }));
   }
 
+
+   longPressHandler(LatLng.LatLng point){
+    // test
+    print("Long press detected: $point ");
+
+    // test if effects markers.
+
+
+     // after that: create marker,  and get dB reading.
+
+
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -152,6 +166,7 @@ class _Map extends State<Map> {
               center: LatLng.LatLng(59.3103, 18.0806),
               zoom: 14.0,
               interactive: true,
+              onLongPress: (point) => longPressHandler(point),
               plugins: <MapPlugin>[
                 LocationPlugin(),
               ],
