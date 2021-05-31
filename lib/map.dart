@@ -277,8 +277,8 @@ class _Map extends State<Map> {
             ),
           ),
           Container(
-            alignment: Alignment.bottomCenter,
-            padding: const EdgeInsets.only(left: 40, bottom: 71, right: 0.0),
+            alignment: Alignment.bottomRight,
+            padding: const EdgeInsets.only(bottom: 71, right: 145.0),
             child: FloatingActionButton(
               heroTag: "savebt",
               backgroundColor: userCanSaveLastSearch

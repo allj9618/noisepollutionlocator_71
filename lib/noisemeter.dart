@@ -116,8 +116,8 @@ class _NoiseMeterState extends State<NoiseMeterApp> {
                   child: Container(
                   padding: EdgeInsets.all(140),
                   margin: EdgeInsets.all(5),
-                    child: Text(_isRecording ? "Mic: "+Translations.of(context).text('ON') : "Mic: "+Translations.of(context).text('OFF'),
-                        style: TextStyle(fontSize: 25, color: Colors.black)),
+                    // child: Text(_isRecording ? "Mic: "+Translations.of(context).text('ON') : "Mic: "+Translations.of(context).text('OFF'),
+                    //     style: TextStyle(fontSize: 25, color: Colors.black)),
                     //margin: EdgeInsets.only(top: 20),
                   ),
                      /* child: Column(children: [

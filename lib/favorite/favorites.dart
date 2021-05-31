@@ -85,7 +85,7 @@ class FavoritesState extends State<Favorites> {
                     size: 25,
                   ),
                   onPressed: () => _sortByAddress()),
-              SizedBox(width: 200),
+              SizedBox(width: 220),
               IconButton(
                   icon: Icon(
                     Icons.sort_rounded,
