@@ -15,7 +15,6 @@ class _NoiseMeterState extends State<NoiseMeterApp> {
   bool _isRecording = false;
   StreamSubscription<NoiseReading> _noiseSubscription;
   NoiseMeter _noiseMeter;
-  //String _maxDecibelLevel = "No reading.";
   String _meanDecibelLevel = "None";
   var _decibelreadings = [];
   var _averagedecibel = 0.0;
@@ -33,8 +32,6 @@ class _NoiseMeterState extends State<NoiseMeterApp> {
         this._isRecording = true;
       }
     });
-    //print(noiseReading.toString());
-    //_maxDecibelLevel = noiseReading.maxDecibel.toString();
     _meanDecibelLevel = noiseReading.meanDecibel.toString();
     _decibelreadings.add(noiseReading.meanDecibel);
   }
@@ -78,28 +75,12 @@ class _NoiseMeterState extends State<NoiseMeterApp> {
     }
   }
 
-  /*List<Widget> getContent() => <Widget>[
-        Container(
-            margin: EdgeInsets.all(25),
-            child: Column(children: [
-              Container(
-                child: Text(_isRecording ? "Mic: ON" : "Mic: OFF",
-                    style: TextStyle(fontSize: 25, color: Colors.black)),
-                margin: EdgeInsets.only(top: 20),
-              ),
-              Container(child: Text("Max db: " + _maxDecibelLevel)),
-              Container(child: Text("Mean db: " + _meanDecibelLevel)),
-              Container(child: Text("Final average db reading: " + _averagedecibel.toString())),
-            ]))
-      ];*/
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         body: Center(
             child: Stack(
-                //mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
               Align(
                 alignment: Alignment.center,
@@ -116,27 +97,7 @@ class _NoiseMeterState extends State<NoiseMeterApp> {
                   child: Container(
                   padding: EdgeInsets.all(140),
                   margin: EdgeInsets.all(5),
-                    // child: Text(_isRecording ? "Mic: "+Translations.of(context).text('ON') : "Mic: "+Translations.of(context).text('OFF'),
-                    //     style: TextStyle(fontSize: 25, color: Colors.black)),
-                    //margin: EdgeInsets.only(top: 20),
                   ),
-                     /* child: Column(children: [
-                        Container(
-                          child: Text(_isRecording ? "Mic: ON" : "Mic: OFF",
-                              style: TextStyle(fontSize: 25, color: Colors.black)),
-                          margin: EdgeInsets.only(top: 20),
-                        ),
-                        //Container(child: Text("Max db: " + _maxDecibelLevel)),
-                        Container(child: Text("Mean db: " + _meanDecibelLevel)),
-                        //Container(child: Text("Final average db reading: " + _averagedecibel.toString())),
-                      ]),),*/
-                  /*child: Text(
-                    //'Beware that measurements made with this tool are unreliable.',
-                    Translations.of(context).text("unreliable"),
-                      style: TextStyle(
-                        fontSize: 20.0,
-                      )
-                ),*/
                 ),
                   Align(
                       alignment: Alignment.bottomCenter,
@@ -184,14 +145,12 @@ Widget _buildPopupDialog1(BuildContext context, var average) {
                 _buildPopupDialog2(context, _newAverage),
           );
         },
-        //textColor: Theme.of(context).primaryColor,
         child: Text(Translations.of(context).text('save')),
       ),
       new TextButton(
         onPressed: () {
           Navigator.of(context).pop();
         },
-        //textColor: Theme.of(context).primaryColor,
         child: Text(Translations.of(context).text('close')),
       ),
     ],
@@ -222,7 +181,6 @@ Widget _buildPopupDialog2(BuildContext context, int averageToSave) {
             name = "Untitled";
           }
         },
-        //textColor: Theme.of(context).primaryColor,
         child: TextButton(
           child: Text(Translations.of(context).text('save')),
           onPressed: () {
@@ -238,7 +196,6 @@ Widget _buildPopupDialog2(BuildContext context, int averageToSave) {
         onPressed: () {
           Navigator.of(context).pop();
         },
-        //textColor: Theme.of(context).primaryColor,
         child: Text(Translations.of(context).text('close')),
       ),
     ],
