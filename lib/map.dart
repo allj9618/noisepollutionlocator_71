@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -9,7 +8,6 @@ import 'package:google_api_headers/google_api_headers.dart';
 import 'package:google_maps_webservice/places.dart';
 import "package:latlong/latlong.dart" as LatLng;
 import 'package:noisepollutionlocator_71/WMSFeatureInterface.dart';
-
 import 'favorite/favorite_add.dart';
 import 'favorite/favorite_adress.dart';
 import 'translations.dart';
@@ -40,7 +38,7 @@ class _Map extends State<Map> {
   bool userCanSaveLastSearch = false;
   bool saveFavFromPress = false;
 
-  get onTap => print("tapped"); // testing
+  get onTap => print("tapped");
 
   void _opacityValueSliderDialog() async {
     final selectedOpacity = await showDialog<double>(
@@ -91,18 +89,19 @@ class _Map extends State<Map> {
       final lat = detail.result.geometry.location.lat;
       final lng = detail.result.geometry.location.lng;
 
-      removeAllMarkers(); // if we aren't  adding more than one marker we might as well do this for now..
+      removeAllMarkers(); // removes previous markers from map.
 
       mapController.move(
           LatLngData(LatLng.LatLng(lat, lng), 17.0).location, 17.0);
 
+      // retrieve decibel value for location from api.
       LatLng.LatLng coordinates = new LatLng.LatLng(lat, lng);
       Future dBValue = featureInterface.getDecibel(coordinates);
       await dBValue.then((value) {
         int dB = value > 0 ? value : 0;
         setState(() => currentDB = dB);
-        addMarkers(LatLng.LatLng(lat, lng), dB); // add place to markers
-        print("Decibel value: $dB");
+
+        addMarkers(LatLng.LatLng(lat, lng), dB); // add marker and popup displaying db information to map.
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content:
                 Text("Noise level: ${dB}dB ${p.description} - $lat/$lng")));
@@ -127,13 +126,14 @@ class _Map extends State<Map> {
     }
   }
 
+  // adds markers and popupMarkers (information popups)
   addMarkers(LatLng.LatLng point, int dB) {
-     final double slightOffset = 0.00000005;
-     final double curve = 591657550.500000;
-    //offset popup coordinates so popup is displayed above point.
-     num scale =  curve / (pow(2, mapController.zoom-1));
-    double popupOffset = slightOffset*scale;
 
+    // calculate map scale/zoom offset so that popup is displayed at the same distance above marker regardless of zoom level.
+    final double slightOffset = 0.00000005; // initial distance between markers.
+    final double curve = 591657550.500000; // constant to factor in zoom level.
+    num scale = curve / (pow(2, mapController.zoom - 1));
+    double popupOffset = slightOffset * scale;
 
     LatLng.LatLng popupPoint = LatLng.LatLng(
       point.latitude + popupOffset,
@@ -185,7 +185,6 @@ class _Map extends State<Map> {
       ),
     );
 
-
     // Adding Marker to List.
     markersList.add(
       marker = new Marker(
@@ -196,7 +195,7 @@ class _Map extends State<Map> {
       ),
     );
 
-    // fix temp test
+    // add popupMarker to list.
     markersList.add(popupMarker = new Marker(
       width: 300.0,
       height: 150.0,
@@ -212,17 +211,17 @@ class _Map extends State<Map> {
     // get dB value for coordinate.
     int dB = await featureInterface.getDecibel(point);
 
+    // remove all previous markers and marker + popup to  map.
     removeAllMarkers();
     addMarkers(point, dB);
 
+    // update global vars.
     double lat = point.latitude;
     double lng = point.longitude;
-
     currentDB = dB;
     userCanSaveLastSearch = true;
     saveFavFromPress = true;
     currentLatLongForPlaces = LatLngData(LatLng.LatLng(lat, lng), 17);
-    // fix so addFavourites works
   }
 
   @override
@@ -236,7 +235,7 @@ class _Map extends State<Map> {
               // Setting coordinates to Stockholm
               center: LatLng.LatLng(59.3103, 18.0806),
               zoom: 14.0,
-              maxZoom:18.4,
+              maxZoom: 18.4,
               interactive: true,
               onTap: (point) => onTapHandler(),
               onLongPress: (point) => onLongPressHandler(point),
@@ -361,15 +360,16 @@ class _Map extends State<Map> {
                   ? Theme.of(context).scaffoldBackgroundColor
                   : Colors.transparent,
               onPressed: () {
-                if (userCanSaveLastSearch && saveFavFromPress){
+                if (userCanSaveLastSearch && saveFavFromPress) {
                   addToFavoritesFromPress();
-                  setState((){
+                  setState(() {
                     userCanSaveLastSearch = !userCanSaveLastSearch;
                     saveFavFromPress = !saveFavFromPress;
                     currentDB = 0;
                   });
-                }
-                else if (!saveFavFromPress && userCanSaveLastSearch && currentDB > 0) {
+                } else if (!saveFavFromPress &&
+                    userCanSaveLastSearch &&
+                    currentDB > 0) {
                   addToFavorites();
                   setState(() {
                     userCanSaveLastSearch = !userCanSaveLastSearch;
@@ -414,9 +414,11 @@ class _Map extends State<Map> {
     addFavorite.add();
   }
 
-  void addToFavoritesFromPress(){
-    String latS = "Lat: " + currentLatLongForPlaces.location.latitude.toStringAsFixed(8);
-    String longS = "Long: " + currentLatLongForPlaces.location.longitude.toStringAsFixed(8);
+  void addToFavoritesFromPress() {
+    String latS =
+        "Lat: " + currentLatLongForPlaces.location.latitude.toStringAsFixed(8);
+    String longS = "Long: " +
+        currentLatLongForPlaces.location.longitude.toStringAsFixed(8);
     FavoriteAddress fa = FavoriteAddress(
         address: latS, location: longS, decibel: currentDB.toString());
     fa.long = currentLatLongForPlaces.location.longitude.toString();
@@ -431,6 +433,7 @@ class _Map extends State<Map> {
     }
   }
 
+  // hides/removes information popup from map
   onTapHandler() {
     if (markersList.contains(popupMarker)) {
       markersList.remove(popupMarker);
